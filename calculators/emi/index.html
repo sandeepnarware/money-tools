@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>EMI Calculator</h1>
+      <p>Plan your loan with accurate monthly payments and amortization schedule.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; EMI Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Loan Details</h2>
+      <form id="emiForm">
+        <div class="form-group">
+          <label for="loanAmount">Loan Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="loanAmount" placeholder="e.g. 5000000" required min="1" step="1" value="5000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="interestRate">Annual Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="interestRate" placeholder="e.g. 8.5" required min="0" step="0.1" value="8.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="loanTenure">Loan Tenure (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="loanTenure" placeholder="e.g. 20" required min="1" max="50" step="1" value="20">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Loan Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Monthly EMI</div>
+          <div class="value primary" id="resultEmi">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Interest Payable</div>
+          <div class="value" id="resultInterest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Payment</div>
+          <div class="value success" id="resultTotal">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="emiChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Amortization Schedule (Yearly)</h2>
+      <div class="table-wrapper">
+        <table id="amortTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Opening Balance</th>
+              <th class="text-right">EMI Paid</th>
+              <th class="text-right">Principal Paid</th>
+              <th class="text-right">Interest Paid</th>
+              <th class="text-right">Closing Balance</th>
+            </tr>
+          </thead>
+          <tbody id="amortBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
