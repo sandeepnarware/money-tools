@@ -133,15 +133,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return months.length > 0 ? months[months.length - 1] : null;
   }
 
+  const typeOptions = [
+    { value: 'equity', label: 'Equity' },
+    { value: 'debt', label: 'Debt' },
+    { value: 'cash', label: 'Cash' },
+    { value: 'realEstate', label: 'Real Estate' },
+    { value: 'other', label: 'Other' },
+  ];
+
   function renderGrid() {
     const container = document.getElementById('catItems');
     const cat = activeTab;
     const details = getCategoryDetail(cat, currentMonth);
     container.innerHTML = details.map(d => {
       const inputId = 'val-' + d.id;
+      const typeSel = cat === 'assets' ? `
+        <select class="item-type" data-id="${d.id}" style="font-size:0.75rem; padding:4px 4px; border:1px solid var(--border); border-radius:4px; background:var(--surface); color:var(--text); outline:none; cursor:pointer; flex-shrink:0;">
+          ${typeOptions.map(t => `<option value="${t.value}"${d.type === t.value ? ' selected' : ''}>${t.label}</option>`).join('')}
+        </select>
+      ` : '';
       return `
         <div class="item-row">
           <input type="text" class="item-name" value="${escHtml(d.name)}" data-id="${d.id}" data-cat="${cat}" placeholder="Name">
+          ${typeSel}
           <div class="item-input-wrap">
             <input type="number" class="item-value" id="${inputId}" value="${d.value}" data-id="${d.id}" data-cat="${cat}" min="0" step="1" placeholder="0">
             <button class="del-item" data-id="${d.id}" data-cat="${cat}" title="Remove">✕</button>

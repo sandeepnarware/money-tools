@@ -41,8 +41,12 @@
   background: var(--bg);
 }
 
+.item-type {
+  flex-shrink: 0;
+}
+
 .item-name {
-  flex: 0 0 180px;
+  flex: 0 0 160px;
   padding: 5px 8px;
   font-size: 0.85rem;
   border: 1px solid var(--border);
