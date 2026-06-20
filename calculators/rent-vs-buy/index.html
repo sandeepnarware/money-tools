@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rent vs Buy - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1>Rent vs Buy</h1>
-      <p>Compare the financial impact of renting vs buying a home.</p>
+      <p>Compare buying a home with a loan vs renting and investing the savings.</p>
     </div>
   </header>
 
@@ -19,11 +20,163 @@
       <a href="../../">Home</a> &rsaquo; Rent vs Buy
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">🏠</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Assumptions</h2>
+      <form id="rvbForm">
+        <div class="form-group">
+          <label for="propertyPrice">Property Price</label>
+          <div class="input-wrapper">
+            <input type="number" id="propertyPrice" placeholder="e.g. 5000000" required min="1" step="1" value="5000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="loanRate">Home Loan Interest Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="loanRate" placeholder="e.g. 8.5" required min="0" step="0.1" value="8.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="appreciationRate">Property Appreciation Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="appreciationRate" placeholder="e.g. 5" required min="0" step="0.1" value="5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rentPercent">Annual Rent (% of Property Price)</label>
+            <div class="input-wrapper">
+              <input type="number" id="rentPercent" placeholder="e.g. 3" required min="0" step="0.1" value="3">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sipRate">SIP / MF Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="sipRate" placeholder="e.g. 12" required min="0" step="0.1" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px dashed var(--border); margin: 18px 0 12px; padding-top: 12px;">
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">Optional: Enter salary details to calculate HRA tax savings from renting.</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="basicSalary">Monthly Basic Salary</label>
+            <div class="input-wrapper">
+              <input type="number" id="basicSalary" placeholder="e.g. 50000" min="0" step="1">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="hraReceived">Monthly HRA Received</label>
+            <div class="input-wrapper">
+              <input type="number" id="hraReceived" placeholder="e.g. 25000" min="0" step="1">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="taxSlab">Income Tax Slab</label>
+          <select id="taxSlab" style="width:100%; padding:10px 12px; font-size:1rem; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text); outline:none;">
+            <option value="">Select tax slab (optional)</option>
+            <option value="5">5% (New regime: ₹3-7L income)</option>
+            <option value="10">10% (₹7-10L)</option>
+            <option value="15">15% (₹10-12L)</option>
+            <option value="20">20% (₹12-15L)</option>
+            <option value="30">30% (Above ₹15L)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>20-Year Comparison</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Property Value at End</div>
+          <div class="value primary" id="resultPropertyValue">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">MF Portfolio at End</div>
+          <div class="value success" id="resultMfValue">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly EMI</div>
+          <div class="value" id="resultEmi">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly Rent</div>
+          <div class="value" id="resultRent">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="table-wrapper" style="margin-bottom:16px;">
+        <table id="comparisonTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="text-right">Buy Home</th>
+              <th class="text-right">Rent &amp; Invest</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Upfront Payment</td>
+              <td class="text-right" id="cmpBuyUpfront">&#8377; 0</td>
+              <td class="text-right" id="cmpRentUpfront">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Monthly Outflow</td>
+              <td class="text-right" id="cmpBuyMonthly">&#8377; 0</td>
+              <td class="text-right" id="cmpRentMonthly">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Total Outflow (20 yrs)</td>
+              <td class="text-right" id="cmpBuyTotalOutflow">&#8377; 0</td>
+              <td class="text-right" id="cmpRentTotalOutflow">&#8377; 0</td>
+            </tr>
+            <tr style="font-weight:600; border-top:2px solid var(--border);">
+              <td>Final Asset Value</td>
+              <td class="text-right" id="cmpBuyFinalAsset">&#8377; 0</td>
+              <td class="text-right" id="cmpRentFinalAsset">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Net Gain</td>
+              <td class="text-right" id="cmpBuyNetGain">&#8377; 0</td>
+              <td class="text-right" id="cmpRentNetGain">&#8377; 0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="hraSection" style="display:none; margin-bottom:16px; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+        <h3 style="font-size:0.95rem; font-weight:600; margin-bottom:8px; color:#16a34a;">&#8205; HRA Tax Benefit (Rent Scenario Only)</h3>
+        <div style="font-size:0.9rem; line-height:1.7;">
+          <span id="hraDetails"></span>
+        </div>
+      </div>
+
+      <div id="insightBox" style="margin-bottom:16px; padding:16px; background:#f8fafc; border-radius:8px; font-size:0.9rem; line-height:1.6;"></div>
+
+      <div class="chart-container-wide">
+        <canvas id="rvbChart"></canvas>
+      </div>
     </div>
   </main>
 
@@ -32,5 +185,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
