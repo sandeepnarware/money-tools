@@ -513,18 +513,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addItem(cat) {
+    syncValuesToSnapshot();
     const item = { id: uid(), name: 'New Item', type: 'other' };
     data.items[cat].push(item);
     saveData(data);
     renderGrid();
     setTimeout(() => {
-      const inputs = document.querySelectorAll('#cat-' + cat + ' .item-name');
+      const inputs = document.querySelectorAll('#catItems .item-name');
       const last = inputs[inputs.length - 1];
       if (last) { last.focus(); last.select(); }
     }, 50);
   }
 
   function deleteItem(id, cat) {
+    syncValuesToSnapshot();
     if (!confirm('Remove this item? All its values across months will be lost.')) return;
     data.items[cat] = data.items[cat].filter(i => i.id !== id);
     data.snapshots.forEach(s => { delete s.values[id]; });
