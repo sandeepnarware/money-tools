@@ -65,6 +65,14 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label for="inflationRate">Expected Inflation Rate (p.a.)</label>
+          <div class="input-wrapper">
+            <input type="number" id="inflationRate" placeholder="e.g. 6" required min="0" step="0.1" value="6">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+
         <div style="border-top: 1px dashed var(--border); margin: 18px 0 12px; padding-top: 12px;">
           <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">Optional: Enter salary details to calculate HRA tax savings from renting.</p>
         </div>
@@ -109,20 +117,30 @@
       <h2>20-Year Comparison</h2>
       <div class="results-grid results-grid-wide">
         <div class="result-item">
-          <div class="label">Property Value at End</div>
-          <div class="value primary" id="resultPropertyValue">&#8377; 0</div>
-        </div>
-        <div class="result-item">
-          <div class="label">MF Portfolio at End</div>
-          <div class="value success" id="resultMfValue">&#8377; 0</div>
-        </div>
-        <div class="result-item">
           <div class="label">Monthly EMI</div>
           <div class="value" id="resultEmi">&#8377; 0</div>
         </div>
         <div class="result-item">
           <div class="label">Monthly Rent</div>
           <div class="value" id="resultRent">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly Surplus (EMI - Rent)</div>
+          <div class="value" id="resultSurplus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Property Value (Nominal)</div>
+          <div class="value primary" id="resultPropertyValue">&#8377; 0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;" id="resultPropertyInflAdj"></div>
+        </div>
+        <div class="result-item">
+          <div class="label">MF Portfolio (Nominal)</div>
+          <div class="value success" id="resultMfValue">&#8377; 0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;" id="resultMfInflAdj"></div>
+        </div>
+        <div class="result-item">
+          <div class="label">Better After 20 Years</div>
+          <div class="value" id="resultWinner" style="font-size:1rem;">—</div>
         </div>
       </div>
 
@@ -152,14 +170,24 @@
               <td class="text-right" id="cmpRentTotalOutflow">&#8377; 0</td>
             </tr>
             <tr style="font-weight:600; border-top:2px solid var(--border);">
-              <td>Final Asset Value</td>
+              <td>Final Asset (Nominal)</td>
               <td class="text-right" id="cmpBuyFinalAsset">&#8377; 0</td>
               <td class="text-right" id="cmpRentFinalAsset">&#8377; 0</td>
             </tr>
             <tr>
-              <td>Net Gain</td>
+              <td>Final Asset (Inflation-Adj.)</td>
+              <td class="text-right" id="cmpBuyInflAdj">&#8377; 0</td>
+              <td class="text-right" id="cmpRentInflAdj">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Net Gain (Nominal)</td>
               <td class="text-right" id="cmpBuyNetGain">&#8377; 0</td>
               <td class="text-right" id="cmpRentNetGain">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Net Gain (Inflation-Adj.)</td>
+              <td class="text-right" id="cmpBuyNetInflAdj">&#8377; 0</td>
+              <td class="text-right" id="cmpRentNetInflAdj">&#8377; 0</td>
             </tr>
           </tbody>
         </table>

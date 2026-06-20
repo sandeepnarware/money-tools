@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultMfValue = document.getElementById('resultMfValue');
   const resultEmi = document.getElementById('resultEmi');
   const resultRent = document.getElementById('resultRent');
+  const resultSurplus = document.getElementById('resultSurplus');
+  const resultPropertyInflAdj = document.getElementById('resultPropertyInflAdj');
+  const resultMfInflAdj = document.getElementById('resultMfInflAdj');
+  const resultWinner = document.getElementById('resultWinner');
 
   const cmpBuyUpfront = document.getElementById('cmpBuyUpfront');
   const cmpRentUpfront = document.getElementById('cmpRentUpfront');
@@ -15,8 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const cmpRentTotalOutflow = document.getElementById('cmpRentTotalOutflow');
   const cmpBuyFinalAsset = document.getElementById('cmpBuyFinalAsset');
   const cmpRentFinalAsset = document.getElementById('cmpRentFinalAsset');
+  const cmpBuyInflAdj = document.getElementById('cmpBuyInflAdj');
+  const cmpRentInflAdj = document.getElementById('cmpRentInflAdj');
   const cmpBuyNetGain = document.getElementById('cmpBuyNetGain');
   const cmpRentNetGain = document.getElementById('cmpRentNetGain');
+  const cmpBuyNetInflAdj = document.getElementById('cmpBuyNetInflAdj');
+  const cmpRentNetInflAdj = document.getElementById('cmpRentNetInflAdj');
 
   const hraSection = document.getElementById('hraSection');
   const hraDetails = document.getElementById('hraDetails');
@@ -38,11 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const appreciationRate = parseFloat(document.getElementById('appreciationRate').value);
     const rentPercent = parseFloat(document.getElementById('rentPercent').value);
     const sipRate = parseFloat(document.getElementById('sipRate').value);
+    const inflationRate = parseFloat(document.getElementById('inflationRate').value);
     const basicSalary = parseFloat(document.getElementById('basicSalary').value);
     const hraReceived = parseFloat(document.getElementById('hraReceived').value);
     const taxSlab = parseFloat(document.getElementById('taxSlab').value);
 
-    if (!propertyPrice || !loanRate || !rentPercent || !sipRate || propertyPrice <= 0) {
+    if (!propertyPrice || loanRate < 0 || !rentPercent || !sipRate || inflationRate < 0 || propertyPrice <= 0) {
       alert('Please fill in all required fields with valid values.');
       return;
     }
@@ -50,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downpaymentPct = 0.2;
     const tenureYears = 20;
     const totalMonths = tenureYears * 12;
+    const inflFactor = Math.pow(1 + inflationRate / 100, tenureYears);
 
     const downpayment = propertyPrice * downpaymentPct;
     const loanAmount = propertyPrice - downpayment;
@@ -66,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthlySurplus = Math.max(0, emi - monthlyRent);
 
     const propertyValueEnd = propertyPrice * Math.pow(1 + appreciationRate / 100, tenureYears);
+    const propertyValueInflAdj = propertyValueEnd / inflFactor;
 
     const monthlySipRate = sipRate / 12 / 100;
     const downpaymentGrowth = downpayment * Math.pow(1 + sipRate / 100, tenureYears);
@@ -73,18 +84,28 @@ document.addEventListener('DOMContentLoaded', () => {
       ? monthlySurplus * (Math.pow(1 + monthlySipRate, totalMonths) - 1) / monthlySipRate * (1 + monthlySipRate)
       : 0;
     const totalMfPortfolio = downpaymentGrowth + surplusSipValue;
+    const mfPortfolioInflAdj = totalMfPortfolio / inflFactor;
 
     const buyTotalOutflow = downpayment + totalEmiPaid;
     const buyNetGain = propertyValueEnd - buyTotalOutflow;
+    const buyNetGainInflAdj = propertyValueInflAdj - buyTotalOutflow;
 
     const rentTotalOutflow = totalRentPaid;
     const rentNetGain = totalMfPortfolio - rentTotalOutflow;
+    const rentNetGainInflAdj = mfPortfolioInflAdj - rentTotalOutflow;
 
-    resultPropertyValue.textContent = '\u20B9 ' + formatNumber(Math.round(propertyValueEnd));
-    resultMfValue.textContent = '\u20B9 ' + formatNumber(Math.round(totalMfPortfolio));
+    // Headline cards
     resultEmi.textContent = '\u20B9 ' + formatNumber(Math.round(emi));
     resultRent.textContent = '\u20B9 ' + formatNumber(Math.round(monthlyRent));
+    resultSurplus.textContent = '\u20B9 ' + formatNumber(Math.round(monthlySurplus));
+    resultPropertyValue.textContent = '\u20B9 ' + formatNumber(Math.round(propertyValueEnd));
+    resultMfValue.textContent = '\u20B9 ' + formatNumber(Math.round(totalMfPortfolio));
+    resultPropertyInflAdj.textContent = 'Inflation-Adj: \u20B9 ' + formatNumber(Math.round(propertyValueInflAdj));
+    resultMfInflAdj.textContent = 'Inflation-Adj: \u20B9 ' + formatNumber(Math.round(mfPortfolioInflAdj));
+    resultWinner.textContent = totalMfPortfolio > propertyValueEnd ? 'Rent & Invest Wins' : 'Buy Wins';
+    resultWinner.style.color = totalMfPortfolio > propertyValueEnd ? '#16a34a' : '#2563eb';
 
+    // Comparison table
     cmpBuyUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment)) + ' (Downpayment)';
     cmpRentUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment)) + ' (Invested)';
     cmpBuyMonthly.textContent = '\u20B9 ' + formatNumber(Math.round(emi)) + ' (EMI)';
@@ -93,8 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
     cmpRentTotalOutflow.textContent = '\u20B9 ' + formatNumber(Math.round(rentTotalOutflow));
     cmpBuyFinalAsset.textContent = '\u20B9 ' + formatNumber(Math.round(propertyValueEnd));
     cmpRentFinalAsset.textContent = '\u20B9 ' + formatNumber(Math.round(totalMfPortfolio));
+    cmpBuyInflAdj.textContent = '\u20B9 ' + formatNumber(Math.round(propertyValueInflAdj));
+    cmpRentInflAdj.textContent = '\u20B9 ' + formatNumber(Math.round(mfPortfolioInflAdj));
     cmpBuyNetGain.textContent = formatCurrency(buyNetGain);
     cmpRentNetGain.textContent = formatCurrency(rentNetGain);
+    cmpBuyNetInflAdj.textContent = formatCurrency(buyNetGainInflAdj);
+    cmpRentNetInflAdj.textContent = formatCurrency(rentNetGainInflAdj);
 
     // HRA
     if (basicSalary > 0 && hraReceived > 0 && taxSlab > 0) {
@@ -115,41 +140,40 @@ document.addEventListener('DOMContentLoaded', () => {
       hraSection.style.display = 'none';
     }
 
-    // Insight text
-    const winner = totalMfPortfolio > propertyValueEnd ? 'Rent &amp; Invest' : 'Buy';
-    const loser = totalMfPortfolio > propertyValueEnd ? 'Buy' : 'Rent &amp; Invest';
+    // Insight
     const diff = Math.abs(totalMfPortfolio - propertyValueEnd);
-    const betterGain = totalMfPortfolio > propertyValueEnd ? rentNetGain : buyNetGain;
-    const worseGain = totalMfPortfolio > propertyValueEnd ? buyNetGain : rentNetGain;
+    const diffInflAdj = Math.abs(mfPortfolioInflAdj - propertyValueInflAdj);
 
     let insight = '';
     if (totalMfPortfolio > propertyValueEnd) {
-      insight = 'Renting and investing the difference comes out ahead by <strong>\u20B9 ' + formatNumber(Math.round(diff)) + '</strong>. ' +
-        'Your MF portfolio grows to <strong>\u20B9 ' + formatNumber(Math.round(totalMfPortfolio)) + '</strong> vs property value of <strong>\u20B9 ' + formatNumber(Math.round(propertyValueEnd)) + '</strong>.';
+      insight = 'Renting and investing comes out ahead by <strong>\u20B9 ' + formatNumber(Math.round(diff)) + '</strong> in nominal terms. ';
+      insight += 'After adjusting for inflation, the MF portfolio is worth <strong>\u20B9 ' + formatNumber(Math.round(mfPortfolioInflAdj)) + '</strong> ';
+      insight += 'vs property at <strong>\u20B9 ' + formatNumber(Math.round(propertyValueInflAdj)) + '</strong> in today\'s purchasing power.';
     } else if (propertyValueEnd > totalMfPortfolio) {
-      insight = 'Buying the property comes out ahead by <strong>\u20B9 ' + formatNumber(Math.round(diff)) + '</strong>. ' +
-        'Property value grows to <strong>\u20B9 ' + formatNumber(Math.round(propertyValueEnd)) + '</strong> vs MF portfolio of <strong>\u20B9 ' + formatNumber(Math.round(totalMfPortfolio)) + '</strong>.';
+      insight = 'Buying the property comes out ahead by <strong>\u20B9 ' + formatNumber(Math.round(diff)) + '</strong> in nominal terms. ';
+      insight += 'After adjusting for inflation, the property is worth <strong>\u20B9 ' + formatNumber(Math.round(propertyValueInflAdj)) + '</strong> ';
+      insight += 'vs MF portfolio at <strong>\u20B9 ' + formatNumber(Math.round(mfPortfolioInflAdj)) + '</strong> in today\'s purchasing power.';
     } else {
       insight = 'Both options yield almost identical results.';
     }
 
     if (monthlySurplus <= 0) {
-      insight += '<br><br>Note: EMI (\u20B9 ' + formatNumber(Math.round(emi)) + ') is less than or equal to rent (\u20B9 ' + formatNumber(Math.round(monthlyRent)) + '), so there is no surplus to invest in SIP.';
+      insight += '<br><br>Note: EMI (\u20B9 ' + formatNumber(Math.round(emi)) + ') is not higher than rent (\u20B9 ' + formatNumber(Math.round(monthlyRent)) + '), so there is no surplus to invest in SIP.';
     }
 
     insightBox.innerHTML = insight;
 
-    drawChart(downpayment, totalEmiPaid, propertyValueEnd, totalRentPaid, totalMfPortfolio);
+    drawChart(downpayment, totalEmiPaid, propertyValueEnd, propertyValueInflAdj, totalRentPaid, totalMfPortfolio, mfPortfolioInflAdj);
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function drawChart(downpayment, totalEmi, propertyValue, totalRent, mfPortfolio) {
+  function drawChart(downpayment, totalEmi, propertyValue, propertyInflAdj, totalRent, mfPortfolio, mfInflAdj) {
     const ctx = chartCanvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
     const containerWidth = chartCanvas.parentElement.clientWidth || 500;
     const displayW = Math.min(500, containerWidth);
-    const displayH = Math.round(displayW * 0.55);
+    const displayH = Math.round(displayW * 0.6);
     chartCanvas.width = displayW * dpr;
     chartCanvas.height = displayH * dpr;
     chartCanvas.style.width = displayW + 'px';
@@ -158,22 +182,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.clearRect(0, 0, displayW, displayH);
 
-    const padding = { top: 24, right: 20, bottom: 50, left: 64 };
+    const padding = { top: 30, right: 20, bottom: 50, left: 64 };
     const chartW = displayW - padding.left - padding.right;
     const chartH = displayH - padding.top - padding.bottom;
 
     const buyTotal = downpayment + totalEmi;
-    const values = [buyTotal, propertyValue, totalRent, mfPortfolio];
-    const maxVal = Math.max(...values) * 1.2;
+    const allValues = [buyTotal, propertyValue, propertyInflAdj, totalRent, mfPortfolio, mfInflAdj];
+    const maxVal = Math.max(...allValues) * 1.2;
 
     const groups = [
-      { label: 'Buy Home', bars: [buyTotal, propertyValue] },
-      { label: 'Rent & Invest', bars: [totalRent, mfPortfolio] },
+      { label: 'Buy Home', bars: [buyTotal, propertyValue, propertyInflAdj] },
+      { label: 'Rent & Invest', bars: [totalRent, mfPortfolio, mfInflAdj] },
     ];
 
     const groupWidth = chartW / groups.length;
-    const barWidth = groupWidth * 0.3;
-    const barOffset = (groupWidth - barWidth * 2) / 3;
+    const barW = groupWidth * 0.22;
+    const gaps = (groupWidth - barW * 3) / 4;
 
     function getY(val) {
       return padding.top + chartH - (val / maxVal) * chartH;
@@ -203,21 +227,22 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
-    const barColors = ['#f59e0b', '#2563eb'];
+    const barColors = ['#f59e0b', '#2563eb', '#16a34a'];
+    const barLabels = ['Total Cost', 'Nominal', 'Infl-Adj'];
 
     groups.forEach((g, gi) => {
       const gx = padding.left + gi * groupWidth;
 
       g.bars.forEach((val, bi) => {
-        const x = gx + barOffset + bi * (barOffset + barWidth);
+        const x = gx + gaps + bi * (gaps + barW);
         const h = (val / maxVal) * chartH;
         ctx.fillStyle = barColors[bi];
-        ctx.fillRect(x, getY(val), barWidth, h);
+        ctx.fillRect(x, getY(val), barW, h);
 
         ctx.textAlign = 'center';
         ctx.fillStyle = '#1e293b';
-        ctx.font = 'bold 11px -apple-system, sans-serif';
-        ctx.fillText('\u20B9 ' + abbreviateNumber(val), x + barWidth / 2, getY(val) - 8);
+        ctx.font = 'bold 10px -apple-system, sans-serif';
+        ctx.fillText(abbreviateNumber(val), x + barW / 2, getY(val) - 6);
       });
 
       ctx.fillStyle = '#1e293b';
@@ -229,16 +254,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(10, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Total Cost', 26, 18);
-
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(120, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Final Asset', 136, 18);
+    const legendItems = [
+      { color: '#f59e0b', label: 'Total Cost', x: 10 },
+      { color: '#2563eb', label: 'Final Asset (Nominal)', x: 120 },
+      { color: '#16a34a', label: 'Final Asset (Infl-Adj)', x: 290 },
+    ];
+    legendItems.forEach(item => {
+      ctx.fillStyle = item.color;
+      ctx.fillRect(item.x, 8, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText(item.label, item.x + 16, 18);
+    });
   }
 
   function abbreviateNumber(num) {
