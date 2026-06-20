@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rental Yield Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1>Rental Yield Calculator</h1>
-      <p>Calculate your property gross and net rental yield.</p>
+      <p>Calculate the gross and net rental yield on your property investment.</p>
     </div>
   </header>
 
@@ -19,11 +20,99 @@
       <a href="../../">Home</a> &rsaquo; Rental Yield Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">💰</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Property & Rental Details</h2>
+      <form id="rentalForm">
+        <div class="form-group">
+          <label for="propertyPrice">Property Price</label>
+          <div class="input-wrapper">
+            <input type="number" id="propertyPrice" placeholder="e.g. 5000000" required min="1" step="1" value="5000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthlyRent">Monthly Rent</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlyRent" placeholder="e.g. 25000" required min="1" step="100" value="25000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="vacancyMonths">Vacancy (months/year)</label>
+            <div class="input-wrapper">
+              <input type="number" id="vacancyMonths" placeholder="e.g. 1" required min="0" max="12" step="0.5" value="1">
+              <span class="suffix">Mos</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin:20px 0 12px; font-size:0.95rem; color:var(--text-secondary);">Annual Expenses</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="propertyTax">Property Tax</label>
+            <div class="input-wrapper">
+              <input type="number" id="propertyTax" placeholder="e.g. 15000" required min="0" step="100" value="15000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="maintenance">Maintenance & Repairs</label>
+            <div class="input-wrapper">
+              <input type="number" id="maintenance" placeholder="e.g. 12000" required min="0" step="100" value="12000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="insurance">Insurance</label>
+            <div class="input-wrapper">
+              <input type="number" id="insurance" placeholder="e.g. 5000" required min="0" step="100" value="5000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mgmtFee">Management / Misc</label>
+            <div class="input-wrapper">
+              <input type="number" id="mgmtFee" placeholder="e.g. 6000" required min="0" step="100" value="6000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Yield Summary</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Annual Rent Income</div>
+          <div class="value" id="resultAnnualRent">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Annual Expenses</div>
+          <div class="value" id="resultAnnualExpenses">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Gross Rental Yield</div>
+          <div class="value primary" id="resultGrossYield">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Net Rental Yield</div>
+          <div class="value success" id="resultNetYield">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="rentalChart" width="300" height="300"></canvas>
+      </div>
     </div>
   </main>
 
@@ -32,5 +121,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js?v=2"></script>
 </body>
 </html>

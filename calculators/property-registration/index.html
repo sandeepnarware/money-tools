@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Property Registration Cost Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1>Property Registration Cost Calculator</h1>
-      <p>Estimate stamp duty, registration fees, and other property costs.</p>
+      <p>Estimate stamp duty, registration fees, and total cost for your property purchase.</p>
     </div>
   </header>
 
@@ -19,18 +20,83 @@
       <a href="../../">Home</a> &rsaquo; Property Registration Cost Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">📋</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Property Details</h2>
+      <form id="prForm">
+        <div class="form-group">
+          <label for="propertyPrice">Property Price</label>
+          <div class="input-wrapper">
+            <input type="number" id="propertyPrice" placeholder="e.g. 5000000" required min="1" step="1" value="5000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stateSelect">State / UT</label>
+          <select id="stateSelect" style="width:100%; padding:10px 12px; font-size:1rem; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text); outline:none; cursor:pointer;">
+            <option value="">Select a state</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="buyerType">Buyer Type</label>
+          <select id="buyerType" style="width:100%; padding:10px 12px; font-size:1rem; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text); outline:none; cursor:pointer;">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="joint">Joint (Male + Female)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Cost Breakdown</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Property Price</div>
+          <div class="value" id="resultPropertyPrice">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Stamp Duty</div>
+          <div class="value primary" id="resultStampDuty">&#8377; 0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;" id="resultStampRate"></div>
+        </div>
+        <div class="result-item">
+          <div class="label">Registration Fee</div>
+          <div class="value" id="resultRegFee">&#8377; 0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;" id="resultRegRate"></div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Additional Cost</div>
+          <div class="value" id="resultAdditional">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:0.95rem; font-weight:600;">Grand Total (Price + All Costs)</span>
+          <span style="font-size:1.5rem; font-weight:700; color:#16a34a;" id="resultGrandTotal">&#8377; 0</span>
+        </div>
+      </div>
+
+      <div class="chart-container-wide" style="margin-top:20px;">
+        <canvas id="prChart"></canvas>
+      </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2026 Money Tools</p>
+      <p style="font-size:0.75rem; opacity:0.7; margin-top:4px;">Rates are indicative and based on publicly available data as of 2026. Actual charges may vary. Consult a local authority for exact rates.</p>
     </div>
   </footer>
+
+  <script src="script.js?v=2"></script>
 </body>
 </html>

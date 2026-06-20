@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XIRR Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
@@ -19,11 +20,57 @@
       <a href="../../">Home</a> &rsaquo; XIRR Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">📅</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Cash Flow Details</h2>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">
+        Enter investment amounts as negative (e.g. <strong>-10000</strong>) and withdrawals / current value as positive.
+        At least one negative and one positive entry are required.
+      </p>
+
+      <div class="table-wrapper" style="max-height:400px; overflow-y:auto;">
+        <table id="cashflowTable">
+          <thead>
+            <tr>
+              <th style="width:140px; min-width:140px;">Date</th>
+              <th style="min-width:140px;">Amount</th>
+              <th style="width:40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="cashflowBody"></tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-secondary" id="addRowBtn">+ Add Row</button>
+        <button type="button" class="btn btn-primary" id="calculateXirrBtn">Calculate XIRR</button>
+      </div>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>XIRR Result</h2>
+      <div style="text-align:center; padding:20px 0;">
+        <div style="font-size:0.9rem; color:var(--text-secondary);">Your XIRR is</div>
+        <div style="font-size:2.5rem; font-weight:700; color:#16a34a;" id="resultXirr">0%</div>
+      </div>
+
+      <div class="results-grid" style="margin-top:8px;">
+        <div class="result-item">
+          <div class="label">Total Invested</div>
+          <div class="value" id="resultTotalInvested">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Returns</div>
+          <div class="value success" id="resultTotalReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Absolute Return</div>
+          <div class="value" id="resultAbsReturn">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="xirrChart" width="300" height="300"></canvas>
+      </div>
     </div>
   </main>
 
@@ -32,5 +79,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js?v=2"></script>
 </body>
 </html>
