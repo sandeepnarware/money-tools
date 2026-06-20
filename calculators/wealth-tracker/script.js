@@ -580,6 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function exportJson() {
+    syncValuesToSnapshot();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -607,21 +608,35 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.readAsText(file);
   }
 
+  function escCsv(v) {
+    const s = String(v);
+    if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    return s;
+  }
+
   function exportCsv() {
+    syncValuesToSnapshot();
     const months = getAllMonthOptions().filter(m => getSnapshot(m)).sort();
     if (months.length === 0) { alert('No data to export.'); return; }
 
-    const headers = ['Month', 'Assets', 'Liabilities', 'Receivables', 'Payables', 'Net Worth'];
-    const rows = months.map(m => {
-      const a = getCategoryTotal('assets', m);
-      const l = getCategoryTotal('liabilities', m);
-      const r = getCategoryTotal('receivables', m);
-      const p = getCategoryTotal('payables', m);
-      const nw = a + r - l - p;
-      return [m, a, l, r, p, nw].join(',');
+    const catOrder = ['assets', 'liabilities', 'receivables', 'payables'];
+    const catLabels2 = { assets: 'Assets', liabilities: 'Liabilities', receivables: 'Receivables', payables: 'Payables' };
+    const lines = [];
+
+    lines.push(['Month', 'Category', 'Item', 'Value'].join(','));
+
+    months.forEach(m => {
+      catOrder.forEach(cat => {
+        const items = getCategoryDetail(cat, m);
+        items.forEach(d => {
+          lines.push([m, catLabels2[cat], escCsv(d.name), d.value].join(','));
+        });
+      });
     });
 
-    const csv = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+    const csv = '\uFEFF' + lines.join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
