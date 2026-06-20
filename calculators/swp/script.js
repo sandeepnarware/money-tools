@@ -17,16 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsSection.style.display = 'none';
   });
 
+  function parseNum(v) {
+    return parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
+  }
+
   function calculate() {
-    const initialInvestment = parseFloat(document.getElementById('initialInvestment').value);
-    const annualReturn = parseFloat(document.getElementById('expectedReturn').value);
-    const years = parseFloat(document.getElementById('withdrawalPeriod').value);
-    const monthlyWithdrawal = parseFloat(document.getElementById('monthlyWithdrawal').value);
-    const annualInflation = parseFloat(document.getElementById('inflationRate').value);
+    const initialInvestment = parseNum(document.getElementById('initialInvestment').value);
+    const annualReturn = parseNum(document.getElementById('expectedReturn').value);
+    const years = parseNum(document.getElementById('withdrawalPeriod').value);
+    const monthlyWithdrawal = parseNum(document.getElementById('monthlyWithdrawal').value);
+    const annualInflation = parseNum(document.getElementById('inflationRate').value);
 
     if (!initialInvestment || annualReturn < 0 || !years || !monthlyWithdrawal || annualInflation < 0 ||
         initialInvestment <= 0 || years <= 0 || monthlyWithdrawal <= 0) {
-      alert('Please enter valid positive values.');
+      alert('Please enter valid positive values in all fields.');
       return;
     }
 
