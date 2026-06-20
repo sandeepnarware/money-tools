@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     resultEmi.textContent = '\u20B9 ' + formatNumber(Math.round(emi));
     resultRent.textContent = '\u20B9 ' + formatNumber(Math.round(monthlyRent));
 
-    cmpBuyUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment));
-    cmpRentUpfront.textContent = '\u20B9 0 (invested)';
+    cmpBuyUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment)) + ' (Downpayment)';
+    cmpRentUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment)) + ' (Invested)';
     cmpBuyMonthly.textContent = '\u20B9 ' + formatNumber(Math.round(emi)) + ' (EMI)';
     cmpRentMonthly.textContent = '\u20B9 ' + formatNumber(Math.round(monthlyRent)) + ' (Rent)';
     cmpBuyTotalOutflow.textContent = '\u20B9 ' + formatNumber(Math.round(buyTotalOutflow));
