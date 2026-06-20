@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function drawChart(principal, totalInterest) {
     const ctx = chartCanvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
-    const displaySize = 300;
+    const containerWidth = chartCanvas.parentElement.clientWidth || 300;
+    const displaySize = Math.min(300, containerWidth);
     chartCanvas.width = displaySize * dpr;
     chartCanvas.height = displaySize * dpr;
     chartCanvas.style.width = displaySize + 'px';

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SWP Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
@@ -19,11 +20,95 @@
       <a href="../../">Home</a> &rsaquo; SWP Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">💸</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Withdrawal Details</h2>
+      <form id="swpForm">
+        <div class="form-group">
+          <label for="initialInvestment">Initial Investment</label>
+          <div class="input-wrapper">
+            <input type="number" id="initialInvestment" placeholder="e.g. 5000000" required min="1" step="1" value="5000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expectedReturn">Expected Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="expectedReturn" placeholder="e.g. 8" required min="0" step="0.1" value="8">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="withdrawalPeriod">Withdrawal Period (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="withdrawalPeriod" placeholder="e.g. 20" required min="1" max="60" step="1" value="20">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthlyWithdrawal">Monthly Withdrawal</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlyWithdrawal" placeholder="e.g. 25000" required min="1" step="100" value="25000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inflationRate">Expected Inflation Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="inflationRate" placeholder="e.g. 6" required min="0" step="0.1" value="6">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Withdrawal Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Withdrawn</div>
+          <div class="value" id="resultWithdrawn">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Final Corpus</div>
+          <div class="value primary" id="resultCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Inflation-Adj. Corpus (Today's Value)</div>
+          <div class="value success" id="resultInflAdj">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="swpChart"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Opening Corpus</th>
+              <th class="text-right">Withdrawals</th>
+              <th class="text-right">Returns Earned</th>
+              <th class="text-right">Closing Corpus</th>
+              <th class="text-right">Inflation-Adj. Closing</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
@@ -32,5 +117,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

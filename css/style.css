@@ -289,6 +289,11 @@ input:focus {
   margin: 0 auto 24px;
 }
 
+.chart-container-wide {
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+
 /* Amortization table */
 .table-wrapper {
   overflow-x: auto;
@@ -332,6 +337,10 @@ table .text-right {
     font-size: 1.6rem;
   }
 
+  .site-header p {
+    font-size: 0.95rem;
+  }
+
   .tools-grid {
     grid-template-columns: 1fr;
     padding: 24px 0;
@@ -347,5 +356,75 @@ table .text-right {
 
   .form-row {
     grid-template-columns: 1fr;
+  }
+
+  .result-item {
+    padding: 12px 8px;
+  }
+
+  .result-item .label {
+    font-size: 0.7rem;
+  }
+
+  .result-item .value {
+    font-size: 1.1rem;
+  }
+
+  .chart-container {
+    max-width: 260px;
+  }
+
+  .chart-container-wide {
+    max-width: 100%;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  table th,
+  table td {
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .site-header {
+    padding: 24px 0 20px;
+  }
+
+  .site-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .site-header p {
+    font-size: 0.85rem;
+  }
+
+  .calculator-page {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .calc-card {
+    padding: 16px;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .result-item .value {
+    font-size: 1rem;
+  }
+
+  .chart-container {
+    max-width: 220px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 }
