@@ -33,28 +33,15 @@
       </div>
     </div>
 
-    <div class="calc-card" style="overflow-x:auto;">
-      <div id="trackerGrid" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px;">
-        <div class="category-col" data-cat="assets">
-          <div class="cat-header" style="background:#eff6ff; color:#1d4ed8;">Assets</div>
-          <div class="cat-items" id="cat-assets"></div>
-          <button class="add-item-btn" data-cat="assets">+ Add Asset</button>
-        </div>
-        <div class="category-col" data-cat="liabilities">
-          <div class="cat-header" style="background:#fef2f2; color:#dc2626;">Liabilities</div>
-          <div class="cat-items" id="cat-liabilities"></div>
-          <button class="add-item-btn" data-cat="liabilities">+ Add Liability</button>
-        </div>
-        <div class="category-col" data-cat="receivables">
-          <div class="cat-header" style="background:#f0fdf4; color:#16a34a;">Receivables</div>
-          <div class="cat-items" id="cat-receivables"></div>
-          <button class="add-item-btn" data-cat="receivables">+ Add Receivable</button>
-        </div>
-        <div class="category-col" data-cat="payables">
-          <div class="cat-header" style="background:#fefce8; color:#a16207;">Payables</div>
-          <div class="cat-items" id="cat-payables"></div>
-          <button class="add-item-btn" data-cat="payables">+ Add Payable</button>
-        </div>
+    <div class="calc-card">
+      <div style="display:flex; gap:6px; margin-bottom:14px;">
+        <button class="cat-tab" data-cat="assets" style="flex:1; background:#eff6ff; color:#1d4ed8; font-weight:700;">Assets</button>
+        <button class="cat-tab" data-cat="liabilities" style="flex:1; background:#fef2f2; color:#dc2626; font-weight:400;">Liabilities</button>
+        <button class="cat-tab" data-cat="receivables" style="flex:1; background:#f0fdf4; color:#16a34a; font-weight:400;">Receivables</button>
+        <button class="cat-tab" data-cat="payables" style="flex:1; background:#fefce8; color:#a16207; font-weight:400;">Payables</button>
+      </div>
+      <div class="category-col" id="catPanel">
+        <div class="cat-items" id="catItems"></div>
       </div>
     </div>
 

@@ -1,79 +1,79 @@
-.category-col {
-  background: var(--surface);
+.cat-tab {
+  padding: 10px 8px;
+  font-size: 0.85rem;
+  border: 2px solid transparent;
   border-radius: 8px;
-  padding: 10px;
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
 }
 
-.cat-header {
-  font-weight: 700;
-  font-size: 0.8rem;
-  padding: 6px 8px;
-  border-radius: 6px;
-  text-align: center;
+.cat-tab:hover {
+  opacity: 0.85;
+}
+
+.cat-tab.active {
+  border-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.category-col {
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .cat-items {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-height: 40px;
+  gap: 6px;
+  min-height: 100px;
 }
 
 .item-row {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 6px;
-  border-radius: 6px;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg);
 }
 
 .item-name {
-  flex: 0 0 auto;
-  width: 40%;
-  min-width: 0;
-  padding: 3px 4px;
-  font-size: 0.75rem;
-  border: none;
-  background: transparent;
+  flex: 0 0 180px;
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
   color: var(--text);
   font-weight: 600;
   outline: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .item-name:focus {
-  border-bottom: 2px solid #2563eb;
-  white-space: normal;
+  border-color: #2563eb;
 }
 
 .item-input-wrap {
   flex: 1;
   display: flex;
-  gap: 2px;
+  gap: 4px;
   align-items: center;
-  min-width: 0;
 }
 
 .item-value {
   flex: 1;
-  min-width: 0;
-  padding: 3px 4px;
-  font-size: 0.8rem;
+  max-width: 200px;
+  padding: 5px 8px;
+  font-size: 0.85rem;
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface);
   color: var(--text);
   outline: none;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .item-value:focus {
@@ -85,8 +85,8 @@
   border: none;
   color: #dc2626;
   cursor: pointer;
-  font-size: 0.7rem;
-  padding: 2px 4px;
+  font-size: 0.8rem;
+  padding: 4px 6px;
   line-height: 1;
   opacity: 0.4;
   transition: opacity 0.15s;
@@ -98,15 +98,16 @@
 }
 
 .add-item-btn {
+  width: 100%;
   background: none;
   border: 1px dashed var(--border);
-  border-radius: 6px;
-  padding: 6px;
-  font-size: 0.75rem;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.85rem;
   color: #2563eb;
   cursor: pointer;
   transition: background 0.15s;
-  margin-top: auto;
+  margin-top: 8px;
 }
 
 .add-item-btn:hover {
@@ -120,16 +121,4 @@
 
 .month-link:hover {
   text-decoration: underline;
-}
-
-@media (max-width: 640px) {
-  #trackerGrid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-
-@media (max-width: 400px) {
-  #trackerGrid {
-    grid-template-columns: 1fr !important;
-  }
 }

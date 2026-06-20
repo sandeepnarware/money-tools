@@ -67,6 +67,7 @@ function abbreviate(n) {
 document.addEventListener('DOMContentLoaded', () => {
   let data = loadData();
   let currentMonth = monthStr(new Date());
+  let activeTab = 'assets';
   let activeChart = 'donut';
 
   const monthPicker = document.getElementById('monthPicker');
@@ -125,23 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
   }
 
+  const catLabels = { assets: 'Asset', liabilities: 'Liability', receivables: 'Receivable', payables: 'Payable' };
+
   function renderGrid() {
-    const cats = ['assets', 'liabilities', 'receivables', 'payables'];
-    cats.forEach(cat => {
-      const container = document.getElementById('cat-' + cat);
-      const details = getCategoryDetail(cat, currentMonth);
-      container.innerHTML = details.map(d => {
-        const inputId = 'val-' + d.id;
-        return `
-          <div class="item-row">
-            <input type="text" class="item-name" value="${escHtml(d.name)}" data-id="${d.id}" data-cat="${cat}" placeholder="Name">
-            <div class="item-input-wrap">
-              <input type="number" class="item-value" id="${inputId}" value="${d.value}" data-id="${d.id}" data-cat="${cat}" min="0" step="1" placeholder="0">
-              <button class="del-item" data-id="${d.id}" data-cat="${cat}" title="Remove">✕</button>
-            </div>
+    const container = document.getElementById('catItems');
+    const cat = activeTab;
+    const details = getCategoryDetail(cat, currentMonth);
+    container.innerHTML = details.map(d => {
+      const inputId = 'val-' + d.id;
+      return `
+        <div class="item-row">
+          <input type="text" class="item-name" value="${escHtml(d.name)}" data-id="${d.id}" data-cat="${cat}" placeholder="Name">
+          <div class="item-input-wrap">
+            <input type="number" class="item-value" id="${inputId}" value="${d.value}" data-id="${d.id}" data-cat="${cat}" min="0" step="1" placeholder="0">
+            <button class="del-item" data-id="${d.id}" data-cat="${cat}" title="Remove">✕</button>
           </div>
-        `;
-      }).join('');
+        </div>
+      `;
+    }).join('') + `<button class="add-item-btn" data-cat="${cat}">+ Add ${catLabels[cat] || 'Item'}</button>`;
+
+    document.querySelectorAll('.cat-tab').forEach(btn => {
+      btn.style.fontWeight = btn.dataset.cat === cat ? '700' : '400';
     });
 
     updateTotals();
@@ -615,8 +620,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     deleteBtn.addEventListener('click', deleteMonth);
 
-    document.querySelectorAll('.add-item-btn').forEach(btn => {
-      btn.addEventListener('click', () => addItem(btn.dataset.cat));
+    document.querySelectorAll('.cat-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeTab = btn.dataset.cat;
+        renderGrid();
+      });
     });
 
     document.getElementById('btnDonut').addEventListener('click', () => {
@@ -672,6 +680,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('del-item')) {
         deleteItem(e.target.dataset.id, e.target.dataset.cat);
+      }
+      if (e.target.classList.contains('add-item-btn')) {
+        addItem(e.target.dataset.cat);
       }
     });
   }
