@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inflation Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1>Inflation Calculator</h1>
-      <p>See how inflation erodes your money purchasing power over time.</p>
+      <p>Calculate the annual inflation rate for any item based on its past and present prices.</p>
     </div>
   </header>
 
@@ -19,11 +20,72 @@
       <a href="../../">Home</a> &rsaquo; Inflation Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">📉</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Price Details</h2>
+      <form id="inflationForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pastYear">Past Year</label>
+            <div class="input-wrapper">
+              <input type="number" id="pastYear" placeholder="e.g. 2010" required min="1900" max="2099" step="1" value="2010">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentYear">Current Year</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentYear" placeholder="e.g. 2026" required min="1900" max="2099" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pastPrice">Past Price</label>
+            <div class="input-wrapper">
+              <input type="number" id="pastPrice" placeholder="e.g. 50" required min="0.01" step="0.01" value="50">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentPrice">Current Price</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentPrice" placeholder="e.g. 200" required min="0.01" step="0.01" value="200">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Inflation Analysis</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Time Period</div>
+          <div class="value" id="resultDuration">0 years</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Past Price</div>
+          <div class="value" id="resultPastPrice">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Current Price</div>
+          <div class="value primary" id="resultCurrentPrice">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Annual Inflation Rate</div>
+          <div class="value success" id="resultInflationRate">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="inflationChart"></canvas>
+      </div>
     </div>
   </main>
 
@@ -32,5 +94,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
