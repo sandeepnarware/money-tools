@@ -254,6 +254,10 @@ input:focus {
   margin-bottom: 24px;
 }
 
+.results-grid-wide {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .result-item {
   text-align: center;
   padding: 16px 12px;

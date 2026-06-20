@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultInvested = document.getElementById('resultInvested');
   const resultReturns = document.getElementById('resultReturns');
   const resultTotal = document.getElementById('resultTotal');
+  const resultInflAdj = document.getElementById('resultInflAdj');
   const scheduleBody = document.getElementById('scheduleBody');
   const chartCanvas = document.getElementById('sipChart');
 
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const P = parseFloat(document.getElementById('monthlyInvestment').value);
     const annualRate = parseFloat(document.getElementById('expectedReturn').value);
     const years = parseFloat(document.getElementById('investmentPeriod').value);
+    const annualInflation = parseFloat(document.getElementById('inflationRate').value);
 
     if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) {
       alert('Please enter valid positive values.');
@@ -33,19 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const fv = P * (Math.pow(1 + r, n) - 1) / r * (1 + r);
     const totalInvestment = P * n;
     const estimatedReturns = fv - totalInvestment;
+    const inflAdj = fv / Math.pow(1 + annualInflation / 100, years);
 
     resultInvested.textContent = '\u20B9 ' + formatNumber(Math.round(totalInvestment));
     resultReturns.textContent = '\u20B9 ' + formatNumber(Math.round(estimatedReturns));
     resultTotal.textContent = '\u20B9 ' + formatNumber(Math.round(fv));
+    resultInflAdj.textContent = '\u20B9 ' + formatNumber(Math.round(inflAdj));
 
-    const schedule = buildYearlySchedule(P, r, n);
+    const schedule = buildYearlySchedule(P, r, n, annualInflation);
     renderSchedule(schedule);
     drawChart(totalInvestment, estimatedReturns);
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function buildYearlySchedule(monthlyInv, monthlyRate, totalMonths) {
+  function buildYearlySchedule(monthlyInv, monthlyRate, totalMonths, annualInflation) {
     const rows = [];
 
     for (let year = 1; year <= totalMonths / 12; year++) {
@@ -53,12 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const totalInvested = monthlyInv * months;
       const corpus = monthlyInv * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
       const returns = corpus - totalInvested;
+      const inflAdj = corpus / Math.pow(1 + annualInflation / 100, year);
 
       rows.push({
         year,
         investment: Math.round(totalInvested),
         returns: Math.round(returns),
         corpus: Math.round(corpus),
+        inflAdj: Math.round(inflAdj),
       });
     }
 
@@ -72,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="text-right">${formatNumber(r.investment)}</td>
         <td class="text-right">${formatNumber(r.returns)}</td>
         <td class="text-right">${formatNumber(r.corpus)}</td>
+        <td class="text-right">${formatNumber(r.inflAdj)}</td>
       </tr>
     `).join('');
   }
