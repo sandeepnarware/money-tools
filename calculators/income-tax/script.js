@@ -115,6 +115,17 @@ document.addEventListener('DOMContentLoaded', () => {
     return labels[index] || 'Other';
   }
 
+  function renderBreakdown(rows, activeTab) {
+    const tbody = el('breakdownBody');
+    const isOld = activeTab === 'old';
+    tbody.innerHTML = rows.map(r => `
+      <tr${r.bold ? ' style="font-weight:700;"' : ''}${r.accent ? (isOld ? ' style="color:#2563eb; font-weight:700;"' : ' style="color:#16a34a; font-weight:700;"') : ''}>
+        <td>${r.label}</td>
+        <td class="text-right">${r.value >= 0 ? '\u20B9 ' + formatNumber(Math.abs(r.value)) : '(\u20B9 ' + formatNumber(Math.abs(r.value)) + ')'}</td>
+      </tr>
+    `).join('');
+  }
+
   function calculate() {
     const basic = getVal('basicSalary');
     const hraReceived = getVal('hraReceived');
@@ -159,18 +170,21 @@ document.addEventListener('DOMContentLoaded', () => {
     el('newEffectiveRate').textContent = newEffective.toFixed(2) + '%';
 
     const recBox = el('recommendation');
+    let recommended = 'old';
     if (oldResult.tax < newResult.tax) {
       recBox.style.display = 'block';
       recBox.style.background = '#eff6ff';
       recBox.style.border = '1px solid #bfdbfe';
       recBox.style.color = '#1d4ed8';
       recBox.textContent = 'Old Regime is better — you save \u20B9 ' + formatNumber(Math.round(newResult.tax - oldResult.tax)) + ' in taxes.';
+      recommended = 'old';
     } else if (newResult.tax < oldResult.tax) {
       recBox.style.display = 'block';
       recBox.style.background = '#f0fdf4';
       recBox.style.border = '1px solid #bbf7d0';
       recBox.style.color = '#16a34a';
       recBox.textContent = 'New Regime is better — you save \u20B9 ' + formatNumber(Math.round(oldResult.tax - newResult.tax)) + ' in taxes.';
+      recommended = 'new';
     } else {
       recBox.style.display = 'block';
       recBox.style.background = '#fefce8';
@@ -179,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
       recBox.textContent = 'Both regimes give the same tax liability.';
     }
 
-    const breakdown = [
+    const oldBreakdown = [
       { label: 'Gross Total Income', value: grossIncome },
       { label: 'Less: Standard Deduction', value: -OLD_STD_DEDUCTION },
       { label: 'Less: HRA Exemption', value: -hraExemption },
@@ -190,13 +204,34 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'Total Tax Payable', value: oldResult.tax, bold: true, accent: true },
     ];
 
-    const tbody = el('breakdownBody');
-    tbody.innerHTML = breakdown.map(r => `
-      <tr${r.bold ? ' style="font-weight:700;"' : ''}${r.accent ? ' style="color:#2563eb; font-weight:700;"' : ''}>
-        <td>${r.label}</td>
-        <td class="text-right">${r.value >= 0 ? '\u20B9 ' + formatNumber(Math.abs(r.value)) : '(\u20B9 ' + formatNumber(Math.abs(r.value)) + ')'}</td>
-      </tr>
-    `).join('');
+    const newBreakdown = [
+      { label: 'Gross Total Income', value: grossIncome },
+      { label: 'Less: Standard Deduction', value: -NEW_STD_DEDUCTION },
+      { label: 'Net Taxable Income', value: newResult.taxable, bold: true },
+      { label: 'Income Tax (before cess)', value: -newResult.taxBeforeCess },
+      { label: 'Health & Education Cess (4%)', value: -newResult.cess },
+      { label: 'Total Tax Payable', value: newResult.tax, bold: true, accent: true },
+    ];
+
+    const tabOld = el('tabOld');
+    const tabNew = el('tabNew');
+
+    function setActiveTab(tab) {
+      if (tab === 'old') {
+        tabOld.className = 'btn btn-primary';
+        tabNew.className = 'btn btn-secondary';
+        renderBreakdown(oldBreakdown, 'old');
+      } else {
+        tabOld.className = 'btn btn-secondary';
+        tabNew.className = 'btn btn-primary';
+        renderBreakdown(newBreakdown, 'new');
+      }
+    }
+
+    tabOld.onclick = () => setActiveTab('old');
+    tabNew.onclick = () => setActiveTab('new');
+
+    setActiveTab(recommended);
 
     drawChart(oldResult.taxable, oldResult.tax, newResult.taxable, newResult.tax);
     resultsSection.style.display = 'block';

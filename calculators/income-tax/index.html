@@ -222,17 +222,22 @@
 
       <div id="recommendation" style="margin-top:16px; padding:16px; border-radius:8px; text-align:center; font-weight:600; display:none;"></div>
 
-      <h2 style="font-size:1rem; margin-top:24px; margin-bottom:12px;">Tax Calculation Breakdown (Old Regime)</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Component</th>
-              <th class="text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody id="breakdownBody"></tbody>
-        </table>
+      <div style="margin-top:24px;">
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+          <button id="tabOld" class="btn btn-primary" style="flex:1; font-size:0.9rem;">Old Regime Breakdown</button>
+          <button id="tabNew" class="btn btn-secondary" style="flex:1; font-size:0.9rem;">New Regime Breakdown</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th class="text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="breakdownBody"></tbody>
+          </table>
+        </div>
       </div>
 
       <div class="chart-container-wide" style="margin-top:20px;">
