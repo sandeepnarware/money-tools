@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opportunity Cost Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1>Opportunity Cost Calculator</h1>
-      <p>Compare two investment choices and see what you give up.</p>
+      <p>See how inflation erodes your money's value and what you could have earned instead.</p>
     </div>
   </header>
 
@@ -19,11 +20,99 @@
       <a href="../../">Home</a> &rsaquo; Opportunity Cost Calculator
     </div>
 
-    <div class="calc-card" style="text-align:center; padding:60px 32px;">
-      <div style="font-size:3rem; margin-bottom:16px;">⚖️</div>
-      <h2>Coming Soon</h2>
-      <p style="color:var(--text-secondary); margin-top:8px;">This calculator is under development. Check back soon!</p>
-      <a href="../../" class="btn btn-primary" style="margin-top:20px;">← Back to Home</a>
+    <div class="calc-card">
+      <h2>Investment Details</h2>
+      <form id="ocForm">
+        <div class="form-group">
+          <label for="principal">Principal Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="principal" placeholder="e.g. 1000000" required min="1" step="1" value="1000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="timePeriod">Time Period (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="timePeriod" placeholder="e.g. 10" required min="1" max="50" step="1" value="10">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inflationRate">Inflation Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="inflationRate" placeholder="e.g. 6" required min="0" step="0.1" value="6">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fdRate">FD Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="fdRate" placeholder="e.g. 7" required min="0" step="0.1" value="7">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mfRate">MF Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="mfRate" placeholder="e.g. 12" required min="0" step="0.1" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Opportunity Cost Analysis</h2>
+
+      <div class="table-wrapper">
+        <table id="comparisonTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="text-right">Just Get Back</th>
+              <th class="text-right">Invest in FD</th>
+              <th class="text-right">Invest in MF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Amount at Maturity</td>
+              <td class="text-right" id="cmpLendMaturity">&#8377; 0</td>
+              <td class="text-right" id="cmpFdMaturity">&#8377; 0</td>
+              <td class="text-right" id="cmpMfMaturity">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Inflation-Adj. Value (Today's Purchasing Power)</td>
+              <td class="text-right" id="cmpLendInflAdj">&#8377; 0</td>
+              <td class="text-right" id="cmpFdInflAdj">&#8377; 0</td>
+              <td class="text-right" id="cmpMfInflAdj">&#8377; 0</td>
+            </tr>
+            <tr>
+              <td>Real Gain / (Loss)</td>
+              <td class="text-right" id="cmpLendGain">&#8377; 0</td>
+              <td class="text-right" id="cmpFdGain">&#8377; 0</td>
+              <td class="text-right" id="cmpMfGain">&#8377; 0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="insightText" style="margin-top: 16px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; font-size: 0.9rem; line-height: 1.6; color: var(--text);"></div>
+
+      <div class="chart-container-wide">
+        <canvas id="ocChart"></canvas>
+      </div>
     </div>
   </main>
 
@@ -32,5 +121,7 @@
       <p>&copy; 2026 Money Tools</p>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
