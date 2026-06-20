@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.clearRect(0, 0, displayW, displayH);
 
     const maxVal = Math.max(...schedule.map(r => Math.max(r.opening, r.closing)));
-    const padding = { top: 20, right: 20, bottom: 40, left: 60 };
+    const padding = { top: 48, right: 20, bottom: 40, left: 60 };
     const chartW = displayW - padding.left - padding.right;
     const chartH = displayH - padding.top - padding.bottom;
 
