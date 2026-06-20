@@ -128,6 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const catLabels = { assets: 'Asset', liabilities: 'Liability', receivables: 'Receivable', payables: 'Payable' };
 
+  function findPreviousMonth(month) {
+    const months = getAllMonthOptions().filter(m => getSnapshot(m) && m < month).sort();
+    return months.length > 0 ? months[months.length - 1] : null;
+  }
+
   function renderGrid() {
     const container = document.getElementById('catItems');
     const cat = activeTab;
@@ -619,6 +624,27 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.addEventListener('click', saveSnapshot);
 
     deleteBtn.addEventListener('click', deleteMonth);
+
+    document.getElementById('copyPrevBtn').addEventListener('click', () => {
+      syncValuesToSnapshot();
+      const prev = findPreviousMonth(currentMonth);
+      if (!prev) { alert('No previous month snapshot found to copy from.'); return; }
+      const snap = getSnapshot(currentMonth) || { month: currentMonth, values: {} };
+      const prevSnap = getSnapshot(prev);
+      const cats = ['assets', 'liabilities', 'receivables', 'payables'];
+      cats.forEach(cat => {
+        (data.items[cat] || []).forEach(item => {
+          if (prevSnap.values[item.id] !== undefined) {
+            snap.values[item.id] = prevSnap.values[item.id];
+          }
+        });
+      });
+      const existing = data.snapshots.findIndex(s => s.month === currentMonth);
+      if (existing >= 0) data.snapshots[existing] = snap;
+      else data.snapshots.push(snap);
+      saveData(data);
+      renderGrid();
+    });
 
     document.querySelectorAll('.cat-tab').forEach(btn => {
       btn.addEventListener('click', () => {
