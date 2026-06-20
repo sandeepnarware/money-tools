@@ -10,7 +10,7 @@ const tools = [
   { id: 'cagr', name: 'CAGR Calculator', icon: '📊', desc: 'Compute the compound annual growth rate of your investment.' },
   { id: 'xirr', name: 'XIRR Calculator', icon: '📅', desc: 'Calculate the exact returns for irregular cash flows.' },
   { id: 'income-tax', name: 'Income Tax Optimizer', icon: '🧾', desc: 'Compare old vs new tax regime and find the best tax-saving strategy.' },
-  { id: 'wealth-tracker', name: 'Wealth Tracker', icon: '📊', desc: 'Track assets, liabilities, and net worth over time with charts and projections.' },
+  { id: 'wealth-tracker', name: 'Wealth Tracker', icon: '💼', desc: 'Track assets, liabilities, and net worth over time with charts and projections.' },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {

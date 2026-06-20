@@ -34,7 +34,7 @@
     </div>
 
     <div class="calc-card" style="overflow-x:auto;">
-      <div id="trackerGrid" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:12px; min-width:700px;">
+      <div id="trackerGrid" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px;">
         <div class="category-col" data-cat="assets">
           <div class="cat-header" style="background:#eff6ff; color:#1d4ed8;">Assets</div>
           <div class="cat-items" id="cat-assets"></div>
@@ -55,24 +55,30 @@
           <div class="cat-items" id="cat-payables"></div>
           <button class="add-item-btn" data-cat="payables">+ Add Payable</button>
         </div>
-        <div class="category-col" style="background:#f8fafc; border-radius:8px; padding:12px;">
-          <div class="cat-header" style="background:#1e293b; color:white;">Net Worth</div>
-          <div style="text-align:center; padding:20px 8px;">
-            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Assets</div>
-            <div style="font-size:1.1rem; font-weight:700; color:#1d4ed8;" id="totalAssets">&#8377; 0</div>
-            <hr style="margin:8px 0;">
-            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Liabilities</div>
-            <div style="font-size:1.1rem; font-weight:700; color:#dc2626;" id="totalLiabilities">&#8377; 0</div>
-            <hr style="margin:8px 0;">
-            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Receivables</div>
-            <div style="font-size:1.1rem; font-weight:700; color:#16a34a;" id="totalReceivables">&#8377; 0</div>
-            <hr style="margin:8px 0;">
-            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Payables</div>
-            <div style="font-size:1.1rem; font-weight:700; color:#a16207;" id="totalPayables">&#8377; 0</div>
-            <hr style="margin:12px 0; border-width:2px;">
-            <div style="font-size:0.75rem; color:var(--text-secondary);">Net Worth</div>
-            <div style="font-size:1.5rem; font-weight:700;" id="netWorth">&#8377; 0</div>
-          </div>
+      </div>
+    </div>
+
+    <div class="calc-card" style="padding:16px;">
+      <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; text-align:center;">
+        <div>
+          <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;">Assets</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#1d4ed8;" id="totalAssets">&#8377; 0</div>
+        </div>
+        <div>
+          <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;">Liabilities</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#dc2626;" id="totalLiabilities">&#8377; 0</div>
+        </div>
+        <div>
+          <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;">Receivables</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#16a34a;" id="totalReceivables">&#8377; 0</div>
+        </div>
+        <div>
+          <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;">Payables</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#a16207;" id="totalPayables">&#8377; 0</div>
+        </div>
+        <div style="background:#1e293b; border-radius:8px; padding:8px 4px;">
+          <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px;">Net Worth</div>
+          <div style="font-size:1.3rem; font-weight:700; color:white;" id="netWorth">&#8377; 0</div>
         </div>
       </div>
     </div>
