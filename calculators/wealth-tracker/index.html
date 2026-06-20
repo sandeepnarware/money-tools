@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wealth Tracker - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Wealth Tracker</h1>
+      <p>Track your assets, liabilities, and net worth over time.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Wealth Tracker
+    </div>
+
+    <div class="calc-card">
+      <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <label for="monthPicker" style="font-weight:600; font-size:0.9rem;">Month:</label>
+          <input type="month" id="monthPicker" style="padding:8px 10px; font-size:0.9rem; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text); outline:none;">
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="saveBtn">Save Snapshot</button>
+          <button class="btn btn-secondary" id="deleteBtn">Delete Month</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-card" style="overflow-x:auto;">
+      <div id="trackerGrid" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:12px; min-width:700px;">
+        <div class="category-col" data-cat="assets">
+          <div class="cat-header" style="background:#eff6ff; color:#1d4ed8;">Assets</div>
+          <div class="cat-items" id="cat-assets"></div>
+          <button class="add-item-btn" data-cat="assets">+ Add Asset</button>
+        </div>
+        <div class="category-col" data-cat="liabilities">
+          <div class="cat-header" style="background:#fef2f2; color:#dc2626;">Liabilities</div>
+          <div class="cat-items" id="cat-liabilities"></div>
+          <button class="add-item-btn" data-cat="liabilities">+ Add Liability</button>
+        </div>
+        <div class="category-col" data-cat="receivables">
+          <div class="cat-header" style="background:#f0fdf4; color:#16a34a;">Receivables</div>
+          <div class="cat-items" id="cat-receivables"></div>
+          <button class="add-item-btn" data-cat="receivables">+ Add Receivable</button>
+        </div>
+        <div class="category-col" data-cat="payables">
+          <div class="cat-header" style="background:#fefce8; color:#a16207;">Payables</div>
+          <div class="cat-items" id="cat-payables"></div>
+          <button class="add-item-btn" data-cat="payables">+ Add Payable</button>
+        </div>
+        <div class="category-col" style="background:#f8fafc; border-radius:8px; padding:12px;">
+          <div class="cat-header" style="background:#1e293b; color:white;">Net Worth</div>
+          <div style="text-align:center; padding:20px 8px;">
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Assets</div>
+            <div style="font-size:1.1rem; font-weight:700; color:#1d4ed8;" id="totalAssets">&#8377; 0</div>
+            <hr style="margin:8px 0;">
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Liabilities</div>
+            <div style="font-size:1.1rem; font-weight:700; color:#dc2626;" id="totalLiabilities">&#8377; 0</div>
+            <hr style="margin:8px 0;">
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Receivables</div>
+            <div style="font-size:1.1rem; font-weight:700; color:#16a34a;" id="totalReceivables">&#8377; 0</div>
+            <hr style="margin:8px 0;">
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Total Payables</div>
+            <div style="font-size:1.1rem; font-weight:700; color:#a16207;" id="totalPayables">&#8377; 0</div>
+            <hr style="margin:12px 0; border-width:2px;">
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Net Worth</div>
+            <div style="font-size:1.5rem; font-weight:700;" id="netWorth">&#8377; 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+        <button class="btn btn-primary" id="btnDonut" style="flex:1; font-size:0.85rem;">Asset Allocation</button>
+        <button class="btn btn-secondary" id="btnGrowth" style="flex:1; font-size:0.85rem;">Growth Over Time</button>
+        <button class="btn btn-secondary" id="btnProjection" style="flex:1; font-size:0.85rem;">10-Year Projection</button>
+      </div>
+      <div class="chart-container-wide">
+        <canvas id="wealthChart"></canvas>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <h2>Monthly History</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th class="text-right">Assets</th>
+              <th class="text-right">Liabilities</th>
+              <th class="text-right">Receivables</th>
+              <th class="text-right">Payables</th>
+              <th class="text-right">Net Worth</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <h2>Data Management</h2>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn btn-secondary" id="exportJsonBtn">Export JSON</button>
+        <button class="btn btn-secondary" id="importJsonBtn">Import JSON</button>
+        <button class="btn btn-secondary" id="exportCsvBtn">Export CSV</button>
+        <input type="file" id="fileInput" accept=".json" style="display:none;">
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+      <p style="font-size:0.75rem; opacity:0.7; margin-top:4px;">Data is stored in your browser's local storage.</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>
