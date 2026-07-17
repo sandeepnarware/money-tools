@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIRE Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>FIRE Calculator</h1>
+      <p>Calculate when you can achieve financial independence &amp; retire early.</p>
+    </div>
+  </header>
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; FIRE Calculator
+    </div>
+    <div class="calc-card">
+      <h2>Your Financial Profile</h2>
+      <form id="fireForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentAge">Current Age</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentAge" placeholder="e.g. 30" required min="18" max="70" step="1" value="30">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentSavingsFire">Current Savings/Investments</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentSavingsFire" placeholder="e.g. 1000000" required min="0" step="100000" value="1000000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthlySavings">Monthly Savings</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlySavings" placeholder="e.g. 50000" required min="1" step="5000" value="50000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="monthlyExpenses">Current Monthly Expenses</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlyExpenses" placeholder="e.g. 40000" required min="1" step="5000" value="40000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="returnRate">Expected Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="returnRate" placeholder="e.g. 10" required min="0" step="0.1" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="withdrawalRate">Withdrawal Rate in Retirement</label>
+            <div class="input-wrapper">
+              <input type="number" id="withdrawalRate" placeholder="e.g. 4" required min="0" step="0.25" value="4">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inflationRate">Expected Inflation Rate (p.a.)</label>
+          <div class="input-wrapper">
+            <input type="number" id="inflationRate" placeholder="e.g. 6" required min="0" step="0.1" value="6">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>FIRE Summary</h2>
+      <div class="results-grid" id="resultGrid">
+        <div class="result-item">
+          <div class="label">FIRE Corpus Needed</div>
+          <div class="value" id="resultFireCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Current Savings</div>
+          <div class="value" id="resultCurrentSavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly Savings</div>
+          <div class="value" id="resultMonthlySavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label primary">Years to FI</div>
+          <div class="value primary" id="resultYearsToFI">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label success">FIRE Age</div>
+          <div class="value success" id="resultFireAge">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Corpus at Retirement</div>
+          <div class="value" id="resultCorpusAtRetirement">&#8377; 0</div>
+        </div>
+      </div>
+      <div class="chart-container chart-container-wide">
+        <canvas id="fireChart" width="500" height="300"></canvas>
+      </div>
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Projection</h2>
+      <div class="table-wrapper">
+        <table id="projectionTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Age</th>
+              <th class="text-right">Start Balance</th>
+              <th class="text-right">Annual Savings</th>
+              <th class="text-right">Returns</th>
+              <th class="text-right">End Balance</th>
+            </tr>
+          </thead>
+          <tbody id="projectionBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

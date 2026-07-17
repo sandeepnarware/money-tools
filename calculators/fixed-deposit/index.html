@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixed Deposit Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Fixed Deposit Calculator</h1>
+      <p>Estimate FD maturity amount and interest earnings.</p>
+    </div>
+  </header>
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Fixed Deposit Calculator
+    </div>
+    <div class="calc-card">
+      <h2>Deposit Details</h2>
+      <form id="fdForm">
+        <div class="form-group">
+          <label for="depositAmount">Deposit Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="depositAmount" placeholder="e.g. 100000" required min="1" step="5000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="interestRate">Interest Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="interestRate" placeholder="e.g. 7" required min="0" step="0.1" value="7">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tenure">Tenure (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="tenure" placeholder="e.g. 3" required min="1" max="30" step="1" value="3">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="compounding">Compounding Frequency</label>
+            <div class="input-wrapper">
+              <select id="compounding" required>
+                <option value="monthly" selected>Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="justify-content: flex-end;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="seniorCitizen">
+              Senior Citizen (+0.5%)
+            </label>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Maturity Summary</h2>
+      <div class="results-grid results-grid-wide" id="resultGrid">
+        <div class="result-item">
+          <div class="label">Total Investment</div>
+          <div class="value" id="resultInvested">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Interest Earned</div>
+          <div class="value success" id="resultInterest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Maturity Amount</div>
+          <div class="value primary" id="resultMaturity">&#8377; 0</div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="fdChart" width="300" height="300"></canvas>
+      </div>
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Principal</th>
+              <th class="text-right">Interest</th>
+              <th class="text-right">Maturity Amount</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

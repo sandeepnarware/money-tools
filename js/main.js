@@ -11,6 +11,20 @@ const tools = [
   { id: 'xirr', name: 'XIRR Calculator', icon: '📅', desc: 'Calculate the exact returns for irregular cash flows.' },
   { id: 'income-tax', name: 'Income Tax Optimizer', icon: '🧾', desc: 'Compare old vs new tax regime and find the best tax-saving strategy.' },
   { id: 'wealth-tracker', name: 'Wealth Tracker', icon: '💼', desc: 'Track assets, liabilities, and net worth over time with charts and projections.' },
+  { id: 'step-up-sip', name: 'Step-Up SIP Calculator', icon: '🚀', desc: 'See how annually increasing your SIP contribution can boost your corpus.' },
+  { id: 'lumpsum', name: 'Lumpsum Calculator', icon: '💎', desc: 'Calculate the future value of a one-time investment.' },
+  { id: 'fixed-deposit', name: 'Fixed Deposit Calculator', icon: '🏛️', desc: 'Estimate FD maturity amount and interest earnings.' },
+  { id: 'ppf', name: 'PPF Calculator', icon: '🛡️', desc: 'Plan your Public Provident Fund investments and maturity.' },
+  { id: 'home-loan-prepayment', name: 'Home Loan Prepayment Calculator', icon: '🏠', desc: 'See how much interest you save by prepaying your home loan.' },
+  { id: 'hra', name: 'HRA Calculator', icon: '🏢', desc: 'Calculate your HRA exemption for tax savings.' },
+  { id: 'emergency-fund', name: 'Emergency Fund Calculator', icon: '🆘', desc: 'Find out how much you need for a rainy day fund.' },
+  { id: 'fire', name: 'FIRE Calculator', icon: '🔥', desc: 'Calculate when you can achieve financial independence & retire early.' },
+  { id: 'nps', name: 'NPS Calculator', icon: '🏦', desc: 'Estimate your NPS corpus and monthly pension at retirement.' },
+  { id: 'capital-gains-tax', name: 'Capital Gains Tax Calculator', icon: '📊', desc: 'Calculate tax on capital gains from equity, debt & property.' },
+  { id: 'expense-ratio-impact', name: 'Expense Ratio Impact Calculator', icon: '📉', desc: 'See how expense ratios eat into your mutual fund returns.' },
+  { id: 'financial-health-score', name: 'Financial Health Score', icon: '❤️', desc: 'Get a score out of 100 with actionable tips to improve your finances.' },
+  { id: 'sip-vs-fd', name: 'SIP vs FD', icon: '⚔️', desc: 'Compare returns from SIP investing vs fixed deposits.' },
+  { id: 'child-education-planner', name: 'Child Education Planner', icon: '🎓', desc: 'Plan for your child\'s future education costs.' },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {

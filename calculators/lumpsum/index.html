@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumpsum Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Lumpsum Calculator</h1>
+      <p>Calculate the future value of a one-time investment.</p>
+    </div>
+  </header>
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Lumpsum Calculator
+    </div>
+    <div class="calc-card">
+      <h2>Investment Details</h2>
+      <form id="lumpsumForm">
+        <div class="form-group">
+          <label for="investmentAmount">Investment Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="investmentAmount" placeholder="e.g. 100000" required min="1" step="10000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expectedReturn">Expected Return Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="expectedReturn" placeholder="e.g. 12" required min="0" step="0.1" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="investmentPeriod">Investment Period (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="investmentPeriod" placeholder="e.g. 5" required min="1" max="50" step="1" value="5">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Investment Summary</h2>
+      <div class="results-grid results-grid-wide" id="resultGrid">
+        <div class="result-item">
+          <div class="label">Total Investment</div>
+          <div class="value" id="resultInvested">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Estimated Returns</div>
+          <div class="value success" id="resultReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Value</div>
+          <div class="value primary" id="resultTotal">&#8377; 0</div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="lumpsumChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('prepaymentForm');
+  const resultsSection = document.getElementById('resultsSection');
+
+  const resultOriginalEmi = document.getElementById('resultOriginalEmi');
+  const resultOrigInterest = document.getElementById('resultOrigInterest');
+  const resultOrigPayment = document.getElementById('resultOrigPayment');
+  const resultNewInterest = document.getElementById('resultNewInterest');
+  const resultInterestSaved = document.getElementById('resultInterestSaved');
+  const resultTenureReduction = document.getElementById('resultTenureReduction');
+  const chartCanvas = document.getElementById('prepaymentChart');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+
+  form.addEventListener('reset', () => {
+    resultsSection.style.display = 'none';
+  });
+
+  function calculate() {
+    const P = parseFloat(document.getElementById('loanAmount').value);
+    const annualRate = parseFloat(document.getElementById('interestRate').value);
+    const tenureYears = parseFloat(document.getElementById('loanTenure').value);
+    const prepayAmount = parseFloat(document.getElementById('prepayAmount').value);
+    const prepayAfter = parseFloat(document.getElementById('prepayAfter').value);
+    const prepayFreq = document.getElementById('prepayFreq').value;
+
+    if (!P || !annualRate || !tenureYears || !prepayAmount || P <= 0 || annualRate <= 0 || tenureYears <= 0 || prepayAmount <= 0) {
+      alert('Please enter valid positive values.');
+      return;
+    }
+
+    const r = annualRate / 12 / 100;
+    const n = tenureYears * 12;
+
+    const emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    const totalPaymentOriginal = emi * n;
+    const totalInterestOriginal = totalPaymentOriginal - P;
+
+    let newTotalInterest, newTotalPayment, tenureReductionMonths;
+
+    if (prepayFreq === 'One Time') {
+      const prepayMonths = Math.min(Math.round(prepayAfter * 12), n - 1);
+      const remainingBalance = P * (Math.pow(1 + r, n) - Math.pow(1 + r, prepayMonths)) / (Math.pow(1 + r, n) - 1);
+      const newBalance = Math.max(0, remainingBalance - prepayAmount);
+
+      if (newBalance <= 0) {
+        newTotalPayment = emi * prepayMonths + prepayAmount;
+        newTotalInterest = newTotalPayment - P;
+        tenureReductionMonths = n - prepayMonths;
+      } else {
+        const newTenureMonths = Math.ceil(Math.log(1 - newBalance * r / emi) / Math.log(1 + r) + 0.0001);
+        newTotalPayment = emi * prepayMonths + emi * newTenureMonths;
+        newTotalInterest = newTotalPayment - P;
+        tenureReductionMonths = n - prepayMonths - newTenureMonths;
+      }
+    } else {
+      const newEmi = emi + prepayAmount;
+      const newTenureMonths = Math.ceil(Math.log(1 - P * r / newEmi) / Math.log(1 + r) + 0.0001);
+      newTotalPayment = newEmi * newTenureMonths;
+      newTotalInterest = newTotalPayment - P;
+      tenureReductionMonths = n - newTenureMonths;
+    }
+
+    const interestSaved = Math.max(0, totalInterestOriginal - newTotalInterest);
+    const absReduction = Math.abs(tenureReductionMonths);
+    const tenureYearsRed = Math.floor(absReduction / 12);
+    const tenureMonthsRed = Math.round(absReduction % 12);
+    const tenureText = tenureReductionMonths >= 0
+      ? tenureYearsRed + ' Yrs ' + tenureMonthsRed + ' Mo'
+      : '0 Yrs 0 Mo';
+
+    resultOriginalEmi.textContent = '\u20B9 ' + formatNumber(Math.round(emi));
+    resultOrigInterest.textContent = '\u20B9 ' + formatNumber(Math.round(totalInterestOriginal));
+    resultOrigPayment.textContent = '\u20B9 ' + formatNumber(Math.round(totalPaymentOriginal));
+    resultNewInterest.textContent = '\u20B9 ' + formatNumber(Math.round(newTotalInterest));
+    resultInterestSaved.textContent = '\u20B9 ' + formatNumber(Math.round(interestSaved));
+    resultTenureReduction.textContent = tenureText;
+
+    drawChart(interestSaved, newTotalInterest);
+    resultsSection.style.display = 'block';
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function drawChart(interestSaved, interestPaid) {
+    const ctx = chartCanvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const containerWidth = chartCanvas.parentElement.clientWidth || 300;
+    const displaySize = Math.min(300, containerWidth);
+    chartCanvas.width = displaySize * dpr;
+    chartCanvas.height = displaySize * dpr;
+    chartCanvas.style.width = displaySize + 'px';
+    chartCanvas.style.height = displaySize + 'px';
+    ctx.scale(dpr, dpr);
+
+    const cx = displaySize / 2;
+    const cy = displaySize / 2;
+    const radius = displaySize / 2 - 20;
+    const total = interestSaved + interestPaid;
+
+    ctx.clearRect(0, 0, displaySize, displaySize);
+
+    if (total === 0) return;
+
+    const savedAngle = (interestSaved / total) * Math.PI * 2;
+    const paidAngle = (interestPaid / total) * Math.PI * 2;
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + savedAngle);
+    ctx.closePath();
+    ctx.fillStyle = '#16a34a';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, radius, -Math.PI / 2 + savedAngle, -Math.PI / 2 + savedAngle + paidAngle);
+    ctx.closePath();
+    ctx.fillStyle = '#2563eb';
+    ctx.fill();
+
+    const legendY = displaySize - 6;
+    ctx.fillStyle = '#16a34a';
+    ctx.fillRect(10, legendY - 10, 12, 12);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '12px -apple-system, sans-serif';
+    ctx.fillText('Interest Saved', 26, legendY + 2);
+
+    ctx.fillStyle = '#2563eb';
+    ctx.fillRect(140, legendY - 10, 12, 12);
+    ctx.fillStyle = '#1e293b';
+    ctx.fillText('Interest Paid', 156, legendY + 2);
+  }
+
+  function formatNumber(num) {
+    return num.toLocaleString('en-IN');
+  }
+
+  calculate();
+});

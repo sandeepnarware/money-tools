@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIP vs FD - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>SIP vs FD Calculator</h1>
+      <p>Compare returns from SIP investing vs fixed deposits.</p>
+    </div>
+  </header>
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; SIP vs FD
+    </div>
+    <div class="calc-card">
+      <h2>Comparison Details</h2>
+      <form id="sipVsFdForm">
+        <div class="form-group">
+          <label for="sipAmount">Monthly SIP Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="sipAmount" required min="1" step="1000" value="10000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sipPeriod">Investment Period (Years)</label>
+          <div class="input-wrapper">
+            <input type="number" id="sipPeriod" required min="1" max="50" step="1" value="15">
+            <span class="suffix">Yrs</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sipReturn">SIP Expected Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="sipReturn" required min="0" step="0.1" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fdRate">FD Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="fdRate" required min="0" step="0.1" value="7">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;">For a fair comparison, FD principal equals total SIP investment (SIP &times; months).</p>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Comparison Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Investment</div>
+          <div class="value" id="resultTotalInvest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">SIP Corpus</div>
+          <div class="value primary" id="resultSipCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">FD Maturity</div>
+          <div class="value primary" id="resultFdMaturity">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">SIP Returns</div>
+          <div class="value success" id="resultSipReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">FD Returns</div>
+          <div class="value" id="resultFdReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Difference (SIP - FD)</div>
+          <div class="value" id="resultDifference">&#8377; 0</div>
+        </div>
+        <div class="result-item" style="grid-column: 1 / -1;">
+          <div class="label">Winner</div>
+          <div class="value" id="resultWinner" style="font-size:1.5rem;">-</div>
+        </div>
+      </div>
+      <div class="chart-container-wide">
+        <canvas id="sipVsFdChart" width="500" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

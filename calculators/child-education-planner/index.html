@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child Education Planner - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Child Education Planner</h1>
+      <p>Plan for your child's future education costs.</p>
+    </div>
+  </header>
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Child Education Planner
+    </div>
+    <div class="calc-card">
+      <h2>Education Details</h2>
+      <form id="eduForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="childAge">Child's Current Age</label>
+            <div class="input-wrapper">
+              <input type="number" id="childAge" required min="0" max="20" step="1" value="5">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="collegeAge">College Starting Age</label>
+            <div class="input-wrapper">
+              <input type="number" id="collegeAge" required min="15" max="25" step="1" value="18">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="currentCost">Current Annual Cost of Education</label>
+          <div class="input-wrapper">
+            <input type="number" id="currentCost" required min="1" step="50000" value="500000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eduInflation">Education Inflation Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="eduInflation" required min="0" step="0.5" value="8">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="expectedReturn">Expected Return Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="expectedReturn" required min="0" step="0.5" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="amountSaved">Amount Already Saved</label>
+          <div class="input-wrapper">
+            <input type="number" id="amountSaved" required min="0" step="50000" value="0">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Education Plan</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Years to College</div>
+          <div class="value" id="resultYearsToCollege">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Future Annual Cost</div>
+          <div class="value primary" id="resultFutureCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Cost (4 Years)</div>
+          <div class="value primary" id="resultTotalCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Amount Already Saved</div>
+          <div class="value" id="resultSaved">&#8377; 0</div>
+        </div>
+        <div class="result-item" style="grid-column: 1 / -1;">
+          <div class="label">Monthly SIP Needed</div>
+          <div class="value success" id="resultMonthlySip" style="font-size:1.5rem;">&#8377; 0</div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="eduChart" width="300" height="300"></canvas>
+      </div>
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Projection</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Age</th>
+              <th class="text-right">Annual Savings (SIP)</th>
+              <th class="text-right">Investment Growth</th>
+              <th class="text-right">Total Corpus</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
