@@ -12,7 +12,7 @@
   <header class="site-header">
     <div class="container">
       <h1>Portfolio Allocation Calculator</h1>
-      <p>Analyze your asset allocation across equity, debt, gold, real estate, and cash.</p>
+      <p>See if your portfolio matches the ideal allocation for your age.</p>
     </div>
   </header>
 
@@ -22,10 +22,20 @@
     </div>
 
     <div class="calc-card">
-      <h2>Asset Allocation</h2>
+      <h2>Your Profile & Portfolio</h2>
       <form id="portAllocForm">
         <div class="form-group">
-          <label for="allocEquity">Equity</label>
+          <label for="userAge">Your Age</label>
+          <div class="input-wrapper">
+            <input type="number" id="userAge" placeholder="e.g. 30" required min="18" max="80" step="1" value="30">
+            <span class="suffix">Yrs</span>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-top:20px; margin-bottom:12px; color:var(--primary);">Current Portfolio (Amount in &#8377;)</h3>
+
+        <div class="form-group">
+          <label for="allocEquity">Equity (Stocks, Mutual Funds, ETFs)</label>
           <div class="input-wrapper">
             <input type="number" id="allocEquity" placeholder="e.g. 500000" required min="0" step="50000" value="500000">
             <span class="suffix">&#8377;</span>
@@ -33,7 +43,7 @@
         </div>
 
         <div class="form-group">
-          <label for="allocDebt">Debt</label>
+          <label for="allocDebt">Debt (Bonds, FD, PPF, EPF, Debt Funds)</label>
           <div class="input-wrapper">
             <input type="number" id="allocDebt" placeholder="e.g. 300000" required min="0" step="50000" value="300000">
             <span class="suffix">&#8377;</span>
@@ -41,7 +51,7 @@
         </div>
 
         <div class="form-group">
-          <label for="allocGold">Gold</label>
+          <label for="allocGold">Gold (SGB, Gold ETF, Physical Gold)</label>
           <div class="input-wrapper">
             <input type="number" id="allocGold" placeholder="e.g. 100000" required min="0" step="10000" value="100000">
             <span class="suffix">&#8377;</span>
@@ -57,51 +67,10 @@
         </div>
 
         <div class="form-group">
-          <label for="allocCash">Cash</label>
+          <label for="allocCash">Cash (Savings Account, FD less than 1yr)</label>
           <div class="input-wrapper">
             <input type="number" id="allocCash" placeholder="e.g. 100000" required min="0" step="10000" value="100000">
             <span class="suffix">&#8377;</span>
-          </div>
-        </div>
-
-        <h3 style="font-size:0.95rem; margin-top:20px; margin-bottom:12px; color:var(--primary);">Target Allocation (%)</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="targetEquity">Equity Target</label>
-            <div class="input-wrapper">
-              <input type="number" id="targetEquity" min="0" max="100" step="5" value="50">
-              <span class="suffix">%</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="targetDebt">Debt Target</label>
-            <div class="input-wrapper">
-              <input type="number" id="targetDebt" min="0" max="100" step="5" value="20">
-              <span class="suffix">%</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="targetGold">Gold Target</label>
-            <div class="input-wrapper">
-              <input type="number" id="targetGold" min="0" max="100" step="5" value="10">
-              <span class="suffix">%</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="targetRealEstate">Real Estate Target</label>
-            <div class="input-wrapper">
-              <input type="number" id="targetRealEstate" min="0" max="100" step="5" value="15">
-              <span class="suffix">%</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="targetCash">Cash Target</label>
-          <div class="input-wrapper">
-            <input type="number" id="targetCash" min="0" max="100" step="5" value="5">
-            <span class="suffix">%</span>
           </div>
         </div>
 
@@ -145,21 +114,23 @@
         <canvas id="portAllocChart" width="400" height="400"></canvas>
       </div>
 
-      <h2 style="font-size:1rem; margin-bottom:12px;">Asset Allocation Table</h2>
+      <h2 style="font-size:1rem; margin-bottom:12px;">Your Allocation vs Ideal (Based on Age <span id="idealAgeLabel">30</span>)</h2>
       <div class="table-wrapper">
         <table id="allocTable">
           <thead>
             <tr>
               <th>Asset</th>
               <th class="text-right">Amount</th>
-              <th class="text-right">Allocation %</th>
-              <th class="text-right">Target %</th>
-              <th class="text-right">Status</th>
+              <th class="text-right">Your %</th>
+              <th class="text-right">Ideal %</th>
+              <th class="text-right">Action</th>
             </tr>
           </thead>
           <tbody id="allocBody"></tbody>
         </table>
       </div>
+
+      <div id="allocAdvice" style="margin-top:16px; padding:16px; background:#f0f9ff; border-radius:8px; font-size:0.9rem;"></div>
     </div>
   </main>
 
