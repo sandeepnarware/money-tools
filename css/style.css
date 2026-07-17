@@ -6,6 +6,11 @@
   padding: 0;
 }
 
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
 :root {
   --bg: #f5f7fa;
   --surface: #ffffff;
@@ -278,6 +283,7 @@ input:focus {
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--text);
+  word-break: break-word;
 }
 
 .result-item .value.primary {
@@ -295,12 +301,22 @@ input:focus {
 /* Chart container */
 .chart-container {
   max-width: 320px;
+  width: 100%;
   margin: 0 auto 24px;
+  overflow: hidden;
 }
 
 .chart-container-wide {
   max-width: 500px;
+  width: 100%;
   margin: 0 auto 24px;
+  overflow: hidden;
+}
+
+.chart-container canvas,
+.chart-container-wide canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Amortization table */
