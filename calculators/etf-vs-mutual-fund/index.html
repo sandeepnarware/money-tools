@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETF vs Mutual Fund Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>ETF vs Mutual Fund Calculator</h1>
+      <p>Compare ETF and mutual fund returns after expense ratios and brokerage.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; ETF vs Mutual Fund
+    </div>
+
+    <div class="calc-card">
+      <h2>Investment Details</h2>
+      <form id="etfvsMfForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="etfAmount">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="etfAmount" placeholder="e.g. 100000" required min="1" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mfExpense">MF Expense Ratio</label>
+            <div class="input-wrapper">
+              <input type="number" id="mfExpense" placeholder="e.g. 1.0" required min="0" step="0.1" value="1.0">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="etfExpense">ETF Expense Ratio</label>
+            <div class="input-wrapper">
+              <input type="number" id="etfExpense" placeholder="e.g. 0.2" required min="0" step="0.05" value="0.2">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="marketReturn">Market Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="marketReturn" placeholder="e.g. 12" required min="0" step="0.5" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="etfPeriod">Period (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="etfPeriod" placeholder="e.g. 10" required min="1" max="50" step="1" value="10">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="etfBrokerage">Brokerage per ETF Trade</label>
+            <div class="input-wrapper">
+              <input type="number" id="etfBrokerage" placeholder="e.g. 20" required min="0" step="10" value="20">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Comparison Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">MF Final Value</div>
+          <div class="value primary" id="resultMfFinal">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">ETF Final Value</div>
+          <div class="value primary" id="resultEtfFinal">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Difference</div>
+          <div class="value" id="resultEtfDiff">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">MF Total Cost</div>
+          <div class="value" id="resultMfCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">ETF Total Cost</div>
+          <div class="value" id="resultEtfCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Better Option</div>
+          <div class="value" id="resultBetterEtf">-</div>
+        </div>
+      </div>
+
+      <div class="chart-container chart-container-wide">
+        <canvas id="etfvsMfChart" width="500" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

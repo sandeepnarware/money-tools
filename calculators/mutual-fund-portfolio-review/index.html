@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutual Fund Portfolio Review - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Mutual Fund Portfolio Review</h1>
+      <p>Review your mutual fund portfolio performance at a glance.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Mutual Fund Portfolio Review
+    </div>
+
+    <div class="calc-card">
+      <h2>Fund Details</h2>
+      <form id="mfReviewForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fundName1">Fund 1 Name</label>
+            <input type="text" id="fundName1" value="Fund A">
+          </div>
+          <div class="form-group">
+            <label for="fundInvested1">Invested</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundInvested1" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fundCurrent1">Current Value</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundCurrent1" required min="0" step="10000" value="120000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fundName2">Fund 2 Name</label>
+            <input type="text" id="fundName2" value="Fund B">
+          </div>
+          <div class="form-group">
+            <label for="fundInvested2">Invested</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundInvested2" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fundCurrent2">Current Value</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundCurrent2" required min="0" step="10000" value="95000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fundName3">Fund 3 Name</label>
+            <input type="text" id="fundName3" value="Fund C">
+          </div>
+          <div class="form-group">
+            <label for="fundInvested3">Invested</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundInvested3" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fundCurrent3">Current Value</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundCurrent3" required min="0" step="10000" value="110000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fundName4">Fund 4 Name</label>
+            <input type="text" id="fundName4" value="Fund D">
+          </div>
+          <div class="form-group">
+            <label for="fundInvested4">Invested</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundInvested4" required min="0" step="5000" value="50000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fundCurrent4">Current Value</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundCurrent4" required min="0" step="5000" value="60000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fundName5">Fund 5 Name</label>
+            <input type="text" id="fundName5" value="Fund E">
+          </div>
+          <div class="form-group">
+            <label for="fundInvested5">Invested</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundInvested5" required min="0" step="5000" value="50000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fundCurrent5">Current Value</label>
+            <div class="input-wrapper">
+              <input type="number" id="fundCurrent5" required min="0" step="5000" value="45000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Portfolio Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Invested</div>
+          <div class="value" id="resultTotalInvested">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Current Value</div>
+          <div class="value" id="resultTotalCurrent">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Gain / Loss</div>
+          <div class="value primary" id="resultGainLoss">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Overall Return</div>
+          <div class="value success" id="resultOverallReturn">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Best Performer</div>
+          <div class="value success" id="resultBestPerformer">-</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Worst Performer</div>
+          <div class="value danger" id="resultWorstPerformer">-</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="mfReviewChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Fund-wise Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="mfTable">
+          <thead>
+            <tr>
+              <th>Fund</th>
+              <th class="text-right">Invested</th>
+              <th class="text-right">Current</th>
+              <th class="text-right">Return %</th>
+              <th class="text-right">Gain / Loss</th>
+            </tr>
+          </thead>
+          <tbody id="mfBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

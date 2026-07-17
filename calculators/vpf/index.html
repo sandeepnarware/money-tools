@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPF Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>VPF Calculator</h1>
+      <p>Estimate the growth of your Voluntary Provident Fund contributions.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; VPF Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>VPF Details</h2>
+      <form id="vpfForm">
+        <div class="form-group">
+          <label for="basicDa">Basic + DA (Monthly)</label>
+          <div class="input-wrapper">
+            <input type="number" id="basicDa" placeholder="e.g. 50000" required min="1" step="5000" value="50000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vpfPercent">VPF Contribution (%)</label>
+            <div class="input-wrapper">
+              <input type="number" id="vpfPercent" placeholder="e.g. 100" required min="1" max="100" step="1" value="100">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="epfRate">EPF Interest Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="epfRate" placeholder="e.g. 8.15" required min="0" step="0.1" value="8.15">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentVpfBalance">Current VPF Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentVpfBalance" placeholder="e.g. 0" required min="0" step="10000" value="0">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="yearsToRetire">Years to Retirement</label>
+            <div class="input-wrapper">
+              <input type="number" id="yearsToRetire" placeholder="e.g. 20" required min="1" max="40" step="1" value="20">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>VPF Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Monthly VPF Contribution</div>
+          <div class="value" id="resultMonthlyVpf">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total VPF Contribution</div>
+          <div class="value" id="resultTotalVpf">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Interest Earned</div>
+          <div class="value success" id="resultInterestEarned">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total VPF Corpus</div>
+          <div class="value primary" id="resultTotalCorpus">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="vpfChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Opening</th>
+              <th class="text-right">Contribution</th>
+              <th class="text-right">Interest</th>
+              <th class="text-right">Closing</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risk/Reward Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Risk/Reward Calculator</h1>
+      <p>Calculate risk-reward ratio for your trades.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Risk/Reward Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Trade Details</h2>
+      <form id="riskRewardForm">
+        <div class="form-group">
+          <label for="entryPrice">Entry Price</label>
+          <div class="input-wrapper">
+            <input type="number" id="entryPrice" placeholder="e.g. 100" required min="0" step="5" value="100">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stopLoss">Stop Loss</label>
+          <div class="input-wrapper">
+            <input type="number" id="stopLoss" placeholder="e.g. 90" required min="0" step="5" value="90">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="targetPrice">Target Price</label>
+          <div class="input-wrapper">
+            <input type="number" id="targetPrice" placeholder="e.g. 130" required min="0" step="5" value="130">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="riskQty">Quantity</label>
+          <div class="input-wrapper">
+            <input type="number" id="riskQty" placeholder="e.g. 100" required min="1" step="10" value="100">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Risk/Reward Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Risk Per Share</div>
+          <div class="value danger" id="resultRiskShare">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Reward Per Share</div>
+          <div class="value success" id="resultRewardShare">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Risk-Reward Ratio</div>
+          <div class="value primary" id="resultRatio">1:0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Risk Amount</div>
+          <div class="value danger" id="resultTotalRisk">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Reward Amount</div>
+          <div class="value success" id="resultTotalReward">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="riskRewardChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit Score Improvement Planner - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Credit Score Improvement Planner</h1>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Credit Score Improvement Planner
+    </div>
+
+    <div class="calc-card">
+      <h2>Input Details</h2>
+      <form id="creditScoreForm">
+                <div class="form-group">
+          <label for="currentScore">Current Credit Score</label>
+          <div class="input-wrapper">
+            <input type="number" id="currentScore" placeholder="e.g. 680" required min="300" step="1" value="680" max="900">
+            
+          </div>
+        </div>        <div class="form-group">
+          <label for="targetScore">Target Score</label>
+          <div class="input-wrapper">
+            <input type="number" id="targetScore" placeholder="e.g. 750" required min="300" step="1" value="750" max="900">
+            
+          </div>
+        </div>        <div class="form-group">
+          <label for="creditCardDebt">Total Credit Card Debt</label>
+          <div class="input-wrapper">
+            <input type="number" id="creditCardDebt" placeholder="e.g. 50000" required min="0" step="10000" value="50000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="creditUtil">Credit Utilization %</label>
+          <div class="input-wrapper">
+            <input type="number" id="creditUtil" placeholder="e.g. 60" required min="0" step="5" value="60" max="100">
+            <span class="suffix">%</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="latePayments">Late Payments in Last 12 Months</label>
+          <div class="input-wrapper">
+            <input type="number" id="latePayments" placeholder="e.g. 2" required min="0" step="1" value="2" max="12">
+            
+          </div>
+        </div>        <div class="form-group">
+          <label for="numAccounts">Number of Credit Accounts</label>
+          <div class="input-wrapper">
+            <input type="number" id="numAccounts" placeholder="e.g. 5" required min="1" step="1" value="5" max="30">
+            
+          </div>
+        </div>        <div class="form-group">
+          <label for="avgAccountAge">Average Account Age (years)</label>
+          <div class="input-wrapper">
+            <input type="number" id="avgAccountAge" placeholder="e.g. 3" required min="0" step="1" value="3">
+            <span class="suffix">Yrs</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Results</h2>
+      <div class="results-grid">
+                <div class="result-item">
+          <div class="label">Current Score</div>
+          <div class="value " id="resultCurrentScore">0</div>
+        </div>        <div class="result-item">
+          <div class="label">Required Improvement</div>
+          <div class="value " id="resultImprovement">0</div>
+        </div>        <div class="result-item">
+          <div class="label">Score Potential (12 months)</div>
+          <div class="value " id="resultPotential">0</div>
+        </div>        <div class="result-item">
+          <div class="label">Estimated Time to Target</div>
+          <div class="value " id="resultTime">0</div>
+        </div>        <div class="result-item">
+          <div class="label">Key Actions</div>
+          <div class="value " id="resultActions">0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="creditScoreChart" width="300" height="300"></canvas>
+      </div>
+      
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

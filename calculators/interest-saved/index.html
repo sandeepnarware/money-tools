@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interest Saved Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Interest Saved Calculator</h1>
+      <p>See how extra payments reduce your loan interest and tenure.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Interest Saved Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Loan Details</h2>
+      <form id="interestSavedForm">
+        <div class="form-group">
+          <label for="loanAmount">Loan Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="loanAmount" required min="1" step="100000" value="1000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="interestRate">Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="interestRate" required min="0" step="0.5" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="originalTenure">Original Tenure</label>
+            <div class="input-wrapper">
+              <input type="number" id="originalTenure" required min="1" max="40" step="1" value="20">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="extraPayment">Extra Monthly Payment</label>
+          <div class="input-wrapper">
+            <input type="number" id="extraPayment" required min="0" step="1000" value="5000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Comparison</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Original EMI</div>
+          <div class="value" id="resultOrigEMI">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Original Total Interest</div>
+          <div class="value" id="resultOrigInterest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">New Tenure</div>
+          <div class="value" id="resultNewTenure">0 Yrs 0 Mths</div>
+        </div>
+        <div class="result-item">
+          <div class="label">New Total Interest</div>
+          <div class="value" id="resultNewInterest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Interest Saved</div>
+          <div class="value success" id="resultSaved">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="interestSavedChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

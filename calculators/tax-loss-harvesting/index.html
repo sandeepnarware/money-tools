@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tax Loss Harvesting Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Tax Loss Harvesting Calculator</h1>
+      <p>See how tax loss harvesting can reduce your capital gains tax.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Tax Loss Harvesting Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Gains &amp; Losses</h2>
+      <form id="tlhForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="realizedGains">Total Realized Gains</label>
+            <div class="input-wrapper">
+              <input type="number" id="realizedGains" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="realizedLosses">Total Realized Losses</label>
+            <div class="input-wrapper">
+              <input type="number" id="realizedLosses" required min="0" step="5000" value="30000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="unrealizedLosses">Unrealized Losses Available</label>
+            <div class="input-wrapper">
+              <input type="number" id="unrealizedLosses" required min="0" step="5000" value="20000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="taxBracket">Tax Bracket</label>
+            <div class="input-wrapper">
+              <input type="number" id="taxBracket" required min="0" max="100" step="5" value="30">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Harvesting Analysis</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Current Taxable Gain</div>
+          <div class="value" id="resultCurrentGain">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tax Without Harvesting</div>
+          <div class="value" id="resultTaxWithout">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">After Harvesting Gain</div>
+          <div class="value" id="resultAfterGain">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tax With Harvesting</div>
+          <div class="value" id="resultTaxWith">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tax Saved</div>
+          <div class="value primary" id="resultTaxSaved">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="tlhChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCSS Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>SCSS Calculator</h1>
+      <p>Calculate returns on your Senior Citizen Savings Scheme investment.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; SCSS Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Scheme Details</h2>
+      <form id="scssForm">
+        <div class="form-group">
+          <label for="depositAmount">Deposit Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="depositAmount" placeholder="e.g. 500000" required min="1" max="3000000" step="50000" value="500000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="scssRate">SCSS Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="scssRate" placeholder="e.g. 8.2" required min="0" step="0.1" value="8.2">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="accountYear">Account Open Year</label>
+            <div class="input-wrapper">
+              <select id="accountYear">
+                <option value="2024">2024</option>
+                <option value="2025" selected>2025</option>
+                <option value="2026">2026</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="seniorAge">Senior Citizen Age</label>
+          <div class="input-wrapper">
+            <input type="number" id="seniorAge" placeholder="e.g. 65" required min="60" step="1" value="65">
+            <span class="suffix">Yrs</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>SCSS Summary</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Total Deposit</div>
+          <div class="value" id="resultTotalDeposit">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Quarterly Interest Payout</div>
+          <div class="value" id="resultQuarterlyPayout">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Annual Interest Income</div>
+          <div class="value success" id="resultAnnualIncome">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Interest Over 5 Years</div>
+          <div class="value" id="resultTotalInterest">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Maturity Amount</div>
+          <div class="value primary" id="resultMaturityAmount">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="scssChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

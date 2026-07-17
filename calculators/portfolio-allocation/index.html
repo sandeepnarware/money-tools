@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Allocation Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Portfolio Allocation Calculator</h1>
+      <p>Analyze your asset allocation across equity, debt, gold, real estate, and cash.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Portfolio Allocation Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Asset Allocation</h2>
+      <form id="portAllocForm">
+        <div class="form-group">
+          <label for="allocEquity">Equity</label>
+          <div class="input-wrapper">
+            <input type="number" id="allocEquity" placeholder="e.g. 500000" required min="0" step="50000" value="500000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="allocDebt">Debt</label>
+          <div class="input-wrapper">
+            <input type="number" id="allocDebt" placeholder="e.g. 300000" required min="0" step="50000" value="300000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="allocGold">Gold</label>
+          <div class="input-wrapper">
+            <input type="number" id="allocGold" placeholder="e.g. 100000" required min="0" step="10000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="allocRealEstate">Real Estate</label>
+          <div class="input-wrapper">
+            <input type="number" id="allocRealEstate" placeholder="e.g. 500000" required min="0" step="50000" value="500000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="allocCash">Cash</label>
+          <div class="input-wrapper">
+            <input type="number" id="allocCash" placeholder="e.g. 100000" required min="0" step="10000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Allocation Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Portfolio</div>
+          <div class="value primary" id="resultTotal">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Equity %</div>
+          <div class="value" id="resultEquity">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Debt %</div>
+          <div class="value" id="resultDebt">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Gold %</div>
+          <div class="value" id="resultGold">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Real Estate %</div>
+          <div class="value" id="resultRealEstate">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Cash %</div>
+          <div class="value" id="resultCash">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container chart-container-wide">
+        <canvas id="portAllocChart" width="400" height="400"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Asset Allocation Table</h2>
+      <div class="table-wrapper">
+        <table id="allocTable">
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th class="text-right">Amount</th>
+              <th class="text-right">Allocation %</th>
+              <th class="text-right">Target %</th>
+            </tr>
+          </thead>
+          <tbody id="allocBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

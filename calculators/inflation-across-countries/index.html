@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inflation Across Countries - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Inflation Across Countries</h1>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Inflation Across Countries
+    </div>
+
+    <div class="calc-card">
+      <h2>Input Details</h2>
+      <form id="inflCountriesForm">
+                <div class="form-group">
+          <label for="currentAmount">Current Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="currentAmount" placeholder="e.g. 100000" required min="0" step="10000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="indiaInflation">India Inflation Rate %</label>
+          <div class="input-wrapper">
+            <input type="number" id="indiaInflation" placeholder="e.g. 6" required min="0" step="0.5" value="6">
+            <span class="suffix">%</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="usaInflation">USA Inflation Rate %</label>
+          <div class="input-wrapper">
+            <input type="number" id="usaInflation" placeholder="e.g. 3" required min="0" step="0.5" value="3">
+            <span class="suffix">%</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="ukInflation">UK Inflation Rate %</label>
+          <div class="input-wrapper">
+            <input type="number" id="ukInflation" placeholder="e.g. 4" required min="0" step="0.5" value="4">
+            <span class="suffix">%</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="periodYears">Period (Years)</label>
+          <div class="input-wrapper">
+            <input type="number" id="periodYears" placeholder="e.g. 10" required min="0" step="1" value="10" max="50">
+            <span class="suffix">Yrs</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Results</h2>
+      <div class="results-grid">
+                <div class="result-item">
+          <div class="label">India Future Value</div>
+          <div class="value " id="resultFVIndia">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">USA Future Value</div>
+          <div class="value " id="resultFVUSA">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">UK Future Value</div>
+          <div class="value " id="resultFVUK">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">India Loss in Value</div>
+          <div class="value " id="resultLossIndia">0</div>
+        </div>        <div class="result-item">
+          <div class="label">USA Loss in Value</div>
+          <div class="value " id="resultLossUSA">0</div>
+        </div>        <div class="result-item">
+          <div class="label">UK Loss in Value</div>
+          <div class="value " id="resultLossUK">0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="inflCountriesChart" width="300" height="300"></canvas>
+      </div>
+      
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

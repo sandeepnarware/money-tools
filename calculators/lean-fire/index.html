@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lean FIRE Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Lean FIRE Calculator</h1>
+      <p>Calculate how soon you can retire with a lean, minimalist lifestyle.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Lean FIRE Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Your Details</h2>
+      <form id="leanFireForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentAge">Current Age</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentAge" placeholder="e.g. 30" required min="1" step="1" value="30">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentSavings">Current Savings</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentSavings" placeholder="e.g. 500000" required min="0" step="100000" value="500000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthlySavings">Monthly Savings</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlySavings" placeholder="e.g. 10000" required min="0" step="1000" value="10000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentExpenses">Current Annual Expenses</label>
+            <div class="input-wrapper">
+              <input type="number" id="currentExpenses" placeholder="e.g. 300000" required min="1" step="50000" value="300000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expectedReturn">Expected Return (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="expectedReturn" placeholder="e.g. 10" required min="0" step="0.5" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="withdrawalRate">Withdrawal Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="withdrawalRate" placeholder="e.g. 4" required min="0" step="0.25" value="4">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inflation">Inflation (p.a.)</label>
+          <div class="input-wrapper">
+            <input type="number" id="inflation" placeholder="e.g. 6" required min="0" step="0.5" value="6">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Lean FIRE Summary</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">Lean FIRE Corpus</div>
+          <div class="value primary" id="resultFireCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Current Savings</div>
+          <div class="value" id="resultCurrentSavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly Savings</div>
+          <div class="value" id="resultMonthlySavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Years to Lean FIRE</div>
+          <div class="value success" id="resultYearsToFire">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Age at Lean FIRE</div>
+          <div class="value" id="resultAgeAtFire">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Corpus at FIRE</div>
+          <div class="value" id="resultCorpusAtFire">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container chart-container-wide">
+        <canvas id="leanFireChart" width="600" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Projection</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Age</th>
+              <th class="text-right">Opening</th>
+              <th class="text-right">Savings</th>
+              <th class="text-right">Returns</th>
+              <th class="text-right">Closing</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

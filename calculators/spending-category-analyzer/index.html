@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spending Category Analyzer - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Spending Category Analyzer</h1>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Spending Category Analyzer
+    </div>
+
+    <div class="calc-card">
+      <h2>Input Details</h2>
+      <form id="spendingAnalysisForm">
+                <div class="form-group">
+          <label for="monthlyIncome">Monthly Income</label>
+          <div class="input-wrapper">
+            <input type="number" id="monthlyIncome" placeholder="e.g. 60000" required min="0" step="5000" value="60000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="rentAmt">Rent</label>
+          <div class="input-wrapper">
+            <input type="number" id="rentAmt" placeholder="e.g. 15000" required min="0" step="1000" value="15000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="groceriesAmt">Groceries</label>
+          <div class="input-wrapper">
+            <input type="number" id="groceriesAmt" placeholder="e.g. 8000" required min="0" step="1000" value="8000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="utilsAmt">Utilities</label>
+          <div class="input-wrapper">
+            <input type="number" id="utilsAmt" placeholder="e.g. 3000" required min="0" step="1000" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="transportAmt">Transport</label>
+          <div class="input-wrapper">
+            <input type="number" id="transportAmt" placeholder="e.g. 4000" required min="0" step="1000" value="4000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="entertainmentAmt">Entertainment</label>
+          <div class="input-wrapper">
+            <input type="number" id="entertainmentAmt" placeholder="e.g. 3000" required min="0" step="1000" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="shoppingAmt">Shopping</label>
+          <div class="input-wrapper">
+            <input type="number" id="shoppingAmt" placeholder="e.g. 3000" required min="0" step="1000" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="healthcareAmt">Healthcare</label>
+          <div class="input-wrapper">
+            <input type="number" id="healthcareAmt" placeholder="e.g. 2000" required min="0" step="1000" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="insuranceAmt">Insurance</label>
+          <div class="input-wrapper">
+            <input type="number" id="insuranceAmt" placeholder="e.g. 2000" required min="0" step="1000" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="educationAmt">Education</label>
+          <div class="input-wrapper">
+            <input type="number" id="educationAmt" placeholder="e.g. 2000" required min="0" step="1000" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="diningAmt">Dining Out</label>
+          <div class="input-wrapper">
+            <input type="number" id="diningAmt" placeholder="e.g. 2000" required min="0" step="1000" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="subsAmt">Subscriptions</label>
+          <div class="input-wrapper">
+            <input type="number" id="subsAmt" placeholder="e.g. 1000" required min="0" step="1000" value="1000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>        <div class="form-group">
+          <label for="otherAmt">Other</label>
+          <div class="input-wrapper">
+            <input type="number" id="otherAmt" placeholder="e.g. 2000" required min="0" step="1000" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Results</h2>
+      <div class="results-grid">
+                <div class="result-item">
+          <div class="label">Total Spending</div>
+          <div class="value " id="resultTotalSpend">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">Top Spending Category</div>
+          <div class="value " id="resultTopCategory">0</div>
+        </div>        <div class="result-item">
+          <div class="label">Needs Total</div>
+          <div class="value " id="resultNeedsTotal">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">Wants Total</div>
+          <div class="value " id="resultWantsTotal">&#8377; 0</div>
+        </div>        <div class="result-item">
+          <div class="label">Needs/Wants Ratio</div>
+          <div class="value " id="resultRatio">0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="spendingAnalysisChart" width="300" height="300"></canvas>
+      </div>
+            <h2 style="font-size:1rem; margin-bottom:12px;">Details</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th class="text-right">Amount</th>
+              <th class="text-right">Type</th>
+            </tr>
+          </thead>
+          <tbody id="spendingTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

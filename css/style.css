@@ -336,6 +336,41 @@ table .text-right {
   text-align: right;
 }
 
+/* Category tabs */
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 32px 0 0;
+  flex-wrap: wrap;
+}
+
+.category-tab {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.category-tab.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.tool-card.hidden {
+  display: none;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .site-header {

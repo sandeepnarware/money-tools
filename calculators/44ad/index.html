@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>44AD Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>44AD Calculator</h1>
+      <p>Estimate your tax under the presumptive taxation scheme.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; 44AD Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Business Details</h2>
+      <form id="ad44Form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="grossTurnover">Gross Turnover</label>
+            <div class="input-wrapper">
+              <input type="number" id="grossTurnover" required min="0" step="100000" value="1000000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="presumptiveRate">Presumptive Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="presumptiveRate" required min="0" max="100" step="0.5" value="8">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="otherIncome44">Other Income</label>
+            <div class="input-wrapper">
+              <input type="number" id="otherIncome44" required min="0" step="10000" value="0">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tdsDeducted">TDS Deducted</label>
+            <div class="input-wrapper">
+              <input type="number" id="tdsDeducted" required min="0" step="5000" value="10000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="advanceTax">Advance Tax Paid</label>
+          <div class="input-wrapper">
+            <input type="number" id="advanceTax" required min="0" step="5000" value="0">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Tax Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Presumptive Business Income</div>
+          <div class="value" id="resultBusinessIncome">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Income</div>
+          <div class="value" id="resultTotalIncome">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Estimated Tax</div>
+          <div class="value" id="resultEstimatedTax">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">TDS + Advance Paid</div>
+          <div class="value" id="resultPaid">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tax Payable</div>
+          <div class="value primary" id="resultPayable">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="ad44Chart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

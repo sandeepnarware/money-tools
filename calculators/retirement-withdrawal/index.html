@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retirement Withdrawal Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Retirement Withdrawal Calculator</h1>
+      <p>See how long your retirement corpus will last with regular withdrawals.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Retirement Withdrawal Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Retirement Details</h2>
+      <form id="retireWithdrawForm">
+        <div class="form-group">
+          <label for="retireCorpus">Retirement Corpus</label>
+          <div class="input-wrapper">
+            <input type="number" id="retireCorpus" placeholder="e.g. 10000000" required min="1" step="500000" value="10000000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="annualWithdrawal">Annual Withdrawal</label>
+            <div class="input-wrapper">
+              <input type="number" id="annualWithdrawal" placeholder="e.g. 500000" required min="1" step="50000" value="500000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="expectedReturn">Expected Return (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="expectedReturn" placeholder="e.g. 8" required min="0" step="0.5" value="8">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inflation">Inflation (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="inflation" placeholder="e.g. 6" required min="0" step="0.5" value="6">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lifeExpectancy">Life Expectancy</label>
+            <div class="input-wrapper">
+              <input type="number" id="lifeExpectancy" placeholder="e.g. 85" required min="1" step="1" value="85">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="retireAge">Current Retirement Age</label>
+          <div class="input-wrapper">
+            <input type="number" id="retireAge" placeholder="e.g. 60" required min="1" step="1" value="60">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Withdrawal Summary</h2>
+      <div class="results-grid results-grid-wide">
+        <div class="result-item">
+          <div class="label">How Long Corpus Lasts</div>
+          <div class="value primary" id="resultYearsLasts">0 yrs</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Age When Corpus Depletes</div>
+          <div class="value" id="resultDepleteAge">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Withdrawn</div>
+          <div class="value" id="resultTotalWithdrawn">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Returns Earned</div>
+          <div class="value success" id="resultTotalReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Success Rate (25x Rule)</div>
+          <div class="value" id="resultSuccessRate">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container chart-container-wide">
+        <canvas id="retireWithdrawChart" width="600" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="text-right">Age</th>
+              <th class="text-right">Start Balance</th>
+              <th class="text-right">Withdrawal</th>
+              <th class="text-right">Returns</th>
+              <th class="text-right">End Balance</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
