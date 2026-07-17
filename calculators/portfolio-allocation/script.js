@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const realEstate = parseFloat(document.getElementById('allocRealEstate').value) || 0;
     const cash = parseFloat(document.getElementById('allocCash').value) || 0;
 
+    const tEquity = parseFloat(document.getElementById('targetEquity').value) || 0;
+    const tDebt = parseFloat(document.getElementById('targetDebt').value) || 0;
+    const tGold = parseFloat(document.getElementById('targetGold').value) || 0;
+    const tRealEstate = parseFloat(document.getElementById('targetRealEstate').value) || 0;
+    const tCash = parseFloat(document.getElementById('targetCash').value) || 0;
+
     if (equity + debt + gold + realEstate + cash <= 0) {
       alert('Please enter at least one positive value.');
       return;
@@ -47,21 +53,27 @@ document.addEventListener('DOMContentLoaded', () => {
     resultCash.textContent = cPct.toFixed(1) + '%';
 
     const assets = [
-      { name: 'Equity', amount: equity, pct: ePct, color: '#2563eb' },
-      { name: 'Debt', amount: debt, pct: dPct, color: '#16a34a' },
-      { name: 'Gold', amount: gold, pct: gPct, color: '#f59e0b' },
-      { name: 'Real Estate', amount: realEstate, pct: rPct, color: '#ef4444' },
-      { name: 'Cash', amount: cash, pct: cPct, color: '#8b5cf6' },
+      { name: 'Equity', amount: equity, pct: ePct, target: tEquity, color: '#2563eb' },
+      { name: 'Debt', amount: debt, pct: dPct, target: tDebt, color: '#16a34a' },
+      { name: 'Gold', amount: gold, pct: gPct, target: tGold, color: '#f59e0b' },
+      { name: 'Real Estate', amount: realEstate, pct: rPct, target: tRealEstate, color: '#ef4444' },
+      { name: 'Cash', amount: cash, pct: cPct, target: tCash, color: '#8b5cf6' },
     ];
 
-    allocBody.innerHTML = assets.map(a => `
-      <tr>
+    allocBody.innerHTML = assets.map(a => {
+      const diff = a.pct - a.target;
+      const diffLabel = a.target > 0
+        ? (diff > 0.5 ? 'Over by ' + diff.toFixed(1) + '%' : diff < -0.5 ? 'Under by ' + (-diff).toFixed(1) + '%' : 'On track')
+        : '-';
+      const diffColor = diff > 0.5 ? '#ef4444' : diff < -0.5 ? '#f59e0b' : '#16a34a';
+      return `<tr>
         <td>${a.name}</td>
         <td class="text-right">${formatNumber(Math.round(a.amount))}</td>
         <td class="text-right">${a.pct.toFixed(1)}%</td>
-        <td class="text-right">-</td>
-      </tr>
-    `).join('');
+        <td class="text-right">${a.target > 0 ? a.target + '%' : '-'}</td>
+        <td class="text-right" style="color:${diffColor}; font-weight:600;">${diffLabel}</td>
+      </tr>`;
+    }).join('');
 
     drawChart(assets);
     resultsSection.style.display = 'block';
