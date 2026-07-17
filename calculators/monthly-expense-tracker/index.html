@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Expense Tracker - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Monthly Expense Tracker</h1>
+      <p>Track and categorize your monthly spending.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Monthly Expense Tracker
+    </div>
+
+    <div class="calc-card">
+      <h2>Income & Expenses</h2>
+      <form id="expenseTrackerForm">
+        <div class="form-group">
+          <label for="monthlyIncome">Monthly Income</label>
+          <div class="input-wrapper">
+            <input type="number" id="monthlyIncome" required min="0" step="5000" value="60000">
+            <span class="suffix">\u20B9</span>
+          </div>
+        </div>
+
+        <h2 style="font-size:1rem; margin-bottom:16px;">Expense Categories</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rentMortgage">Rent / Mortgage</label>
+            <div class="input-wrapper">
+              <input type="number" id="rentMortgage" required min="0" step="1000" value="15000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="groceriesFood">Groceries &amp; Food</label>
+            <div class="input-wrapper">
+              <input type="number" id="groceriesFood" required min="0" step="1000" value="8000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="utilities">Utilities</label>
+            <div class="input-wrapper">
+              <input type="number" id="utilities" required min="0" step="1000" value="3000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="transportation">Transportation</label>
+            <div class="input-wrapper">
+              <input type="number" id="transportation" required min="0" step="1000" value="4000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="entertainment">Entertainment</label>
+            <div class="input-wrapper">
+              <input type="number" id="entertainment" required min="0" step="1000" value="3000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="shopping">Shopping</label>
+            <div class="input-wrapper">
+              <input type="number" id="shopping" required min="0" step="1000" value="3000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="healthcare">Healthcare</label>
+            <div class="input-wrapper">
+              <input type="number" id="healthcare" required min="0" step="1000" value="2000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="insurance">Insurance</label>
+            <div class="input-wrapper">
+              <input type="number" id="insurance" required min="0" step="1000" value="2000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="education">Education</label>
+            <div class="input-wrapper">
+              <input type="number" id="education" required min="0" step="1000" value="2000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="diningOut">Dining Out</label>
+            <div class="input-wrapper">
+              <input type="number" id="diningOut" required min="0" step="1000" value="2000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subscriptions">Subscriptions</label>
+            <div class="input-wrapper">
+              <input type="number" id="subscriptions" required min="0" step="1000" value="1000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="otherExpenses">Other Expenses</label>
+            <div class="input-wrapper">
+              <input type="number" id="otherExpenses" required min="0" step="1000" value="2000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Expense Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Monthly Income</div>
+          <div class="value primary" id="resultIncome">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Monthly Expenses</div>
+          <div class="value" id="resultExpenses">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Savings</div>
+          <div class="value success" id="resultSavings">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Savings Rate</div>
+          <div class="value primary" id="resultSavingsRate">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="expenseChart" width="300" height="300"></canvas>
+      </div>
+
+      <div class="table-wrapper" style="margin-top:20px;">
+        <table>
+          <thead><tr><th>Category</th><th class="text-right">Amount</th><th class="text-right">% of Total</th></tr></thead>
+          <tbody id="expenseBreakdownBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

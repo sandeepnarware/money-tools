@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave Encashment Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Leave Encashment Calculator</h1>
+      <p>Calculate the value of your accrued leave days.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Leave Encashment Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Leave Details</h2>
+      <form id="leaveEncashForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="basicDa">Basic Salary + DA (per month)</label>
+            <div class="input-wrapper">
+              <input type="number" id="basicDa" placeholder="e.g. 50000" required min="1" step="1000" value="50000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="leaveDays">Total Leave Days Accrued</label>
+            <div class="input-wrapper">
+              <input type="number" id="leaveDays" placeholder="e.g. 30" required min="0" max="300" step="1" value="30">
+              <span class="suffix">Days</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="maxDaysEncashable">Max Days Encashable</label>
+            <div class="input-wrapper">
+              <input type="number" id="maxDaysEncashable" placeholder="e.g. 300" required min="1" step="10" value="300">
+              <span class="suffix">Days</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="isRetiring">Are you retiring / superannuating?</label>
+            <select id="isRetiring">
+              <option value="no" selected>No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Encashment Summary</h2>
+      <div class="results-grid-wide">
+        <div class="result-item">
+          <div class="label">Per Day Salary</div>
+          <div class="value" id="resultPerDaySalary">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Leave Encashment Amount</div>
+          <div class="value success" id="resultEncashmentAmount">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Max Days Allowed</div>
+          <div class="value" id="resultMaxDaysAllowed">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Taxable Amount</div>
+          <div class="value danger" id="resultTaxableAmount">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="leaveEncashChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

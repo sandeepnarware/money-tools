@@ -185,7 +185,8 @@ body {
 }
 
 input[type="number"],
-input[type="text"] {
+input[type="text"],
+select {
   width: 100%;
   padding: 10px 12px;
   font-size: 1rem;
@@ -285,6 +286,10 @@ input:focus {
 
 .result-item .value.success {
   color: var(--success);
+}
+
+.result-item .value.danger {
+  color: #dc2626;
 }
 
 /* Chart container */

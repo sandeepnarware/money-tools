@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutual Fund Tax Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Mutual Fund Tax Calculator</h1>
+      <p>Calculate capital gains tax on your mutual fund investments.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Mutual Fund Tax Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Investment Details</h2>
+      <form id="mfTaxForm">
+        <div class="form-group">
+          <label for="fundCategory">Fund Category</label>
+          <div class="input-wrapper">
+            <select id="fundCategory">
+              <option value="equity" selected>Equity</option>
+              <option value="debt">Debt</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="purchaseNav">Purchase NAV</label>
+            <div class="input-wrapper">
+              <input type="number" id="purchaseNav" required min="1" step="1" value="50">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="saleNav">Sale NAV</label>
+            <div class="input-wrapper">
+              <input type="number" id="saleNav" required min="1" step="1" value="80">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="units">Number of Units</label>
+          <div class="input-wrapper">
+            <input type="number" id="units" required min="1" step="100" value="1000">
+            <span class="suffix">Units</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="purchaseYear">Purchase Date</label>
+            <div class="input-wrapper">
+              <select id="purchaseYear">
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022" selected>2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="saleYear">Sale Date</label>
+            <div class="input-wrapper">
+              <select id="saleYear">
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group form-group-checkbox">
+          <label>
+            <input type="checkbox" id="isThirtyPercentBracket">
+            Are you in 30% tax bracket?
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="ltcgExemption">LTCG Exemption Limit</label>
+          <div class="input-wrapper">
+            <input type="number" id="ltcgExemption" required min="0" step="10000" value="100000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Tax Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Holding Period</div>
+          <div class="value" id="resultHoldingPeriod">-</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Capital Gain</div>
+          <div class="value primary" id="resultCapitalGain">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Gain Type</div>
+          <div class="value" id="resultGainType">-</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Taxable Gain</div>
+          <div class="value" id="resultTaxableGain">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tax Amount</div>
+          <div class="value success" id="resultTaxAmount">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="mfTaxChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

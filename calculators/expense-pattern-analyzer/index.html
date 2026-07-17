@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Pattern Analyzer - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Expense Pattern Analyzer</h1>
+      <p>Analyze your spending patterns and identify savings opportunities.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Expense Pattern Analyzer
+    </div>
+
+    <div class="calc-card">
+      <h2>Your Monthly Expenses</h2>
+      <form id="expensePatternForm">
+        <div class="form-group">
+          <label for="monthlyIncome">Monthly Income</label>
+          <div class="input-wrapper">
+            <input type="number" id="monthlyIncome" required min="0" step="5000" value="60000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:16px; color:var(--primary);">Expense Categories</h3>
+        <div class="form-group">
+          <label for="catRent">Rent / Mortgage</label>
+          <div class="input-wrapper">
+            <input type="number" id="catRent" required min="0" step="1000" value="15000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catGroceries">Groceries &amp; Food</label>
+          <div class="input-wrapper">
+            <input type="number" id="catGroceries" required min="0" step="500" value="8000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catUtilities">Utilities</label>
+          <div class="input-wrapper">
+            <input type="number" id="catUtilities" required min="0" step="500" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catTransport">Transportation</label>
+          <div class="input-wrapper">
+            <input type="number" id="catTransport" required min="0" step="500" value="4000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catEntertainment">Entertainment</label>
+          <div class="input-wrapper">
+            <input type="number" id="catEntertainment" required min="0" step="500" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catShopping">Shopping</label>
+          <div class="input-wrapper">
+            <input type="number" id="catShopping" required min="0" step="500" value="3000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catHealthcare">Healthcare</label>
+          <div class="input-wrapper">
+            <input type="number" id="catHealthcare" required min="0" step="500" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catInsurance">Insurance</label>
+          <div class="input-wrapper">
+            <input type="number" id="catInsurance" required min="0" step="500" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catEducation">Education</label>
+          <div class="input-wrapper">
+            <input type="number" id="catEducation" required min="0" step="500" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catDiningOut">Dining Out</label>
+          <div class="input-wrapper">
+            <input type="number" id="catDiningOut" required min="0" step="500" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catSubscriptions">Subscriptions</label>
+          <div class="input-wrapper">
+            <input type="number" id="catSubscriptions" required min="0" step="500" value="1000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catOther">Other Expenses</label>
+          <div class="input-wrapper">
+            <input type="number" id="catOther" required min="0" step="500" value="2000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Spending Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Monthly Income</div>
+          <div class="value" id="resultIncome">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Expenses</div>
+          <div class="value primary" id="resultExpenses">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Savings</div>
+          <div class="value success" id="resultSavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Savings Rate</div>
+          <div class="value" id="resultSavingsRate">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Largest Expense</div>
+          <div class="value" id="resultLargestExpense" style="font-size:1rem;">-</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Potential Annual Savings</div>
+          <div class="value success" id="resultAnnualSavings">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="expensePatternChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Category Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="categoryTable">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th class="text-right">Amount</th>
+              <th class="text-right">% of Total</th>
+              <th>Type</th>
+              <th class="text-right">Saving Opp.</th>
+            </tr>
+          </thead>
+          <tbody id="categoryBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

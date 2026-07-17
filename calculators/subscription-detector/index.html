@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Detector - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Subscription Detector</h1>
+      <p>Track all your subscriptions and see what they cost you annually.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Subscription Detector
+    </div>
+
+    <div class="calc-card">
+      <h2>Your Subscriptions</h2>
+      <form id="subForm">
+        <div class="form-group">
+          <label for="monthlyIncome">Monthly Income</label>
+          <div class="input-wrapper">
+            <input type="number" id="monthlyIncome" required min="0" step="5000" value="60000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:16px; color:var(--primary);">Subscription Services</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName1">Subscription 1</label>
+            <input type="text" id="subName1" value="Netflix">
+          </div>
+          <div class="form-group">
+            <label for="subCost1">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost1" min="0" step="50" value="649">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName2">Subscription 2</label>
+            <input type="text" id="subName2" value="Amazon Prime">
+          </div>
+          <div class="form-group">
+            <label for="subCost2">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost2" min="0" step="50" value="299">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName3">Subscription 3</label>
+            <input type="text" id="subName3" value="Spotify">
+          </div>
+          <div class="form-group">
+            <label for="subCost3">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost3" min="0" step="50" value="119">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName4">Subscription 4</label>
+            <input type="text" id="subName4" value="Hotstar">
+          </div>
+          <div class="form-group">
+            <label for="subCost4">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost4" min="0" step="50" value="299">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName5">Subscription 5</label>
+            <input type="text" id="subName5" value="YouTube Premium">
+          </div>
+          <div class="form-group">
+            <label for="subCost5">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost5" min="0" step="50" value="129">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName6">Subscription 6</label>
+            <input type="text" id="subName6" value="LinkedIn Premium">
+          </div>
+          <div class="form-group">
+            <label for="subCost6">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost6" min="0" step="50" value="999">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName7">Subscription 7</label>
+            <input type="text" id="subName7" value="Medium">
+          </div>
+          <div class="form-group">
+            <label for="subCost7">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost7" min="0" step="50" value="200">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subName8">Subscription 8</label>
+            <input type="text" id="subName8" value="Other">
+          </div>
+          <div class="form-group">
+            <label for="subCost8">Monthly Cost</label>
+            <div class="input-wrapper">
+              <input type="number" id="subCost8" min="0" step="50" value="500">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:20px; color:var(--primary);">Additional Subscriptions</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="additionalCount">Additional Subscriptions Count</label>
+            <input type="number" id="additionalCount" min="0" max="20" step="1" value="0">
+          </div>
+          <div class="form-group">
+            <label for="avgAdditionalCost">Avg Cost of Additional Subs</label>
+            <div class="input-wrapper">
+              <input type="number" id="avgAdditionalCost" min="0" step="100" value="300">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Subscription Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Monthly Cost</div>
+          <div class="value primary" id="resultMonthlyTotal">&#8377; 0</div>
+        </div>
+        <div class="result-item" style="grid-column: 1 / -1;">
+          <div class="label">Total Annual Cost</div>
+          <div class="value primary" id="resultAnnualTotal" style="font-size:1.6rem;">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Monthly Income</div>
+          <div class="value" id="resultIncome">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Subs as % of Income</div>
+          <div class="value" id="resultIncomePct">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Number of Subscriptions</div>
+          <div class="value" id="resultCount">0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Avg Cost Per Subscription</div>
+          <div class="value" id="resultAvgCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Potential Annual Savings</div>
+          <div class="value success" id="resultSavings">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="subChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Subscription Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="subTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Subscription</th>
+              <th class="text-right">Monthly Cost</th>
+              <th class="text-right">Annual Cost</th>
+              <th class="text-right">% of Total</th>
+            </tr>
+          </thead>
+          <tbody id="subBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

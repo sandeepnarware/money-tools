@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regular vs Direct Mutual Funds - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Regular vs Direct Mutual Funds</h1>
+      <p>Compare regular and direct mutual fund returns and costs.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Regular vs Direct Mutual Funds
+    </div>
+
+    <div class="calc-card">
+      <h2>Investment Details</h2>
+      <form id="regDirForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="investmentType">Investment Type</label>
+            <select id="investmentType">
+              <option value="sip" selected>SIP</option>
+              <option value="lumpsum">Lumpsum</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="investmentAmount">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="investmentAmount" placeholder="e.g. 10000" required min="1" step="1000" value="10000">
+              <span class="suffix" id="amountSuffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="investmentPeriod">Investment Period (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="investmentPeriod" placeholder="e.g. 10" required min="1" max="50" step="1" value="10">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="marketReturn">Expected Market Return (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="marketReturn" placeholder="e.g. 12" required min="0" step="0.5" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regularExpense">Regular Fund Expense Ratio</label>
+            <div class="input-wrapper">
+              <input type="number" id="regularExpense" placeholder="e.g. 1.5" required min="0" step="0.1" value="1.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="directExpense">Direct Fund Expense Ratio</label>
+            <div class="input-wrapper">
+              <input type="number" id="directExpense" placeholder="e.g. 0.5" required min="0" step="0.1" value="0.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Comparison Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label" id="labelDirectCorpus">Direct Fund Corpus</div>
+          <div class="value primary" id="resultDirectCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label" id="labelRegularCorpus">Regular Fund Corpus</div>
+          <div class="value" id="resultRegularCorpus">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label" id="labelExtraCost">Extra Cost Paid in Regular</div>
+          <div class="value danger" id="resultExtraCost">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Savings with Direct</div>
+          <div class="value success" id="resultSavings">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Investment</div>
+          <div class="value" id="resultTotalInvestment">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Difference (%)</div>
+          <div class="value" id="resultPercentDiff">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="regDirChart" width="500" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

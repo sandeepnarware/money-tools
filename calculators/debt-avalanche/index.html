@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Avalanche Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Debt Avalanche Calculator</h1>
+      <p>Pay off debts faster using the avalanche method (highest interest first).</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Debt Avalanche Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>Debt Details</h2>
+      <form id="debtAvalancheForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt1Name">Debt 1 Name</label>
+            <input type="text" id="debt1Name" value="Credit Card">
+          </div>
+          <div class="form-group">
+            <label for="debt1Balance">Debt 1 Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt1Balance" required min="0" step="10000" value="100000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt1Rate">Debt 1 Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt1Rate" required min="0" step="1" value="36">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="debt1MinPay">Debt 1 Minimum Payment</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt1MinPay" required min="0" step="1000" value="5000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt2Name">Debt 2 Name</label>
+            <input type="text" id="debt2Name" value="Personal Loan">
+          </div>
+          <div class="form-group">
+            <label for="debt2Balance">Debt 2 Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt2Balance" required min="0" step="10000" value="200000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt2Rate">Debt 2 Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt2Rate" required min="0" step="1" value="15">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="debt2MinPay">Debt 2 Minimum Payment</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt2MinPay" required min="0" step="1000" value="8000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt3Name">Debt 3 Name</label>
+            <input type="text" id="debt3Name" value="Education Loan">
+          </div>
+          <div class="form-group">
+            <label for="debt3Balance">Debt 3 Balance</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt3Balance" required min="0" step="10000" value="300000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debt3Rate">Debt 3 Interest Rate</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt3Rate" required min="0" step="1" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="debt3MinPay">Debt 3 Minimum Payment</label>
+            <div class="input-wrapper">
+              <input type="number" id="debt3MinPay" required min="0" step="1000" value="7000">
+              <span class="suffix">\u20B9</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="extraPayment">Extra Monthly Payment</label>
+          <div class="input-wrapper">
+            <input type="number" id="extraPayment" required min="0" step="1000" value="5000">
+            <span class="suffix">\u20B9</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Debt Payoff Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Total Debt</div>
+          <div class="value primary" id="resultTotalDebt">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Minimum Monthly Total</div>
+          <div class="value" id="resultMinMonthly">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Interest (Avalanche)</div>
+          <div class="value success" id="resultIntAvalanche">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Payoff Time</div>
+          <div class="value primary" id="resultPayoffTime">0 Yrs 0 Mos</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Interest (Min Payments Only)</div>
+          <div class="value" id="resultIntMinOnly">\u20B9 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Interest Saved</div>
+          <div class="value success" id="resultIntSaved">\u20B9 0</div>
+        </div>
+      </div>
+
+      <div id="payoffOrder" style="font-size:0.95rem; font-weight:600; margin-bottom:16px; padding:12px; background:var(--bg); border-radius:8px;"></div>
+
+      <div class="chart-container">
+        <canvas id="debtAvalancheChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

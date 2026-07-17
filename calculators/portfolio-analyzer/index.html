@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Portfolio Analyzer - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Investment Portfolio Analyzer</h1>
+      <p>Analyze your investment portfolio allocation and performance.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Investment Portfolio Analyzer
+    </div>
+
+    <div class="calc-card">
+      <h2>Portfolio Details</h2>
+      <form id="portfolioForm">
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:8px; color:var(--primary);">Equity</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="equityAmt">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="equityAmt" required min="0" step="50000" value="500000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="equityRet">Annual Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="equityRet" required min="0" step="0.5" value="12">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:20px; color:var(--primary);">Debt</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="debtAmt">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="debtAmt" required min="0" step="50000" value="300000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="debtRet">Annual Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="debtRet" required min="0" step="0.5" value="7">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:20px; color:var(--primary);">Gold</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="goldAmt">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="goldAmt" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="goldRet">Annual Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="goldRet" required min="0" step="0.5" value="8">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:20px; color:var(--primary);">Real Estate</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reAmt">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="reAmt" required min="0" step="50000" value="500000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reRet">Annual Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="reRet" required min="0" step="0.5" value="5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px; margin-top:20px; color:var(--primary);">Cash / FD</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cashAmt">Investment Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="cashAmt" required min="0" step="10000" value="100000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cashRet">Annual Return</label>
+            <div class="input-wrapper">
+              <input type="number" id="cashRet" required min="0" step="0.5" value="4">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Portfolio Summary</h2>
+      <div class="results-grid">
+        <div class="result-item" style="grid-column: 1 / -1;">
+          <div class="label">Total Portfolio Value</div>
+          <div class="value primary" id="resultPortfolioTotal" style="font-size:1.6rem;">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Invested</div>
+          <div class="value" id="resultInvested">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Returns</div>
+          <div class="value success" id="resultReturns">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Weighted Avg Return</div>
+          <div class="value" id="resultWeightedRet">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Equity Allocation</div>
+          <div class="value" id="resultEquityPct">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Debt Allocation</div>
+          <div class="value" id="resultDebtPct">0%</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Other Allocation</div>
+          <div class="value" id="resultOtherPct">0%</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="portfolioChart" width="300" height="300"></canvas>
+      </div>
+
+      <h2 style="font-size:1rem; margin-bottom:12px;">Asset Breakdown</h2>
+      <div class="table-wrapper">
+        <table id="assetTable">
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th class="text-right">Invested</th>
+              <th class="text-right">Returns</th>
+              <th class="text-right">Total</th>
+              <th class="text-right">Return %</th>
+              <th class="text-right">Allocation %</th>
+            </tr>
+          </thead>
+          <tbody id="assetBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

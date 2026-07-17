@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GST Calculator - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>GST Calculator</h1>
+      <p>Calculate GST amount inclusive or exclusive of the price.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; GST Calculator
+    </div>
+
+    <div class="calc-card">
+      <h2>GST Details</h2>
+      <form id="gstForm">
+        <div class="form-group">
+          <label for="gstAmount">Amount</label>
+          <div class="input-wrapper">
+            <input type="number" id="gstAmount" required min="1" step="100" value="10000">
+            <span class="suffix">&#8377;</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gstRate">GST Rate</label>
+            <div class="input-wrapper">
+              <select id="gstRate">
+                <option value="5">5%</option>
+                <option value="12">12%</option>
+                <option value="18" selected>18%</option>
+                <option value="28">28%</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="calcType">Calculation Type</label>
+            <div class="input-wrapper">
+              <select id="calcType">
+                <option value="exclusive" selected>Exclusive</option>
+                <option value="inclusive">Inclusive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>GST Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Net Amount (Base)</div>
+          <div class="value" id="resultNetAmount">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">GST Amount</div>
+          <div class="value" id="resultGstAmount">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Amount</div>
+          <div class="value primary" id="resultTotalAmount">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="gstChart" width="300" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Loan vs Renting - Money Tools</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Home Loan vs Renting</h1>
+      <p>Compare the long-term cost of buying vs renting a home.</p>
+    </div>
+  </header>
+
+  <main class="calculator-page">
+    <div class="breadcrumb">
+      <a href="../../">Home</a> &rsaquo; Home Loan vs Renting
+    </div>
+
+    <div class="calc-card">
+      <h2>Property &amp; Loan Details</h2>
+      <form id="homeVsRentForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthlyRent">Monthly Rent</label>
+            <div class="input-wrapper">
+              <input type="number" id="monthlyRent" placeholder="e.g. 20000" required min="0" step="1000" value="20000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="homePrice">Home Price</label>
+            <div class="input-wrapper">
+              <input type="number" id="homePrice" placeholder="e.g. 6000000" required min="0" step="100000" value="6000000">
+              <span class="suffix">&#8377;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="downPayment">Down Payment</label>
+            <div class="input-wrapper">
+              <input type="number" id="downPayment" placeholder="e.g. 20" required min="0" max="100" step="5" value="20">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="loanRate">Home Loan Rate (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="loanRate" placeholder="e.g. 8.5" required min="0" step="0.25" value="8.5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="loanTenure">Loan Tenure (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="loanTenure" placeholder="e.g. 20" required min="1" max="30" step="1" value="20">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="propertyAppreciation">Property Appreciation (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="propertyAppreciation" placeholder="e.g. 5" required min="0" step="0.5" value="5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rentIncrease">Rent Increase (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="rentIncrease" placeholder="e.g. 5" required min="0" step="0.5" value="5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="returnOnInvestment">Return on Investment (p.a.)</label>
+            <div class="input-wrapper">
+              <input type="number" id="returnOnInvestment" placeholder="e.g. 10" required min="0" step="0.5" value="10">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="maintenanceTax">Maintenance &amp; Tax (% of home value)</label>
+            <div class="input-wrapper">
+              <input type="number" id="maintenanceTax" placeholder="e.g. 1" required min="0" step="0.25" value="1">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="timeHorizon">Time Horizon for Comparison (Years)</label>
+            <div class="input-wrapper">
+              <input type="number" id="timeHorizon" placeholder="e.g. 10" required min="1" max="30" step="1" value="10">
+              <span class="suffix">Yrs</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsSection" class="calc-card" style="display:none;">
+      <h2>Comparison Summary</h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="label">Net Worth if Buy</div>
+          <div class="value primary" id="resultNetWorthBuy">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Net Worth if Rent</div>
+          <div class="value primary" id="resultNetWorthRent">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Which is Better</div>
+          <div class="value success" id="resultWhichBetter">--</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Cost of Buying</div>
+          <div class="value" id="resultTotalCostBuying">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Total Cost of Renting</div>
+          <div class="value" id="resultTotalCostRenting">&#8377; 0</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Difference</div>
+          <div class="value" id="resultDifference">&#8377; 0</div>
+        </div>
+      </div>
+
+      <div class="chart-container-wide">
+        <canvas id="homeVsRentChart" width="500" height="300"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Money Tools</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
