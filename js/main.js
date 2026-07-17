@@ -24,7 +24,7 @@ const tools = [
   { id: 'risk-reward', name: 'Risk/Reward Calculator', icon: '⚡', desc: 'Assess the risk-reward ratio of your investment decisions.', cat: 'invest' },
   { id: 'portfolio-analyzer', name: 'Investment Portfolio Analyzer', icon: '📁', desc: 'Analyze your investment portfolio allocation and performance.', cat: 'invest' },
   { id: 'mutual-fund-portfolio-review', name: 'Mutual Fund Portfolio Review', icon: '📋', desc: 'Review and analyze your mutual fund portfolio.', cat: 'invest' },
-  { id: 'gold-sip', name: 'Gold SIP Calculator', icon: '🥇', desc: 'Plan your gold investment through a Gold SIP.', cat: 'invest' },
+  { id: 'gold-sip', name: 'Gold Return Calculator', icon: '🥇', desc: 'Check returns on your gold purchases vs today\'s live price.', cat: 'invest' },
   { id: 'gold-loan', name: 'Gold Loan Calculator', icon: '💍', desc: 'Calculate EMI and interest for a gold loan.', cat: 'invest' },
   { id: 'currency-converter', name: 'Currency Converter', icon: '💱', desc: 'Convert between Indian Rupee and major world currencies.', cat: 'invest' },
   { id: 'sip-vs-fd', name: 'SIP vs FD', icon: '⚔️', desc: 'Compare returns from SIP investing vs fixed deposits.', cat: 'invest' },

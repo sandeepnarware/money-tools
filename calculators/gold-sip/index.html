@@ -4,103 +4,149 @@
   <meta charset="UTF-8">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27 fill=%27%2316a34a%27%3E%24%3C/text%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gold SIP Calculator - Money Tools</title>
+  <title>Gold Return Calculator - Money Tools</title>
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1>Gold SIP Calculator</h1>
-      <p>Estimate the future value of your gold systematic investment plan.</p>
+      <h1>Gold Return Calculator</h1>
+      <p>Check returns on your gold purchases against today&rsquo;s live gold price.</p>
     </div>
   </header>
 
   <main class="calculator-page">
     <div class="breadcrumb">
-      <a href="../../">Home</a> &rsaquo; Gold SIP Calculator
+      <a href="../../">Home</a> &rsaquo; Gold Return Calculator
     </div>
 
     <div class="calc-card">
-      <h2>Investment Details</h2>
-      <form id="goldSipForm">
+      <h2>Upload CSV</h2>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">Upload a CSV file with columns: <strong>Purchase Date, Price Per Gram, Weight (g)</strong>. Or enter purchases manually below.</p>
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <button type="button" id="downloadTemplateBtn" class="btn btn-secondary" style="font-size:0.85rem;">&#8595; Download Template</button>
+        <input type="file" id="csvUpload" accept=".csv" style="font-size:0.85rem;">
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <h2>Current Gold Price</h2>
+      <div class="form-row">
         <div class="form-group">
-          <label for="goldMonthly">Monthly Investment</label>
+          <label for="currentGoldPrice">Gold Price Today (per gram)</label>
           <div class="input-wrapper">
-            <input type="number" id="goldMonthly" placeholder="e.g. 2000" required min="1" step="500" value="2000">
+            <input type="number" id="currentGoldPrice" required min="1" step="10" value="7500">
             <span class="suffix">&#8377;</span>
           </div>
         </div>
+        <div style="display:flex; align-items:end; margin-bottom:12px;">
+          <button type="button" id="fetchPriceBtn" class="btn btn-secondary" style="font-size:0.85rem;">&#8635; Fetch Live Price</button>
+        </div>
+      </div>
+      <div id="priceStatus" style="font-size:0.8rem; color:var(--text-secondary);"></div>
+    </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="goldPrice">Gold Price Per Gram</label>
-            <div class="input-wrapper">
-              <input type="number" id="goldPrice" placeholder="e.g. 6000" required min="1" step="100" value="6000">
-              <span class="suffix">&#8377;</span>
+    <div class="calc-card">
+      <h2>Your Gold Purchases</h2>
+      <form id="goldReturnForm">
+        <div id="purchaseRows">
+          <div class="form-row purchase-row">
+            <div class="form-group">
+              <label>Purchase Date</label>
+              <input type="date" class="purchase-date">
+            </div>
+            <div class="form-group">
+              <label>Price Paid (per gram)</label>
+              <div class="input-wrapper">
+                <input type="number" class="purchase-price" required min="1" step="10" value="5000">
+                <span class="suffix">&#8377;</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Weight</label>
+              <div class="input-wrapper">
+                <input type="number" class="purchase-weight" required min="0.1" step="1" value="10">
+                <span class="suffix">g</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:end; margin-bottom:12px;">
+              <button type="button" class="btn btn-secondary remove-purchase-btn" style="font-size:0.75rem; padding:6px 10px;">&times; Remove</button>
             </div>
           </div>
-          <div class="form-group">
-            <label for="goldReturn">Expected Annual Return</label>
-            <div class="input-wrapper">
-              <input type="number" id="goldReturn" placeholder="e.g. 8" required min="0" step="0.5" value="8">
-              <span class="suffix">%</span>
+          <div class="form-row purchase-row">
+            <div class="form-group">
+              <label>Purchase Date</label>
+              <input type="date" class="purchase-date">
+            </div>
+            <div class="form-group">
+              <label>Price Paid (per gram)</label>
+              <div class="input-wrapper">
+                <input type="number" class="purchase-price" required min="1" step="10" value="6000">
+                <span class="suffix">&#8377;</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Weight</label>
+              <div class="input-wrapper">
+                <input type="number" class="purchase-weight" required min="0.1" step="1" value="5">
+                <span class="suffix">g</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:end; margin-bottom:12px;">
+              <button type="button" class="btn btn-secondary remove-purchase-btn" style="font-size:0.75rem; padding:6px 10px;">&times; Remove</button>
             </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="goldPeriod">Investment Period (Years)</label>
-          <div class="input-wrapper">
-            <input type="number" id="goldPeriod" placeholder="e.g. 10" required min="1" max="50" step="1" value="10">
-            <span class="suffix">Yrs</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 12px; margin-top: 8px;">
-          <button type="submit" class="btn btn-primary">Calculate</button>
+        <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap:wrap;">
+          <button type="submit" class="btn btn-primary">Calculate Returns</button>
           <button type="reset" class="btn btn-secondary">Reset</button>
+          <button type="button" id="addPurchaseBtn" class="btn btn-secondary" style="font-size:0.85rem;">+ Add Purchase</button>
         </div>
       </form>
     </div>
 
     <div id="resultsSection" class="calc-card" style="display:none;">
-      <h2>Investment Summary</h2>
+      <h2>Returns Summary</h2>
       <div class="results-grid results-grid-wide">
         <div class="result-item">
           <div class="label">Total Invested</div>
-          <div class="value" id="resultGoldInvested">&#8377; 0</div>
+          <div class="value" id="resultTotalInvested">&#8377; 0</div>
         </div>
         <div class="result-item">
-          <div class="label">Total Grams Accumulated</div>
-          <div class="value" id="resultGoldGrams">0 g</div>
+          <div class="label">Total Current Value</div>
+          <div class="value primary" id="resultTotalCurrent">&#8377; 0</div>
         </div>
         <div class="result-item">
-          <div class="label">Final Value</div>
-          <div class="value primary" id="resultGoldFinal">&#8377; 0</div>
+          <div class="label">Total Gain / Loss</div>
+          <div class="value" id="resultGainLoss">&#8377; 0</div>
         </div>
         <div class="result-item">
-          <div class="label">Total Returns</div>
-          <div class="value success" id="resultGoldReturns">&#8377; 0</div>
+          <div class="label">Overall Return</div>
+          <div class="value" id="resultOverallReturn">0%</div>
         </div>
       </div>
 
       <div class="chart-container">
-        <canvas id="goldSipChart" width="300" height="300"></canvas>
+        <canvas id="goldReturnChart" width="300" height="300"></canvas>
       </div>
 
-      <h2 style="font-size:1rem; margin-bottom:12px;">Year-wise Breakdown</h2>
+      <h2 style="font-size:1rem; margin-bottom:12px;">Purchase-wise Breakdown</h2>
       <div class="table-wrapper">
-        <table id="goldScheduleTable">
+        <table id="goldReturnTable">
           <thead>
             <tr>
-              <th>Year</th>
-              <th class="text-right">Investment</th>
-              <th class="text-right">Grams</th>
-              <th class="text-right">Value</th>
+              <th>Date</th>
+              <th class="text-right">Price/g</th>
+              <th class="text-right">Weight</th>
+              <th class="text-right">Invested</th>
+              <th class="text-right">Current Value</th>
+              <th class="text-right">Return %</th>
+              <th class="text-right">Gain / Loss</th>
             </tr>
           </thead>
-          <tbody id="goldScheduleBody"></tbody>
+          <tbody id="goldReturnBody"></tbody>
         </table>
       </div>
     </div>
