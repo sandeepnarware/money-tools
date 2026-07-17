@@ -12,6 +12,7 @@
   <header class="site-header">
     <div class="container">
       <h1>Bank Statement Analyzer</h1>
+      <p>Upload your bank statement CSV to get insights on income, spending, bank charges, and more.</p>
     </div>
   </header>
 
@@ -21,86 +22,85 @@
     </div>
 
     <div class="calc-card">
-      <h2>Input Details</h2>
-      <form id="bankStmtForm">
-                <div class="form-group">
-          <label for="monthlyIncomeB">Monthly Income</label>
-          <div class="input-wrapper">
-            <input type="number" id="monthlyIncomeB" placeholder="e.g. 60000" required min="0" step="5000" value="60000">
-            <span class="suffix">&#8377;</span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="totalCredits">Total Credits Last Month</label>
-          <div class="input-wrapper">
-            <input type="number" id="totalCredits" placeholder="e.g. 65000" required min="0" step="5000" value="65000">
-            <span class="suffix">&#8377;</span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="totalDebits">Total Debits Last Month</label>
-          <div class="input-wrapper">
-            <input type="number" id="totalDebits" placeholder="e.g. 55000" required min="0" step="5000" value="55000">
-            <span class="suffix">&#8377;</span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="numTransactions">Number of Transactions</label>
-          <div class="input-wrapper">
-            <input type="number" id="numTransactions" placeholder="e.g. 30" required min="1" step="5" value="30">
-            <span class="suffix"></span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="atmWithdrawals">Number of ATM Withdrawals</label>
-          <div class="input-wrapper">
-            <input type="number" id="atmWithdrawals" placeholder="e.g. 4" required min="0" step="1" value="4">
-            <span class="suffix"></span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="bankBalance">Bank Balance</label>
-          <div class="input-wrapper">
-            <input type="number" id="bankBalance" placeholder="e.g. 25000" required min="0" step="5000" value="25000">
-            <span class="suffix">&#8377;</span>
-          </div>
-        </div>        <div class="form-group">
-          <label for="minBalance">Minimum Balance Maintained</label>
-          <div class="input-wrapper">
-            <input type="number" id="minBalance" placeholder="e.g. 10000" required min="0" step="1000" value="10000">
-            <span class="suffix">&#8377;</span>
-          </div>
-        </div>
-        <div style="display: flex; gap: 12px; margin-top: 8px;">
-          <button type="submit" class="btn btn-primary">Calculate</button>
-          <button type="reset" class="btn btn-secondary">Reset</button>
-        </div>
-      </form>
+      <h2>Upload Bank Statement</h2>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">Upload a CSV export from your bank. Required columns: <strong>Date, Description, Debit, Credit, Balance</strong>.</p>
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <button type="button" id="downloadTemplateBtn" class="btn btn-secondary" style="font-size:0.85rem;">&#8595; Download Template</button>
+        <input type="file" id="csvUpload" accept=".csv" style="font-size:0.85rem;">
+      </div>
     </div>
 
-    <div id="resultsSection" class="calc-card" style="display:none;">
-      <h2>Results</h2>
-      <div class="results-grid">
-                <div class="result-item">
-          <div class="label">Net Cash Flow</div>
-          <div class="value " id="resultNetFlow">&#8377; 0</div>
-        </div>        <div class="result-item">
-          <div class="label">Average Transaction Size</div>
-          <div class="value " id="resultAvgTx">&#8377; 0</div>
-        </div>        <div class="result-item">
-          <div class="label">ATM Withdrawal % of Debits</div>
-          <div class="value " id="resultATMPct">0</div>
-        </div>        <div class="result-item">
-          <div class="label">Balance vs Min Balance</div>
-          <div class="value " id="resultBalanceStatus">0</div>
-        </div>        <div class="result-item">
-          <div class="label">Savings Potential</div>
-          <div class="value " id="resultSavingsPotential">&#8377; 0</div>
-        </div>        <div class="result-item">
-          <div class="label">Account Health</div>
-          <div class="value " id="resultHealth">0</div>
+    <div id="resultsSection" style="display:none;">
+      <div class="calc-card">
+        <h2>Summary</h2>
+        <div class="results-grid results-grid-wide" id="summaryGrid"></div>
+      </div>
+
+      <div class="calc-card">
+        <h2>Income vs Expenses</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:24px; justify-content:center;">
+          <div class="chart-container" style="flex:1; min-width:250px; max-width:350px;">
+            <canvas id="incomeExpenseChart" width="300" height="300"></canvas>
+          </div>
+          <div class="chart-container" style="flex:1; min-width:250px; max-width:350px;">
+            <canvas id="monthlyTrendChart" width="300" height="200"></canvas>
+          </div>
         </div>
       </div>
 
-      <div class="chart-container">
-        <canvas id="bankStmtChart" width="300" height="300"></canvas>
+      <div class="calc-card">
+        <h2>Spending by Category</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:24px; justify-content:center;">
+          <div class="chart-container" style="flex:1; min-width:250px; max-width:350px;">
+            <canvas id="categoryChart" width="300" height="300"></canvas>
+          </div>
+          <div style="flex:1; min-width:250px;">
+            <div class="table-wrapper">
+              <table id="categoryTable">
+                <thead>
+                  <tr><th>Category</th><th class="text-right">Amount</th><th class="text-right">%</th></tr>
+                </thead>
+                <tbody id="categoryBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
+      <div class="calc-card">
+        <h2>Key Insights</h2>
+        <div id="insightsList" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <div class="calc-card">
+        <h2>Transaction History</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+          <input type="text" id="txSearch" placeholder="Search descriptions..." style="flex:1; min-width:150px; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
+          <select id="txCategoryFilter" style="padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
+            <option value="all">All Categories</option>
+          </select>
+          <select id="txTypeFilter" style="padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
+            <option value="all">All</option>
+            <option value="credit">Credits</option>
+            <option value="debit">Debits</option>
+          </select>
+        </div>
+        <div class="table-wrapper" style="max-height:400px; overflow-y:auto;">
+          <table id="txTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th class="text-right">Debit</th>
+                <th class="text-right">Credit</th>
+                <th class="text-right">Balance</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody id="txBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 
