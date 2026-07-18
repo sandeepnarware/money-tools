@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentStart = segEnd;
       });
-      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       let lx = 10;
       const ly = displaySize - 6;

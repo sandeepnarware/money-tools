@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentStart = segEnd;
       });
-      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const ly = displaySize - 6;
       ctx.fillStyle = '#16a34a';
       ctx.fillRect(10, ly - 10, 12, 12);

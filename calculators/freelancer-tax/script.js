@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 

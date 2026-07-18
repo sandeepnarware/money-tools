@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, displaySize, displaySize);
       if (total <= 0) {
         ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.closePath(); ctx.fillStyle = '#94a3b8'; ctx.fill();
-        ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
         return;
       }
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentStart = segEnd;
       });
-      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
       ctx.fillStyle = '#16a34a';
       ctx.fillRect(10, legendY - 10, 12, 12);

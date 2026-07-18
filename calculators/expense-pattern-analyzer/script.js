@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = displaySize / 2;
     const cy = (displaySize - legendSpace) / 2 + 10;
     const radius = Math.min(displaySize / 2 - 20, cy - 20);
-    const innerRadius = radius * 0.5;
+    const innerRadius = radius * 0.7;
 
     const total = data.reduce((s, d) => s + d.value, 0);
     if (total === 0) return;
