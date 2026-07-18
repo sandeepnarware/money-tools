@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultInvested = document.getElementById('resultInvested');
   const resultReturns = document.getElementById('resultReturns');
   const resultTotal = document.getElementById('resultTotal');
+  const resultInflAdj = document.getElementById('resultInflAdj');
   const chartCanvas = document.getElementById('lumpsumChart');
 
   form.addEventListener('submit', (e) => {
@@ -20,18 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const P = parseFloat(document.getElementById('investmentAmount').value);
     const annualRate = parseFloat(document.getElementById('expectedReturn').value);
     const years = parseFloat(document.getElementById('investmentPeriod').value);
+    const annualInflation = parseFloat(document.getElementById('inflationRate').value);
 
-    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0 || isNaN(annualInflation) || annualInflation < 0) {
       alert('Please enter valid positive values.');
       return;
     }
 
     const fv = P * Math.pow(1 + annualRate / 100, years);
     const estimatedReturns = fv - P;
+    const inflAdj = fv / Math.pow(1 + annualInflation / 100, years);
 
     resultInvested.textContent = '\u20B9 ' + formatNumber(Math.round(P));
     resultReturns.textContent = '\u20B9 ' + formatNumber(Math.round(estimatedReturns));
     resultTotal.textContent = '\u20B9 ' + formatNumber(Math.round(fv));
+    resultInflAdj.textContent = '\u20B9 ' + formatNumber(Math.round(inflAdj));
 
     drawChart(P, estimatedReturns);
     resultsSection.style.display = 'block';
