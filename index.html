@@ -30,9 +30,9 @@
 
   <script src="js/main.js"></script>
   <script>
-    fetch('https://api.countapi.xyz/hit/money-tools/visits')
+    fetch('https://api.counterapi.dev/v1/money-tools/visits/up')
       .then(r => r.json())
-      .then(d => { document.getElementById('visitCount').textContent = d.value.toLocaleString('en-IN'); })
+      .then(d => { document.getElementById('visitCount').textContent = d.count.toLocaleString('en-IN'); })
       .catch(() => { document.getElementById('visitCount').textContent = '?'; });
   </script>
 </body>
