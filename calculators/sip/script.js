@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const years = parseFloat(document.getElementById('investmentPeriod').value);
     const annualInflation = parseFloat(document.getElementById('inflationRate').value);
 
-    if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }
