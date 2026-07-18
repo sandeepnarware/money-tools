@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = parseFloat(document.getElementById('targetPrice').value);
     const qty = parseFloat(document.getElementById('riskQty').value);
 
-    if (!entry || !stopLoss || !target || !qty || entry <= 0 || stopLoss <= 0 || target <= 0 || qty <= 0) {
+    if (!entry || !stopLoss || !target || isNaN(qty) || entry <= 0 || stopLoss <= 0 || target <= 0 || qty <= 0) {
       alert('Please enter valid positive values.');
       return;
     }
