@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prepayAfter = parseFloat(document.getElementById('prepayAfter').value);
     const prepayFreq = document.getElementById('prepayFreq').value;
 
-    if (!P || !annualRate || !tenureYears || !prepayAmount || P <= 0 || annualRate <= 0 || tenureYears <= 0 || prepayAmount <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(tenureYears) || tenureYears <= 0 || isNaN(prepayAmount) || prepayAmount <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

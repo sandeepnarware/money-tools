@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sipRate = parseFloat(document.getElementById('sipReturn').value) || 0;
     const fdRate = parseFloat(document.getElementById('fdRate').value) || 0;
 
-    if (!P || !years || !sipRate || !fdRate || P <= 0 || years <= 0 || sipRate <= 0 || fdRate <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(years) || years <= 0 || isNaN(sipRate) || sipRate <= 0 || isNaN(fdRate) || fdRate <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

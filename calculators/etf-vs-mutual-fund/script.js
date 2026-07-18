@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const years = parseFloat(document.getElementById('etfPeriod').value);
     const brokerage = parseFloat(document.getElementById('etfBrokerage').value);
 
-    if (!P || !mfExp || !etfExp || !mktRet || !years || P <= 0 || mktRet <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(mfExp) || mfExp < 0 || isNaN(etfExp) || etfExp < 0 || isNaN(mktRet) || mktRet <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

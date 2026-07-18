@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const n = parseFloat(document.getElementById('remainingTenure').value);
     const fee = parseFloat(document.getElementById('processingFee').value);
 
-    if (!P || !currRate || !newRate || !n || P <= 0 || currRate <= 0 || newRate <= 0 || n <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(currRate) || currRate <= 0 || isNaN(newRate) || newRate <= 0 || isNaN(n) || n <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

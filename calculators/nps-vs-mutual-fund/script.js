@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const annuityPct = parseFloat(document.getElementById('npsAnnuity').value);
     const annuityRet = parseFloat(document.getElementById('annuityReturn').value);
 
-    if (!P || !currAge || !retireAge || !npsRet || !mfRet || P <= 0 || npsRet <= 0 || mfRet <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(currAge) || currAge <= 0 || isNaN(retireAge) || retireAge <= 0 || isNaN(npsRet) || npsRet <= 0 || isNaN(mfRet) || mfRet <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

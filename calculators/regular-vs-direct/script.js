@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const regExp = parseFloat(document.getElementById('regularExpense').value);
     const dirExp = parseFloat(document.getElementById('directExpense').value);
 
-    if (!P || !years || !marketReturn || P <= 0 || years <= 0 || marketReturn <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(years) || years <= 0 || isNaN(marketReturn) || marketReturn <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

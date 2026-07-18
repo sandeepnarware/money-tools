@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const making = parseFloat(document.getElementById('gvMaking').value);
     const selling = parseFloat(document.getElementById('gvSelling').value);
 
-    if (!P || !years || !ret || P <= 0 || years <= 0 || ret <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(years) || years <= 0 || isNaN(ret) || ret <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

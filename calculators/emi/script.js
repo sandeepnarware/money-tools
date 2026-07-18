@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const annualRate = parseFloat(document.getElementById('interestRate').value);
     const years = parseFloat(document.getElementById('loanTenure').value);
 
-    if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

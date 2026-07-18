@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const expenseB = parseFloat(document.getElementById('expenseB').value);
     const investmentType = document.getElementById('investmentType').value;
 
-    if (!P || !marketReturn || !years || P <= 0 || marketReturn <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(marketReturn) || marketReturn <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

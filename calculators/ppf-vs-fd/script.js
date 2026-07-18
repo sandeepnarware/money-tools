@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fdRate = parseFloat(document.getElementById('fdRate').value);
     const years = parseFloat(document.getElementById('ppfPeriod').value);
 
-    if (!P || !ppfRate || !fdRate || !years || P <= 0 || ppfRate <= 0 || fdRate <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(ppfRate) || ppfRate <= 0 || isNaN(fdRate) || fdRate <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

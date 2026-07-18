@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isSenior) annualRate += 0.5;
 
-    if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

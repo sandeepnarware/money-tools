@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const years = parseFloat(document.getElementById('lsPeriod').value);
     const ret = parseFloat(document.getElementById('lsReturn').value);
 
-    if (!totalAmt || !years || !ret || totalAmt <= 0 || years <= 0 || ret <= 0) {
+    if (isNaN(totalAmt) || totalAmt <= 0 || isNaN(years) || years <= 0 || isNaN(ret) || ret <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

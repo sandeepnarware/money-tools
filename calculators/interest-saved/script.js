@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const years = parseFloat(document.getElementById('originalTenure').value);
     const extra = parseFloat(document.getElementById('extraPayment').value);
 
-    if (!P || !rate || !years || P <= 0 || rate <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(rate) || rate <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

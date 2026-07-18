@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const years = parseFloat(document.getElementById('timeHorizon').value);
     const annualRate = parseFloat(document.getElementById('expectedReturn').value);
 
-    if (!goal || !years || !annualRate || goal <= 0 || years <= 0 || annualRate <= 0) {
+    if (isNaN(goal) || goal <= 0 || isNaN(years) || years <= 0 || isNaN(annualRate) || annualRate <= 0) {
       alert('Please enter valid positive values.');
       return;
     }

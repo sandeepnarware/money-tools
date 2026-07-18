@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fdRate = parseFloat(document.getElementById('fdRate').value);
     const mfRate = parseFloat(document.getElementById('mfRate').value);
 
-    if (!P || !years || P <= 0 || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(years) || years <= 0) {
       alert('Please enter valid positive values for Principal and Time Period.');
       return;
     }
