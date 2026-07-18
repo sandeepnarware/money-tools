@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthlyWithdrawal = parseNum(document.getElementById('monthlyWithdrawal').value);
     const annualInflation = parseNum(document.getElementById('inflationRate').value);
 
-    if (!initialInvestment || annualReturn < 0 || !years || !monthlyWithdrawal || annualInflation < 0 ||
-        initialInvestment <= 0 || years <= 0 || monthlyWithdrawal <= 0) {
+    if (!initialInvestment || annualReturn < 0 || !years || isNaN(monthlyWithdrawal) || annualInflation < 0 ||
+        initialInvestment <= 0 || years <= 0 || monthlyWithdrawal < 0) {
       alert('Please enter valid positive values in all fields.');
       return;
     }
