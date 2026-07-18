@@ -24,16 +24,10 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2026 Money Tools &middot; <span id="visitCount">—</span> visits</p>
+      <p>&copy; 2026 Money Tools &middot; <img src="https://visitor-badge.laobi.icu/badge?page_id=money-tools.github.io&left_text=Visits" alt="visits" style="display:inline;height:1.1em;vertical-align:middle;border-radius:3px;"></p>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-    fetch('https://api.counterapi.dev/v1/money-tools/visits/up')
-      .then(r => r.json())
-      .then(d => { document.getElementById('visitCount').textContent = d.count.toLocaleString('en-IN'); })
-      .catch(() => { document.getElementById('visitCount').textContent = '?'; });
-  </script>
 </body>
 </html>
