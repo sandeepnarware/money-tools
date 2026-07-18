@@ -307,40 +307,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = w * 0.35, cy = h / 2;
     const radius = Math.min(w * 0.25, h * 0.35);
 
-    let startAngle = -Math.PI / 2;
-    entries.forEach(([type, value]) => {
-      const slice = (value / total) * Math.PI * 2;
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, w, h);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      entries.forEach(([type, value]) => {
+        const slice = (value / total) * Math.PI * 2;
+        const segEnd = currentStart + slice;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.closePath();
+          ctx.fillStyle = typeColors[type] || '#94a3b8';
+          ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+
+      ctx.fillStyle = '#fff';
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + slice);
-      ctx.closePath();
-      ctx.fillStyle = typeColors[type] || '#94a3b8';
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
       ctx.fill();
-      startAngle += slice;
-    });
 
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold 14px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('\u20B9 ' + abbreviate(total), cx, cy + 5);
-
-    let lx = w * 0.6, ly = 20;
-    ctx.textAlign = 'left';
-    ctx.font = '11px -apple-system, sans-serif';
-    entries.forEach(([type, value]) => {
-      const pct = ((value / total) * 100).toFixed(1);
-      ctx.fillStyle = typeColors[type] || '#94a3b8';
-      ctx.fillRect(lx, ly, 12, 12);
       ctx.fillStyle = '#1e293b';
-      ctx.fillText((typeLabels[type] || type) + ' ' + pct + '%', lx + 18, ly + 10);
-      ly += 22;
-      if (ly > h - 20) { lx += 100; ly = 20; }
-    });
+      ctx.font = 'bold 14px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('\u20B9 ' + abbreviate(total), cx, cy + 5);
+
+      let lx = w * 0.6, ly = 20;
+      ctx.textAlign = 'left';
+      ctx.font = '11px -apple-system, sans-serif';
+      entries.forEach(([type, value]) => {
+        const pct = ((value / total) * 100).toFixed(1);
+        ctx.fillStyle = typeColors[type] || '#94a3b8';
+        ctx.fillRect(lx, ly, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.fillText((typeLabels[type] || type) + ' ' + pct + '%', lx + 18, ly + 10);
+        ly += 22;
+        if (ly > h - 20) { lx += 100; ly = 20; }
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function drawGrowthChart(ctx, w, h) {

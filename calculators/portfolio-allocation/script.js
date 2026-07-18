@@ -139,46 +139,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 40;
     const total = data.reduce((s, d) => s + d.amount, 0);
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      data.forEach(d => {
+        const sliceAngle = (d.amount / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.closePath();
+          ctx.fillStyle = d.color;
+          ctx.fill();
+        }
+        currentStart = segEnd;
+      });
 
-    let startAngle = -Math.PI / 2;
-    data.forEach(d => {
-      const sliceAngle = (d.amount / total) * Math.PI * 2;
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + sliceAngle);
-      ctx.closePath();
-      ctx.fillStyle = d.color;
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
       ctx.fill();
-      startAngle += sliceAngle;
-    });
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.fill();
-
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold ' + (displaySize * 0.055) + 'px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('Age ' + age, cx, cy - 10);
-    ctx.font = (displaySize * 0.04) + 'px -apple-system, sans-serif';
-    ctx.fillStyle = '#64748b';
-    ctx.fillText('110 - ' + age + ' rule', cx, cy + 14);
-
-    const legendY = displaySize - 8;
-    let legendX = 10;
-    data.forEach(d => {
-      ctx.fillStyle = d.color;
-      ctx.fillRect(legendX, legendY - 10, 12, 12);
       ctx.fillStyle = '#1e293b';
-      ctx.font = '11px -apple-system, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(d.name, legendX + 16, legendY + 2);
-      legendX += ctx.measureText(d.name).width + 30;
-      if (legendX > displaySize - 40) { legendX = 10; }
-    });
+      ctx.font = 'bold ' + (displaySize * 0.055) + 'px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Age ' + age, cx, cy - 10);
+      ctx.font = (displaySize * 0.04) + 'px -apple-system, sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('110 - ' + age + ' rule', cx, cy + 14);
+
+      const legendY = displaySize - 8;
+      let legendX = 10;
+      data.forEach(d => {
+        ctx.fillStyle = d.color;
+        ctx.fillRect(legendX, legendY - 10, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '11px -apple-system, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(d.name, legendX + 16, legendY + 2);
+        legendX += ctx.measureText(d.name).width + 30;
+        if (legendX > displaySize - 40) { legendX = 10; }
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

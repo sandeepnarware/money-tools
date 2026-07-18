@@ -116,37 +116,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const total = lumpSum + annuityAmount;
-
-    const lumpAngle = (lumpSum / total) * Math.PI * 2;
-    const annAngle = (annuityAmount / total) * Math.PI * 2;
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + lumpAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + lumpAngle, -Math.PI / 2 + lumpAngle + annAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#2563eb';
-    ctx.fill();
-
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Lump Sum', 26, legendY + 2);
-
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(110, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Annuity', 126, legendY + 2);
+    const segs = [
+      { label: 'Lump Sum', value: lumpSum, color: '#16a34a' },
+      { label: 'Annuity', value: annuityAmount, color: '#2563eb' },
+    ];
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      if (total <= 0) return;
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Lump Sum', 26, legendY + 2);
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(110, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Annuity', 126, legendY + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

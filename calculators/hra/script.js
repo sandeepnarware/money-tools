@@ -74,34 +74,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (total === 0) return;
 
-    const excAngle = (exempted / total) * Math.PI * 2;
-    const taxAngle = (taxable / total) * Math.PI * 2;
+    const segs = [
+      { label: 'Exempted HRA', value: exempted, color: '#16a34a' },
+      { label: 'Taxable HRA', value: taxable, color: '#2563eb' },
+    ];
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + excAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
+    let startTime, animId;
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + excAngle, -Math.PI / 2 + excAngle + taxAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#2563eb';
-    ctx.fill();
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
 
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Exempted HRA', 26, legendY + 2);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
 
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(130, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Taxable HRA', 146, legendY + 2);
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.closePath();
+          ctx.fillStyle = seg.color;
+          ctx.fill();
+        }
+
+        currentStart = segEnd;
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Exempted HRA', 26, legendY + 2);
+
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(130, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Taxable HRA', 146, legendY + 2);
+    }
+
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

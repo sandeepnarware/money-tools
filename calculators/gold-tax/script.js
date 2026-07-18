@@ -111,35 +111,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = gain + tax;
 
-    const ang1 = (gain / total) * Math.PI * 2;
-    const ang2 = (tax / total) * Math.PI * 2;
+    const segs = [
+      { label: 'Gain', value: gain, color: '#16a34a' },
+      { label: 'Tax', value: tax, color: '#ef4444' },
+    ];
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
+    let startTime, animId;
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + ang1);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + ang1, -Math.PI / 2 + ang1 + ang2);
-    ctx.closePath();
-    ctx.fillStyle = '#ef4444';
-    ctx.fill();
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
 
-    const ly = displaySize - 6;
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(10, ly - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Gain', 26, ly + 2);
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
 
-    ctx.fillStyle = '#ef4444';
-    ctx.fillRect(80, ly - 10, 12, 12);
-    ctx.fillText('Tax', 96, ly + 2);
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.closePath();
+          ctx.fillStyle = seg.color;
+          ctx.fill();
+        }
+
+        currentStart = segEnd;
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      const ly = displaySize - 6;
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(10, ly - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Gain', 26, ly + 2);
+
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(80, ly - 10, 12, 12);
+      ctx.fillText('Tax', 96, ly + 2);
+    }
+
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

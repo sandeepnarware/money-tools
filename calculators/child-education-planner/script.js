@@ -135,73 +135,92 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedAngle = (savedPortion / totalFunding) * Math.PI * 2;
     const sipAngle = (sipPortion / totalFunding) * Math.PI * 2;
     const gap = Math.min(savedAngle, sipAngle) > 0 ? 0.04 : 0;
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    if (savedPortion > 0) {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + savedAngle - gap);
-      ctx.closePath();
-      ctx.fillStyle = '#1e40af';
-      ctx.fill();
-    }
-
-    if (sipPortion > 0) {
-      const startAngle = -Math.PI / 2 + savedAngle;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + sipAngle - gap);
-      ctx.closePath();
-      ctx.fillStyle = '#16a34a';
-      ctx.fill();
-    }
-
     const remainder = totalFunding - savedPortion - sipPortion;
-    if (remainder > 0) {
-      const startAngle = -Math.PI / 2 + savedAngle + sipAngle;
+
+    const seg1End = -Math.PI / 2 + savedAngle - gap;
+    const seg2Start = -Math.PI / 2 + savedAngle;
+    const seg2End = seg2Start + sipAngle - gap;
+    const seg3Start = -Math.PI / 2 + savedAngle + sipAngle;
+    const seg3End = seg3Start + (remainder > 0 ? (remainder / totalFunding) * Math.PI * 2 : 0);
+
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+
+      if (savedPortion > 0 && -Math.PI / 2 < maxAngle) {
+        const end = Math.min(seg1End, maxAngle);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, -Math.PI / 2, end);
+        ctx.closePath();
+        ctx.fillStyle = '#1e40af';
+        ctx.fill();
+      }
+
+      if (sipPortion > 0 && seg2Start < maxAngle) {
+        const end = Math.min(seg2End, maxAngle);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, seg2Start, end);
+        ctx.closePath();
+        ctx.fillStyle = '#16a34a';
+        ctx.fill();
+      }
+
+      if (remainder > 0 && seg3Start < maxAngle) {
+        const end = Math.min(seg3End, maxAngle);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, seg3Start, end);
+        ctx.closePath();
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fill();
+      }
+
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + (remainder / totalFunding) * Math.PI * 2);
-      ctx.closePath();
-      ctx.fillStyle = '#e2e8f0';
+      ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
       ctx.fill();
-    }
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.fill();
-
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold ' + (displaySize * 0.065) + 'px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const pct = Math.round((Math.min(savedPortion + sipPortion, totalFunding) / totalFunding) * 100);
-    ctx.fillText(pct + '%', cx, cy - 8);
-    ctx.font = (displaySize * 0.045) + 'px -apple-system, sans-serif';
-    ctx.fillStyle = '#64748b';
-    ctx.fillText('covered', cx, cy + 14);
-
-    const legendY = displaySize - 6;
-
-    if (savedPortion > 0) {
-      ctx.fillStyle = '#1e40af';
-      ctx.fillRect(10, legendY - 10, 12, 12);
       ctx.fillStyle = '#1e293b';
-      ctx.font = '12px -apple-system, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('Already Saved', 26, legendY + 2);
-    }
+      ctx.font = 'bold ' + (displaySize * 0.065) + 'px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const pct = Math.round((Math.min(savedPortion + sipPortion, totalFunding) / totalFunding) * 100);
+      ctx.fillText(pct + '%', cx, cy - 8);
+      ctx.font = (displaySize * 0.045) + 'px -apple-system, sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('covered', cx, cy + 14);
 
-    if (sipPortion > 0) {
-      const xOff = savedPortion > 0 ? 130 : 10;
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(xOff, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.textAlign = 'left';
-      ctx.fillText('Future SIP', xOff + 16, legendY + 2);
+      const legendY = displaySize - 6;
+
+      if (savedPortion > 0) {
+        ctx.fillStyle = '#1e40af';
+        ctx.fillRect(10, legendY - 10, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '12px -apple-system, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Already Saved', 26, legendY + 2);
+      }
+
+      if (sipPortion > 0) {
+        const xOff = savedPortion > 0 ? 130 : 10;
+        ctx.fillStyle = '#16a34a';
+        ctx.fillRect(xOff, legendY - 10, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.textAlign = 'left';
+        ctx.fillText('Future SIP', xOff + 16, legendY + 2);
+      }
     }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

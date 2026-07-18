@@ -330,39 +330,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = income + expenses;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
     if (total === 0) return;
 
-    const segments = [
+    const segs = [
       { label: 'Income', value: income, color: '#16a34a' },
       { label: 'Expenses', value: expenses, color: '#dc2626' },
     ];
 
-    let startAngle = -Math.PI / 2;
-    segments.forEach(seg => {
-      if (seg.value <= 0) return;
-      const angle = (seg.value / total) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
-      ctx.closePath();
-      ctx.fillStyle = seg.color;
-      ctx.fill();
-      startAngle += angle;
-    });
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-    // legend
-    let ly = displaySize - 6;
-    let lx = displaySize / 2 - 60;
-    segments.forEach(seg => {
-      ctx.fillStyle = seg.color;
-      ctx.fillRect(lx, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.font = '11px -apple-system, sans-serif';
-      ctx.fillText(seg.label, lx + 16, ly + 2);
-      lx += 100;
-    });
+      let ly = displaySize - 6;
+      let lx = displaySize / 2 - 60;
+      segs.forEach(seg => {
+        ctx.fillStyle = seg.color;
+        ctx.fillRect(lx, ly - 10, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '11px -apple-system, sans-serif';
+        ctx.fillText(seg.label, lx + 16, ly + 2);
+        lx += 100;
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function drawMonthlyTrendChart(months, monthMap) {
@@ -455,37 +466,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2 - 15;
     const radius = displaySize / 2 - 45;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
     const catColors = ['#f59e0b', '#2563eb', '#16a34a', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6', '#84cc16', '#d946ef', '#e11d48', '#0ea5e9', '#a855f7'];
 
-    let startAngle = -Math.PI / 2;
-    catSorted.forEach(([cat, amt], i) => {
-      if (totalExpenses <= 0) return;
-      const angle = (amt / totalExpenses) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
-      ctx.closePath();
-      ctx.fillStyle = catColors[i % catColors.length];
-      ctx.fill();
-      startAngle += angle;
-    });
+    const segs = catSorted.map(([cat, amt], i) => ({
+      label: cat, value: amt, color: catColors[i % catColors.length],
+    }));
 
-    // legend at bottom
-    let ly = displaySize - 6;
-    let lx = 10;
-    catSorted.forEach(([cat, amt], i) => {
-      ctx.fillStyle = catColors[i % catColors.length];
-      ctx.fillRect(lx, ly - 10, 10, 10);
-      ctx.fillStyle = '#1e293b';
-      ctx.font = '10px -apple-system, sans-serif';
-      ctx.textAlign = 'left';
-      const label = cat + ' ' + (totalExpenses > 0 ? (amt / totalExpenses * 100).toFixed(1) + '%' : '');
-      ctx.fillText(label, lx + 13, ly + 2);
-      lx += ctx.measureText(label).width + 22;
-      if (lx > displaySize - 30) { lx = 10; ly -= 14; }
-    });
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / totalExpenses) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+
+      let ly = displaySize - 6;
+      let lx = 10;
+      segs.forEach((seg, i) => {
+        ctx.fillStyle = seg.color;
+        ctx.fillRect(lx, ly - 10, 10, 10);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '10px -apple-system, sans-serif';
+        ctx.textAlign = 'left';
+        const label = seg.label + ' ' + (totalExpenses > 0 ? (seg.value / totalExpenses * 100).toFixed(1) + '%' : '');
+        ctx.fillText(label, lx + 13, ly + 2);
+        lx += ctx.measureText(label).width + 22;
+        if (lx > displaySize - 30) { lx = 10; ly -= 14; }
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatDate(d) {

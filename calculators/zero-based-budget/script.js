@@ -75,32 +75,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = values.reduce((s, v) => s + v, 0);
     if (total === 0) return;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
-    let startAngle = -Math.PI / 2;
+    const segs = values.map((val, i) => ({ label: labels[i], value: val, color: colors[i] }));
 
-    values.forEach((val, i) => {
-      if (val <= 0) return;
-      const angle = (val / total) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
-      ctx.closePath();
-      ctx.fillStyle = colors[i];
-      ctx.fill();
-      startAngle += angle;
-    });
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-    let lx = 10;
-    values.forEach((val, i) => {
-      if (val <= 0) return;
-      ctx.fillStyle = colors[i];
-      ctx.fillRect(lx, displaySize - 6, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText(labels[i], lx + 16, displaySize + 2);
-      lx += ctx.measureText(labels[i]).width + 34;
-      if (lx > displaySize - 20) lx = 10;
-    });
+      let lx = 10;
+      segs.forEach((seg, i) => {
+        if (seg.value <= 0) return;
+        ctx.fillStyle = seg.color;
+        ctx.fillRect(lx, displaySize - 6, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '12px -apple-system, sans-serif';
+        ctx.fillText(seg.label, lx + 16, displaySize + 2);
+        lx += ctx.measureText(seg.label).width + 34;
+        if (lx > displaySize - 20) lx = 10;
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

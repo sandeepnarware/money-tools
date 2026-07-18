@@ -96,16 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const lineWidth = 20;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    const bgColor = '#e2e8f0';
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius - lineWidth / 2, 0, Math.PI * 2);
-    ctx.strokeStyle = bgColor;
-    ctx.lineWidth = lineWidth;
-    ctx.stroke();
-
     let color;
     if (score >= 90) {
       color = '#16a34a';
@@ -115,28 +105,47 @@ document.addEventListener('DOMContentLoaded', () => {
       color = '#ef4444';
     }
 
-    const angle = (score / 100) * Math.PI * 2;
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius - lineWidth / 2, -Math.PI / 2, -Math.PI / 2 + angle);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
-    ctx.lineCap = 'round';
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius - lineWidth / 2, 0, Math.PI * 2);
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
 
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold 24px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(Math.round(score) + '%', cx, cy);
+      const angle = (score / 100) * Math.PI * 2 * p;
 
-    const legendY = displaySize - 6;
-    ctx.fillStyle = color;
-    ctx.fillRect(cx - 50, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('Readiness Score', cx - 34, legendY + 2);
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius - lineWidth / 2, -Math.PI / 2, -Math.PI / 2 + angle);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 24px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(Math.round(score) + '%', cx, cy);
+
+      const legendY = displaySize - 6;
+      ctx.fillStyle = color;
+      ctx.fillRect(cx - 50, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Readiness Score', cx - 34, legendY + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

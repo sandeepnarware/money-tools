@@ -107,32 +107,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = data.reduce((s, d) => s + d.value, 0);
     if (total === 0) return;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      data.forEach(d => {
+        const sliceAngle = (d.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.arc(cx, cy, innerRadius, end, currentStart, true);
+          ctx.closePath();
+          ctx.fillStyle = d.color;
+          ctx.fill();
+        }
+        currentStart = segEnd;
+      });
 
-    let startAngle = -Math.PI / 2;
-    data.forEach(d => {
-      const sliceAngle = (d.value / total) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, startAngle, startAngle + sliceAngle);
-      ctx.arc(cx, cy, innerRadius, startAngle + sliceAngle, startAngle, true);
-      ctx.closePath();
-      ctx.fillStyle = d.color;
-      ctx.fill();
-      startAngle += sliceAngle;
-    });
-
-    const colW = displaySize / cols;
-    data.forEach((d, i) => {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const x = col * colW + 6;
-      const y = displaySize - (legendRows - row) * 16 + 4;
-      ctx.fillStyle = d.color;
-      ctx.fillRect(x, y - 7, 8, 8);
-      ctx.fillStyle = '#1e293b';
-      ctx.font = '10px -apple-system, sans-serif';
-      ctx.fillText(d.label, x + 12, y + 1);
-    });
+      const colW = displaySize / cols;
+      data.forEach((d, i) => {
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const x = col * colW + 6;
+        const y = displaySize - (legendRows - row) * 16 + 4;
+        ctx.fillStyle = d.color;
+        ctx.fillRect(x, y - 7, 8, 8);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '10px -apple-system, sans-serif';
+        ctx.fillText(d.label, x + 12, y + 1);
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

@@ -117,50 +117,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const total = employeeTotal + employerTotal + interest;
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    const empAngle = (employeeTotal / total) * Math.PI * 2;
-    const employerAngle = (employerTotal / total) * Math.PI * 2;
-    const intAngle = (interest / total) * Math.PI * 2;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + empAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#2563eb';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + empAngle, -Math.PI / 2 + empAngle + employerAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#f59e0b';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + empAngle + employerAngle, -Math.PI / 2 + empAngle + employerAngle + intAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
-
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Employee', 26, legendY + 2);
-
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(100, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Employer', 116, legendY + 2);
-
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(190, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Interest', 206, legendY + 2);
+    const segs = [
+      { label: 'Employee', value: employeeTotal, color: '#2563eb' },
+      { label: 'Employer', value: employerTotal, color: '#f59e0b' },
+      { label: 'Interest', value: interest, color: '#16a34a' },
+    ];
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      if (total <= 0) return;
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Employee', 26, legendY + 2);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(100, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Employer', 116, legendY + 2);
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(190, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Interest', 206, legendY + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

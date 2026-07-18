@@ -94,47 +94,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const total = taxLiability + alreadyPaid;
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    if (total <= 0) {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fillStyle = '#94a3b8';
-      ctx.fill();
-      return;
+    const segs = [
+      { label: 'Tax Due', value: taxLiability, color: '#ef4444' },
+      { label: 'Paid', value: alreadyPaid, color: '#16a34a' },
+    ];
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      if (total <= 0) {
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.closePath(); ctx.fillStyle = '#94a3b8'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+        return;
+      }
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Tax Due', 26, legendY + 2);
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(90, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Paid', 106, legendY + 2);
     }
-
-    const paidAngle = (alreadyPaid / total) * Math.PI * 2;
-    const dueAngle = (taxLiability / total) * Math.PI * 2;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + dueAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#ef4444';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + dueAngle, -Math.PI / 2 + dueAngle + paidAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
-
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#ef4444';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Tax Due', 26, legendY + 2);
-
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(90, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Paid', 106, legendY + 2);
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

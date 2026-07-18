@@ -134,30 +134,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const filled = (score / 100) * Math.PI * 2;
     const empty = (1 - score / 100) * Math.PI * 2;
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.fillStyle = '#e2e8f0';
-    ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fill();
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + filled);
-    ctx.closePath();
-    ctx.fillStyle = '#2563eb';
-    ctx.fill();
+      const fillAngle = -Math.PI / 2 + filled * p;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, -Math.PI / 2, fillAngle);
+      ctx.closePath();
+      ctx.fillStyle = '#2563eb';
+      ctx.fill();
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
 
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold ' + (displaySize * 0.12) + 'px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(score + '/100', cx, cy);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold ' + (displaySize * 0.12) + 'px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(score + '/100', cx, cy);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

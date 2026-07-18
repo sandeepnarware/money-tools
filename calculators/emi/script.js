@@ -112,36 +112,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = principal + totalInterest;
 
-    const pAngle = (principal / total) * Math.PI * 2;
-    const iAngle = (totalInterest / total) * Math.PI * 2;
+    const segs = [
+      { label: 'Principal', value: principal, color: '#2563eb' },
+      { label: 'Interest', value: totalInterest, color: '#f59e0b' },
+    ];
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
+    let startTime, animId;
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + pAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#2563eb';
-    ctx.fill();
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
 
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + pAngle, -Math.PI / 2 + pAngle + iAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#f59e0b';
-    ctx.fill();
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
 
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Principal', 26, legendY + 2);
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
 
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(100, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Interest', 116, legendY + 2);
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, currentStart, end);
+          ctx.closePath();
+          ctx.fillStyle = seg.color;
+          ctx.fill();
+        }
+
+        currentStart = segEnd;
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Principal', 26, legendY + 2);
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(100, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Interest', 116, legendY + 2);
+    }
+
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

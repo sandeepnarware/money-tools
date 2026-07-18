@@ -62,44 +62,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const maxScore = 900;
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    const currentAngle = (current / maxScore) * Math.PI * 2;
-    const gapAngle = ((target - current) / maxScore) * Math.PI * 2;
-    const remainingAngle = ((maxScore - target) / maxScore) * Math.PI * 2;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + currentAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + currentAngle, -Math.PI / 2 + currentAngle + gapAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#f59e0b';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + currentAngle + gapAngle, -Math.PI / 2 + currentAngle + gapAngle + remainingAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#e2e8f0';
-    ctx.fill();
-
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(10, displaySize - 6, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Current (' + Math.round(current) + ')', 26, displaySize + 2);
-
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(140, displaySize - 6, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Gap (' + Math.round(target - current) + ')', 156, displaySize + 2);
+    const segs = [
+      { label: 'Current (' + Math.round(current) + ')', value: current, color: '#16a34a' },
+      { label: 'Gap (' + Math.round(target - current) + ')', value: Math.max(0, target - current), color: '#f59e0b' },
+      { label: 'Remaining', value: Math.max(0, maxScore - target), color: '#e2e8f0' },
+    ];
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / maxScore) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(10, displaySize - 6, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Current (' + Math.round(current) + ')', 26, displaySize + 2);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(140, displaySize - 6, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Gap (' + Math.round(target - current) + ')', 156, displaySize + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

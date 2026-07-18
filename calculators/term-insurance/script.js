@@ -71,40 +71,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = displaySize / 2;
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
-    const total = incomeReplacement + debtCoverage + dependentNeeds + existingCover;
+    const total = incomeRep + debtCov + depNeed + existCov;
 
-    const segments = [
-      { value: incomeReplacement, color: '#2563eb', label: 'Income Replacement' },
-      { value: debtCoverage, color: '#ef4444', label: 'Debt Coverage' },
-      { value: dependentNeeds, color: '#f59e0b', label: 'Dependent Expenses' },
-      { value: existingCover, color: '#16a34a', label: 'Existing Cover' },
+    const segs = [
+      { label: 'Income Replacement', value: incomeRep, color: '#2563eb' },
+      { label: 'Debt Coverage', value: debtCov, color: '#ef4444' },
+      { label: 'Dependent Expenses', value: depNeed, color: '#f59e0b' },
+      { label: 'Existing Cover', value: existCov, color: '#16a34a' },
     ];
 
-    ctx.clearRect(0, 0, displaySize, displaySize);
-    let startAngle = -Math.PI / 2;
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-    segments.forEach(seg => {
-      if (seg.value <= 0) return;
-      const angle = (seg.value / total) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
-      ctx.closePath();
-      ctx.fillStyle = seg.color;
-      ctx.fill();
-      startAngle += angle;
-    });
-
-    const legendY = displaySize - 6;
-    let legendX = 10;
-    segments.forEach(seg => {
-      ctx.fillStyle = seg.color;
-      ctx.fillRect(legendX, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText(seg.label, legendX + 16, legendY + 2);
-      legendX += ctx.measureText(seg.label).width + 32;
-    });
+      const legendY = displaySize - 6;
+      let legendX = 10;
+      segs.forEach(seg => {
+        ctx.fillStyle = seg.color;
+        ctx.fillRect(legendX, legendY - 10, 12, 12);
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '12px -apple-system, sans-serif';
+        ctx.fillText(seg.label, legendX + 16, legendY + 2);
+        legendX += ctx.measureText(seg.label).width + 32;
+      });
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {

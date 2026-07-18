@@ -64,37 +64,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const exempt = Math.max(0, total - taxable);
-
-    ctx.clearRect(0, 0, displaySize, displaySize);
-
-    const exemptAngle = (exempt / total) * Math.PI * 2;
-    const taxableAngle = (taxable / total) * Math.PI * 2;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + exemptAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#16a34a';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, -Math.PI / 2 + exemptAngle, -Math.PI / 2 + exemptAngle + taxableAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#dc2626';
-    ctx.fill();
-
-    const legendY = displaySize - 6;
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(10, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('Exempt', 26, legendY + 2);
-
-    ctx.fillStyle = '#dc2626';
-    ctx.fillRect(90, legendY - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillText('Taxable', 106, legendY + 2);
+    const segs = [
+      { label: 'Exempt', value: exempt, color: '#16a34a' },
+      { label: 'Taxable', value: taxable, color: '#dc2626' },
+    ];
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displaySize, displaySize);
+      if (total <= 0) return;
+      const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
+      let currentStart = -Math.PI / 2;
+      segs.forEach(seg => {
+        if (seg.value <= 0) return;
+        const sliceAngle = (seg.value / total) * Math.PI * 2;
+        const segEnd = currentStart + sliceAngle;
+        if (currentStart < maxAngle) {
+          const end = Math.min(segEnd, maxAngle);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
+          ctx.fillStyle = seg.color; ctx.fill();
+        }
+        currentStart = segEnd;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      const legendY = displaySize - 6;
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(10, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Exempt', 26, legendY + 2);
+      ctx.fillStyle = '#dc2626';
+      ctx.fillRect(90, legendY - 10, 12, 12);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('Taxable', 106, legendY + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
   }
 
   function formatNumber(num) {
