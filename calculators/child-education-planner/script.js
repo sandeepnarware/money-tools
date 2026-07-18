@@ -148,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, displaySize, displaySize);
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
 
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+
       if (savedPortion > 0 && -Math.PI / 2 < maxAngle) {
         const end = Math.min(seg1End, maxAngle);
         ctx.beginPath();
@@ -156,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.closePath();
         ctx.fillStyle = '#1e40af';
         ctx.fill();
+        ctx.stroke();
       }
 
       if (sipPortion > 0 && seg2Start < maxAngle) {
@@ -166,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.closePath();
         ctx.fillStyle = '#16a34a';
         ctx.fill();
+        ctx.stroke();
       }
 
       if (remainder > 0 && seg3Start < maxAngle) {
@@ -176,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.closePath();
         ctx.fillStyle = '#e2e8f0';
         ctx.fill();
+        ctx.stroke();
       }
 
       ctx.beginPath();

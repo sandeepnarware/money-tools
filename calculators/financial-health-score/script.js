@@ -138,10 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);
 
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fillStyle = '#e2e8f0';
       ctx.fill();
+      ctx.stroke();
 
       const fillAngle = -Math.PI / 2 + filled * p;
       ctx.beginPath();
@@ -150,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.closePath();
       ctx.fillStyle = '#2563eb';
       ctx.fill();
+      ctx.stroke();
 
       ctx.beginPath();
       ctx.arc(cx, cy, radius * 0.65, 0, Math.PI * 2);

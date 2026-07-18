@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = displaySize / 2;
     const cy = (displaySize - legendSpace) / 2 + 10;
     const radius = Math.min(displaySize / 2 - 20, cy - 20);
-    const innerRadius = radius * 0.7;
+    const innerRadius = radius * 0.82;
 
     const total = data.reduce((s, d) => s + d.value, 0);
     if (total === 0) return;
@@ -124,6 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, displaySize, displaySize);
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
       let currentStart = -Math.PI / 2;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
       data.forEach(d => {
         const sliceAngle = (d.value / total) * Math.PI * 2;
         const segEnd = currentStart + sliceAngle;
@@ -135,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.closePath();
           ctx.fillStyle = d.color;
           ctx.fill();
+          ctx.stroke();
         }
         currentStart = segEnd;
       });

@@ -70,8 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
       let currentStart = -Math.PI / 2;
-
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
       segs.forEach(seg => {
+
         if (seg.value <= 0) return;
         const sliceAngle = (seg.value / total) * Math.PI * 2;
         const segEnd = currentStart + sliceAngle;
@@ -84,13 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.closePath();
           ctx.fillStyle = seg.color;
           ctx.fill();
+          ctx.stroke();
         }
 
         currentStart = segEnd;
       });
 
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2);
+      ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 

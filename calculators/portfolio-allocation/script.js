@@ -144,6 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, displaySize, displaySize);
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
       let currentStart = -Math.PI / 2;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
       data.forEach(d => {
         const sliceAngle = (d.amount / total) * Math.PI * 2;
         const segEnd = currentStart + sliceAngle;
@@ -155,12 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.closePath();
           ctx.fillStyle = d.color;
           ctx.fill();
+          ctx.stroke();
         }
         currentStart = segEnd;
       });
 
       ctx.beginPath();
-      ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2);
+      ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 

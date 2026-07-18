@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, displaySize, displaySize);
       const maxAngle = -Math.PI / 2 + 2 * Math.PI * p;
       let currentStart = -Math.PI / 2;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+
       segs.forEach(seg => {
         if (seg.value <= 0) return;
         const sliceAngle = (seg.value / total) * Math.PI * 2;
@@ -77,10 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const end = Math.min(segEnd, maxAngle);
           ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, currentStart, end); ctx.closePath();
           ctx.fillStyle = seg.color; ctx.fill();
+          ctx.stroke();
         }
         currentStart = segEnd;
       });
-      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.7, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
     }
     function animate(time) {
       if (!startTime) startTime = time;
