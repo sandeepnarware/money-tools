@@ -8,9 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultUpdated = document.getElementById('resultUpdated');
   const chartCanvas = document.getElementById('currencyChart');
 
-  const rates = {
-    INR: { USD: 0.012, EUR: 0.011, GBP: 0.0095, JPY: 1.83, AUD: 0.018, CAD: 0.016, SGD: 0.016, AED: 0.044 },
-  };
+  let liveRates = null;
+  let ratesDate = '';
+
+  function fetchRates() {
+    return fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/inr.json')
+      .then(res => res.json())
+      .then(data => {
+        liveRates = data.inr;
+        ratesDate = data.date;
+        resultUpdated.textContent = 'Rates as of ' + ratesDate;
+      })
+      .catch(() => {
+        resultUpdated.textContent = 'Could not fetch live rates. Using approximate rates.';
+      });
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -26,24 +38,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const from = document.getElementById('fromCurrency').value;
     const to = document.getElementById('toCurrency').value;
 
-    if (!amount || amount <= 0) {
+    if (isNaN(amount) || amount <= 0) {
       alert('Please enter a valid amount.');
       return;
     }
 
+    const f = from.toLowerCase();
+    const t = to.toLowerCase();
     let rate;
-    if (from === 'INR') {
-      rate = rates.INR[to];
-      if (to === 'INR') rate = 1;
-    } else if (to === 'INR') {
-      rate = 1 / (rates.INR[from] || 1);
+    if (liveRates && liveRates[t] && liveRates[f]) {
+      if (from === 'INR') {
+        rate = liveRates[t];
+      } else if (to === 'INR') {
+        rate = 1 / liveRates[f];
+      } else {
+        rate = liveRates[t] / liveRates[f];
+      }
     } else {
-      const inrAmount = amount / (rates.INR[from] || 1);
-      const convertedAmt = inrAmount * (rates.INR[to] || 1);
-      rate = convertedAmt / amount;
+      const approxRates = {
+        INR: { USD: 0.012, EUR: 0.011, GBP: 0.0095, JPY: 1.83, AUD: 0.018, CAD: 0.016, SGD: 0.016, AED: 0.044 },
+      };
+      if (from === 'INR') {
+        rate = approxRates.INR[to];
+        if (to === 'INR') rate = 1;
+      } else if (to === 'INR') {
+        rate = 1 / (approxRates.INR[from] || 1);
+      } else {
+        rate = (approxRates.INR[to] || 1) / (approxRates.INR[from] || 1);
+      }
     }
 
-    if (!rate || rate <= 0) {
+    if (isNaN(rate) || rate <= 0) {
       alert('Conversion rate not available for selected pair.');
       return;
     }
@@ -55,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resultFromAmt.textContent = (sym[from] || '') + ' ' + formatNumber(Math.round(amount));
     resultRate.textContent = rate.toFixed(4);
     resultConverted.textContent = (sym[to] || '') + ' ' + formatNumber(Math.round(converted));
-    resultUpdated.textContent = 'Rates as of 2026';
 
     drawChart(0, converted, from, to);
     resultsSection.style.display = 'block';
@@ -106,5 +130,5 @@ document.addEventListener('DOMContentLoaded', () => {
     return num.toLocaleString('en-IN');
   }
 
-  calculate();
+  fetchRates().then(() => calculate());
 });
