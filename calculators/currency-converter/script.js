@@ -46,15 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const f = from.toLowerCase();
     const t = to.toLowerCase();
     let rate;
-    if (liveRates && liveRates[t] && liveRates[f]) {
-      if (from === 'INR') {
-        rate = liveRates[t];
-      } else if (to === 'INR') {
-        rate = 1 / liveRates[f];
-      } else {
-        rate = liveRates[t] / liveRates[f];
+    if (from === to) {
+      rate = 1;
+    } else if (liveRates) {
+      const hasFrom = from === 'INR' || liveRates[f];
+      const hasTo = to === 'INR' || liveRates[t];
+      if (hasFrom && hasTo) {
+        if (from === 'INR') {
+          rate = liveRates[t];
+        } else if (to === 'INR') {
+          rate = 1 / liveRates[f];
+        } else {
+          rate = liveRates[t] / liveRates[f];
+        }
       }
-    } else {
+    }
+    if (!rate || rate <= 0) {
       const approxRates = {
         INR: { USD: 0.012, EUR: 0.011, GBP: 0.0095, JPY: 1.83, AUD: 0.018, CAD: 0.016, SGD: 0.016, AED: 0.044 },
       };
