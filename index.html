@@ -24,10 +24,16 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2026 Money Tools</p>
+      <p>&copy; 2026 Money Tools &middot; <span id="visitCount">—</span> visits</p>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
+  <script>
+    fetch('https://api.countapi.xyz/hit/money-tools/visits')
+      .then(r => r.json())
+      .then(d => { document.getElementById('visitCount').textContent = d.value.toLocaleString('en-IN'); })
+      .catch(() => { document.getElementById('visitCount').textContent = '?'; });
+  </script>
 </body>
 </html>
