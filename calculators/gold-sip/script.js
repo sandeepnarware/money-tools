@@ -150,10 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
     priceStatus.textContent = 'Fetching live gold price...';
     priceStatus.style.color = 'var(--text-secondary)';
     try {
-      const res = await fetch('https://api.metals.live/v1/spot/gold');
+      // Gold spot price in USD per troy ounce (24K). CORS-enabled, no API key.
+      const res = await fetch('https://api.gold-api.com/price/XAU');
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      const usdPerOz = data.amount || data;
+      const usdPerOz = data.price;
+      if (!usdPerOz || isNaN(usdPerOz)) throw new Error('No price in response');
       const forexRes = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
       if (!forexRes.ok) throw new Error('Forex API error');
       const forexData = await forexRes.json();
@@ -161,10 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // 1 troy oz = 31.1035 grams
       const inrPerGram = (usdPerOz / 31.1035) * inrPerUsd;
       currentGoldPriceInput.value = Math.round(inrPerGram);
-      priceStatus.textContent = `Live price: \u20B9${Math.round(inrPerGram)}/g (1 oz = $${usdPerOz}, 1 USD = \u20B9${inrPerUsd})`;
+      priceStatus.textContent = `Live 24K price: \u20B9${formatNumber(Math.round(inrPerGram))}/g (1 oz = $${Math.round(usdPerOz)}, 1 USD = \u20B9${inrPerUsd})`;
       priceStatus.style.color = '#00652c';
     } catch {
-      priceStatus.textContent = 'Could not fetch live price. Enter manually.';
+      priceStatus.textContent = 'Could not fetch live price. Please enter manually.';
       priceStatus.style.color = '#ba1a1a';
     }
   });
