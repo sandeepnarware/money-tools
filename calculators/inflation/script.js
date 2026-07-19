@@ -134,6 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.font = 'bold 14px -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('CAGR Inflation: ' + inflationRate.toFixed(2) + '%', padding.left, 16);
+
+    const regions = [
+      { type: 'rect', x: x1, y: getY(pastPrice), w: barWidth, h: h1,
+        label: 'Past Price', value: '₹ ' + formatNumber(Math.round(pastPrice)), color: '#005c8e' },
+      { type: 'rect', x: x2, y: getY(currentPrice), w: barWidth, h: h2,
+        label: 'Current Price', value: '₹ ' + formatNumber(Math.round(currentPrice)), color: '#d97706' },
+    ];
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

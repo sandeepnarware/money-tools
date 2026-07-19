@@ -294,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
+    const regions = [];
     items.forEach((item, i) => {
       const x = padding.left + gap + i * (gap + barWidth);
       const h = (item.value / maxVal) * chartH;
@@ -308,7 +309,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#545f73';
       ctx.font = '9px -apple-system, sans-serif';
       ctx.fillText(item.label, x + barWidth / 2, padding.top + chartH + 14);
+
+      regions.push({ type: 'rect', x: x, y: getY(item.value), w: barWidth, h: h,
+        label: item.label, value: '\u20B9 ' + formatNumber(Math.round(item.value)), color: item.color });
     });
+    ChartTooltip.bind(canvas, regions);
   }
 
   function abbreviateNumber(num) {

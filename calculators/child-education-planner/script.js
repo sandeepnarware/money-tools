@@ -143,6 +143,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const seg3Start = -Math.PI / 2 + savedAngle + sipAngle;
     const seg3End = seg3Start + (remainder > 0 ? (remainder / totalFunding) * Math.PI * 2 : 0);
 
+    const regions = [];
+    if (savedPortion > 0) {
+      regions.push({ type: 'arc', cx, cy, rInner: radius * 0.65, rOuter: radius,
+        start: -Math.PI / 2, end: seg1End,
+        label: 'Already Saved', value: '₹ ' + formatNumber(Math.round(savedPortion)), color: '#004b74' });
+    }
+    if (sipPortion > 0) {
+      regions.push({ type: 'arc', cx, cy, rInner: radius * 0.65, rOuter: radius,
+        start: seg2Start, end: seg2End,
+        label: 'Future SIP', value: '₹ ' + formatNumber(Math.round(sipPortion)), color: '#00652c' });
+    }
+    if (remainder > 0) {
+      regions.push({ type: 'arc', cx, cy, rInner: radius * 0.65, rOuter: radius,
+        start: seg3Start, end: seg3End,
+        label: 'Remaining', value: '₹ ' + formatNumber(Math.round(remainder)), color: '#dce1e4' });
+    }
+    ChartTooltip.bind(chartCanvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);

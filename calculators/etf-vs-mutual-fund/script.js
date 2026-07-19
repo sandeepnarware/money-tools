@@ -89,6 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText(label1, startX + barWidth / 2, bottomY + 18);
     ctx.fillText(label2, startX + barWidth + gap + barWidth / 2, bottomY + 18);
+
+    ChartTooltip.bind(chartCanvas, [
+      { type: 'rect', x: startX, y: bottomY - h1, w: barWidth, h: h1,
+        label: label1, value: '₹ ' + formatNumber(Math.round(val1)), color: color1 },
+      { type: 'rect', x: startX + barWidth + gap, y: bottomY - h2, w: barWidth, h: h2,
+        label: label2, value: '₹ ' + formatNumber(Math.round(val2)), color: color2 },
+    ]);
   }
 
   function formatNumber(num) {

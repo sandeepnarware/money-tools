@@ -107,6 +107,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = data.reduce((s, d) => s + d.value, 0);
     if (total === 0) return;
 
+    let angleCursor = -Math.PI / 2;
+    const regions = data.filter(d => d.value > 0).map(d => {
+      const sliceAngle = (d.value / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: innerRadius, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: d.label, value: '₹ ' + formatNumber(Math.round(d.value)), color: d.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(chartCanvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);

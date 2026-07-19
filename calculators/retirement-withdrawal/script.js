@@ -126,13 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2;
     ctx.beginPath();
+    const regions = [];
     balances.forEach((v, i) => {
       const x = pad.left + (i / (balances.length - 1 || 1)) * chartW;
       const y = pad.top + chartH - (v / maxVal) * chartH;
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
+      regions.push({
+        type: 'point', x, y, r: 10,
+        label: 'Age ' + (startAge + i),
+        value: '₹ ' + formatNumber(Math.round(v)), color: '#005c8e',
+      });
     });
     ctx.stroke();
+    ChartTooltip.bind(chartCanvas, regions);
 
     ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';

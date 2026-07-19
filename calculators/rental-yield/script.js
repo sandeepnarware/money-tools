@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
+    const regions = [];
     items.forEach((item, i) => {
       const x = padding.left + gap + i * (gap + barWidth);
       const h = (item.value / maxVal) * chartH;
@@ -114,7 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(item.label, x + barWidth / 2, padding.top + chartH + 16);
+
+      regions.push({
+        type: 'rect', x, y: getY(item.value), w: barWidth, h,
+        label: item.label, value: item.value.toFixed(2) + '%', color: item.color,
+      });
     });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

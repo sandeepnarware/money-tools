@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const barColors = ['#d97706', '#005c8e', '#00652c'];
     const barLabels = ['Total Cost', 'Nominal', 'Infl-Adj'];
 
+    const regions = [];
     groups.forEach((g, gi) => {
       const gx = padding.left + gi * groupWidth;
 
@@ -243,6 +244,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = '#191c1e';
         ctx.font = 'bold 10px -apple-system, sans-serif';
         ctx.fillText(abbreviateNumber(val), x + barW / 2, getY(val) - 6);
+
+        regions.push({
+          type: 'rect', x, y: getY(val), w: barW, h,
+          label: g.label + ' · ' + barLabels[bi],
+          value: '₹ ' + formatNumber(Math.round(val)), color: barColors[bi],
+        });
       });
 
       ctx.fillStyle = '#191c1e';
@@ -266,6 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText(item.label, item.x + 16, 18);
     });
+
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function abbreviateNumber(num) {

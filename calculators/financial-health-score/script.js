@@ -134,6 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const filled = (score / 100) * Math.PI * 2;
     const empty = (1 - score / 100) * Math.PI * 2;
 
+    const regions = [
+      { type: 'arc', cx, cy, rInner: radius * 0.65, rOuter: radius,
+        start: -Math.PI / 2, end: -Math.PI / 2 + filled,
+        label: 'Score', value: score + ' / 100', color: '#005c8e' },
+    ];
+    if (empty > 0) {
+      regions.push({ type: 'arc', cx, cy, rInner: radius * 0.65, rOuter: radius,
+        start: -Math.PI / 2 + filled, end: -Math.PI / 2 + filled + empty,
+        label: 'Remaining', value: (100 - score) + ' / 100', color: '#dce1e4' });
+    }
+    ChartTooltip.bind(chartCanvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);

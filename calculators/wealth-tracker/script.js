@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = '14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('No asset data for this month', w / 2, h / 2);
+      ChartTooltip.bind(chartCanvas, []);
       return;
     }
 
@@ -361,6 +362,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (animId) cancelAnimationFrame(animId);
     animId = requestAnimationFrame(animate);
+
+    let angleCursor = -Math.PI / 2;
+    const regions = entries.map(([type, value]) => {
+      const sliceAngle = (value / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: typeLabels[type] || type,
+        value: '₹ ' + formatNumber(value), color: typeColors[type] || '#94a3b8',
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function drawGrowthChart(ctx, w, h) {
@@ -370,6 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = '14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Save monthly snapshots to see growth', w / 2, h / 2);
+      ChartTooltip.bind(chartCanvas, []);
       return;
     }
 
@@ -436,6 +452,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(m.slice(5), getX(i), padding.top + chartH + 16);
       }
     });
+
+    const regions = values.map((v, i) => ({
+      type: 'point', x: getX(i), y: getY(v), r: 10,
+      label: months[i], value: '₹ ' + formatNumber(v), color: '#005c8e',
+    }));
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function drawProjectionChart(ctx, w, h) {
@@ -445,6 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = '14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Enter asset/liability values and save to see projection', w / 2, h / 2);
+      ChartTooltip.bind(chartCanvas, []);
       return;
     }
 
@@ -544,6 +567,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.font = '10px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('At ' + data.projectionRate + '% annual growth', w / 2, h - 4);
+
+    const regions = points.map(p => ({
+      type: 'point', x: getX(p.year), y: getY(p.value), r: 10,
+      label: 'Yr ' + p.year, value: '₹ ' + formatNumber(p.value), color: '#00652c',
+    }));
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function addItem(cat) {

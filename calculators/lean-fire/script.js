@@ -167,6 +167,17 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Portfolio Growth', 26, 16);
+
+    const regions = values.map((v, i) => ({
+      type: 'point',
+      x: pad.left + (i / (values.length - 1 || 1)) * chartW,
+      y: pad.top + chartH - (v / maxVal) * chartH,
+      r: 10,
+      label: 'Age ' + schedule[i].age,
+      value: '₹ ' + formatNumber(Math.round(v)),
+      color: '#005c8e',
+    }));
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

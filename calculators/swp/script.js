@@ -193,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
     drawLine(schedule, d => d.closing, '#005c8e');
     drawLine(schedule, d => d.inflAdj, '#00652c');
 
+    const regions = [];
+    schedule.forEach((d, i) => {
+      regions.push({ type: 'point', x: getX(i), y: getY(d.closing), r: 10,
+        label: 'Yr ' + d.year + ' · Closing Corpus', value: '₹ ' + formatNumber(Math.round(d.closing)), color: '#005c8e' });
+      regions.push({ type: 'point', x: getX(i), y: getY(d.inflAdj), r: 10,
+        label: 'Yr ' + d.year + ' · Inflation-Adjusted', value: '₹ ' + formatNumber(Math.round(d.inflAdj)), color: '#00652c' });
+    });
+    ChartTooltip.bind(chartCanvas, regions);
+
     // Legend
     ctx.textAlign = 'left';
     ctx.fillStyle = '#005c8e';

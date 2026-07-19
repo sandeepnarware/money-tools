@@ -72,6 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'New Interest', value: interestNew, color: '#00652c' },
       { label: 'Fees', value: fee, color: '#d97706' },
     ];
+    let angleCursor = -Math.PI / 2;
+    const regions = total > 0 ? segs.filter(s => s.value > 0).map(seg => {
+      const sliceAngle = (seg.value / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: seg.label, value: '₹ ' + formatNumber(Math.round(seg.value)), color: seg.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    }) : [];
+    ChartTooltip.bind(chartCanvas, regions);
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);

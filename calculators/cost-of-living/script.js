@@ -88,6 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = 'bold 10px -apple-system, sans-serif';
       ctx.fillText('₹' + formatNumber(Math.round(bar.value)), x + barW / 2, y - 4);
     });
+
+    const regions = bars.map((bar, i) => {
+      const x = padding.left + i * (barW + gap) + gap / 2;
+      const barH = (bar.value / maxVal) * chartH;
+      const y = padding.top + chartH - barH;
+      return {
+        type: 'rect', x, y, w: barW, h: barH,
+        label: bar.label, value: '₹ ' + formatNumber(Math.round(bar.value)), color: bar.color,
+      };
+    });
+    ChartTooltip.bind(ctx.canvas, regions);
   }
 
   function formatNumber(num) {

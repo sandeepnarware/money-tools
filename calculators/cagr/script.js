@@ -169,6 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const x = padding.left + gap + i * (gap + barW) + barW / 2;
       ctx.fillText(label, x, padding.top + chartH + 16);
     });
+
+    const regions = values.map((val, i) => {
+      const x = padding.left + gap + i * (gap + barW);
+      const h = ((val - minVal) / (maxVal - minVal)) * chartH;
+      const r = schedule[i];
+      return {
+        type: 'rect', x: x, y: getY(val), w: barW, h: h,
+        label: r.year === 0 ? 'Start' : 'Year ' + r.year,
+        value: '₹ ' + formatNumber(r.value), color: '#2075ae',
+      };
+    });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function abbreviateNumber(num) {

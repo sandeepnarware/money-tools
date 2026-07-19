@@ -337,6 +337,19 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'Expenses', value: expenses, color: '#ba1a1a' },
     ];
 
+    let angleCursor = -Math.PI / 2;
+    const regions = segs.filter(s => s.value > 0).map(seg => {
+      const sliceAngle = (seg.value / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: seg.label, value: formatINR(Math.round(seg.value)), color: seg.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(canvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);
@@ -420,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillText(formatINR(Math.round(maxVal * i / 4)), pad.left - 5, y + 3);
     }
 
+    const regions = [];
     months.forEach((m, i) => {
       const x = pad.left + chartW * (i + 0.5) / months.length;
       const data = monthMap[m];
@@ -434,6 +448,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(x + 2, pad.top + chartH - expenseH, barW - 2, expenseH);
 
+      const monthLabel = m.slice(5) + '/' + m.slice(2, 4);
+      if (data.income > 0) {
+        regions.push({ type: 'rect', x: x - barW, y: pad.top + chartH - incomeH, w: barW - 2, h: incomeH,
+          label: monthLabel + ' · Income', value: formatINR(Math.round(data.income)), color: '#00652c' });
+      }
+      if (data.expenses > 0) {
+        regions.push({ type: 'rect', x: x + 2, y: pad.top + chartH - expenseH, w: barW - 2, h: expenseH,
+          label: monthLabel + ' · Expenses', value: formatINR(Math.round(data.expenses)), color: '#ba1a1a' });
+      }
+
       // X label
       ctx.fillStyle = '#545f73';
       ctx.font = '9px -apple-system, sans-serif';
@@ -441,6 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const label = m.slice(5) + '/' + m.slice(2, 4);
       ctx.fillText(label, x, displayH - 5);
     });
+    ChartTooltip.bind(canvas, regions);
 
     // Legend
     ctx.fillStyle = '#00652c';
@@ -477,6 +502,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const segs = catSorted.map(([cat, amt], i) => ({
       label: cat, value: amt, color: catColors[i % catColors.length],
     }));
+
+    let angleCursor = -Math.PI / 2;
+    const regions = segs.filter(s => s.value > 0).map(seg => {
+      const sliceAngle = (seg.value / totalExpenses) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: seg.label, value: formatINR(Math.round(seg.value)), color: seg.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(canvas, regions);
 
     let startTime, animId;
     function draw(p) {

@@ -110,6 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.fillText('\u20B9' + formatNumber(Math.round(bar.value / 1000)) + 'K', x + barWidth / 2, y - 6);
     });
+
+    const regions = bars.map((bar, i) => {
+      const x = startX + i * (barWidth + gapSize);
+      const barHeight = Math.max(0, (bar.value / maxVal) * chartHeight);
+      return {
+        type: 'rect', x, y: chartBottom - barHeight, w: barWidth, h: barHeight,
+        label: bar.label, value: '\u20B9 ' + formatNumber(Math.round(bar.value)), color: bar.color,
+      };
+    });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

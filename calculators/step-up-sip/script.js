@@ -123,6 +123,19 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'Returns', value: returns, color: '#00652c' },
     ];
 
+    let angleCursor = -Math.PI / 2;
+    const regions = segs.filter(s => s.value > 0).map(seg => {
+      const sliceAngle = (seg.value / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: seg.label, value: '₹ ' + formatNumber(Math.round(seg.value)), color: seg.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(chartCanvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);
@@ -188,6 +201,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const startX = (displayWidth - barWidth * 2 - gap) / 2;
     const bottomY = displayHeight - 54;
     const chartH = bottomY - 44;
+
+    const regions = [];
+    bars.forEach((b, i) => {
+      const x = startX + i * (barWidth + gap);
+      const invH = maxTotal > 0 ? (b.inv / maxTotal) * chartH : 0;
+      const retH = maxTotal > 0 ? (b.ret / maxTotal) * chartH : 0;
+      regions.push({ type: 'rect', x: x, y: bottomY - invH, w: barWidth, h: invH,
+        label: b.label + ' · Invested', value: '₹ ' + formatNumber(Math.round(b.inv)), color: '#005c8e' });
+      regions.push({ type: 'rect', x: x, y: bottomY - invH - retH, w: barWidth, h: retH,
+        label: b.label + ' · Returns', value: '₹ ' + formatNumber(Math.round(b.ret)), color: '#00652c' });
+    });
+    ChartTooltip.bind(comparisonCanvas, regions);
 
     let startTime, animId;
     function draw(p) {

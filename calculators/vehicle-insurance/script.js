@@ -105,6 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#005c8e';
     ctx.fillRect(130, ly, 12, 12);
     ctx.fillText('After NCB', 146, ly + 10);
+
+    const regions = [
+      { type: 'rect', x: 30, y: chartBottom - bar1H, w: barWidth, h: bar1H,
+        label: 'Plan A · Gross Premium', value: '₹ ' + formatNumber(Math.round(grossA)), color: '#2075ae' },
+      { type: 'rect', x: 30 + barWidth + 10, y: chartBottom - bar2H, w: barWidth, h: bar2H,
+        label: 'Plan B · Gross Premium', value: '₹ ' + formatNumber(Math.round(grossB)), color: '#d97706' },
+      { type: 'rect', x: 30, y: chartBottom - bar3H - bar1H - 10, w: barWidth, h: bar3H,
+        label: 'Plan A · After NCB', value: '₹ ' + formatNumber(Math.round(totalA)), color: '#005c8e' },
+      { type: 'rect', x: 30 + barWidth + 10, y: chartBottom - bar4H - bar2H - 10, w: barWidth, h: bar4H,
+        label: 'Plan B · After NCB', value: '₹ ' + formatNumber(Math.round(totalB)), color: '#d97706' },
+    ];
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

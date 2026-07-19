@@ -158,6 +158,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (animId) cancelAnimationFrame(animId);
     animId = requestAnimationFrame(animate);
+
+    const regions = [{
+      type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+      start: -Math.PI / 2, end: -Math.PI / 2 + Math.PI * 2,
+      label: to, value: formatNumber(Math.round(converted)) + ' ' + to, color: '#005c8e',
+    }];
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

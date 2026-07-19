@@ -161,6 +161,21 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Corpus', 26, 16);
     ctx.fillText('Expenses', 156, 16);
+
+    const regions = [];
+    expenses.forEach((v, i) => {
+      const x = pad.left + (i / (expenses.length - 1 || 1)) * chartW;
+      const y = pad.top + chartH - (v / maxVal) * chartH;
+      regions.push({ type: 'point', x: x, y: y, r: 10,
+        label: 'Expenses · Yr ' + (i + 1), value: '₹' + formatNumber(Math.round(v)), color: '#ba1a1a' });
+    });
+    balances.forEach((v, i) => {
+      const x = pad.left + (i / (balances.length - 1 || 1)) * chartW;
+      const y = pad.top + chartH - (v / maxVal) * chartH;
+      regions.push({ type: 'point', x: x, y: y, r: 10,
+        label: 'Corpus · Yr ' + (i + 1), value: '₹' + formatNumber(Math.round(v)), color: '#005c8e' });
+    });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

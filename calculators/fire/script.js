@@ -206,13 +206,17 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.stroke();
 
     ctx.fillStyle = '#005c8e';
+    const regions = [];
     projection.forEach((d) => {
       const x = xPos(d.age);
       const y = yPos(d.endBalance);
       ctx.beginPath();
       ctx.arc(x, y, 3, 0, Math.PI * 2);
       ctx.fill();
+      regions.push({ type: 'point', x: x, y: y, r: 10,
+        label: 'Age ' + d.age, value: '₹ ' + formatNumber(d.endBalance), color: '#005c8e' });
     });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

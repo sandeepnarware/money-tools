@@ -167,6 +167,18 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Portfolio Growth', 26, 16);
+
+    const startAge = coastAge - yearsToCoast;
+    const regions = values.map((v, i) => ({
+      type: 'point',
+      x: pad.left + (i / totalYears) * chartW,
+      y: pad.top + chartH - (v / maxVal) * chartH,
+      r: 10,
+      label: 'Age ' + (startAge + i),
+      value: '₹ ' + formatNumber(Math.round(v)),
+      color: '#005c8e',
+    }));
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

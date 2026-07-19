@@ -146,6 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (animId) cancelAnimationFrame(animId);
     animId = requestAnimationFrame(animate);
+
+    const scoreAngle = (score / 100) * Math.PI * 2;
+    ChartTooltip.bind(chartCanvas, [{
+      type: 'arc', cx, cy, rInner: radius - lineWidth, rOuter: radius,
+      start: -Math.PI / 2, end: -Math.PI / 2 + scoreAngle,
+      label: 'Readiness Score', value: Math.round(score) + '%', color,
+    }]);
   }
 
   function formatNumber(num) {

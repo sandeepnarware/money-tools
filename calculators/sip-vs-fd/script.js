@@ -116,6 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#545f73';
     ctx.fillText('SIP Corpus', startX + barWidth / 2, bottomY + 16);
     ctx.fillText('FD Maturity', startX + barWidth + gap + barWidth / 2, bottomY + 16);
+
+    ChartTooltip.bind(chartCanvas, [
+      { type: 'rect', x: startX, y: bottomY - sipH, w: barWidth, h: sipH,
+        label: 'SIP Corpus', value: '₹ ' + formatNumber(Math.round(sipCorpus)), color: '#005c8e' },
+      { type: 'rect', x: startX + barWidth + gap, y: bottomY - fdH, w: barWidth, h: fdH,
+        label: 'FD Maturity', value: '₹ ' + formatNumber(Math.round(fdMaturity)), color: '#00652c' },
+    ]);
   }
 
   function formatNumber(num) {

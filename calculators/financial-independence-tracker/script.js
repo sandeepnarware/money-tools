@@ -93,6 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalAngle = endAngle - startAngle;
     const progAngle = startAngle + (progress / 100) * totalAngle;
 
+    const regions = [
+      { type: 'arc', cx, cy, rInner: radius - lineWidth / 2, rOuter: radius + lineWidth / 2,
+        start: startAngle, end: progAngle,
+        label: 'FI Progress', value: progress.toFixed(1) + '%', color: '#00652c' },
+    ];
+    if (progAngle < endAngle) {
+      regions.push({ type: 'arc', cx, cy, rInner: radius - lineWidth / 2, rOuter: radius + lineWidth / 2,
+        start: progAngle, end: endAngle,
+        label: 'Remaining', value: (100 - progress).toFixed(1) + '%', color: '#dce1e4' });
+    }
+    ChartTooltip.bind(chartCanvas, regions);
+
     ctx.clearRect(0, 0, displaySize, displaySize);
 
     ctx.beginPath();

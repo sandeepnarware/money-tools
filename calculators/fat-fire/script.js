@@ -142,6 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
+    const regions = values.map((v, i) => {
+      const x = pad.left + (i / (values.length - 1 || 1)) * chartW;
+      const y = pad.top + chartH - (v / maxVal) * chartH;
+      return { type: 'point', x: x, y: y, r: 10,
+        label: 'Age ' + (startAge + i), value: '₹ ' + formatNumber(Math.round(v)), color: '#005c8e' };
+    });
+    ChartTooltip.bind(chartCanvas, regions);
+
     ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     for (let i = 0; i < values.length; i += Math.max(1, Math.floor(values.length / 6))) {

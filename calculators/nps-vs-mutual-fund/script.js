@@ -109,6 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.textAlign = 'center';
       ctx.fillText('Pension: ' + formatNumber(Math.round(pension)) + '/month', displayWidth / 2, displayHeight - 8);
     }
+
+    const regions = [
+      { type: 'rect', x: startX, y: bottomY - h1, w: barWidth, h: h1,
+        label: label1, value: '₹ ' + formatNumber(Math.round(val1)), color: color1 },
+      { type: 'rect', x: startX + barWidth + gap, y: bottomY - h2, w: barWidth, h: h2,
+        label: label2, value: '₹ ' + formatNumber(Math.round(val2)), color: color2 },
+    ];
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function formatNumber(num) {

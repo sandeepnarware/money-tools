@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const labels = ['Without Delay', 'With Delay'];
     const colors = ['#005c8e', '#ea580c'];
 
+    const regions = [];
     vals.forEach((v, i) => {
       const x = pad.left + gap + i * (gap + barW);
       const barH = (v / maxVal) * chartH;
@@ -112,7 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(labels[i], x + barW / 2, pad.top + chartH + 18);
+
+      regions.push({ type: 'rect', x: x, y: pad.top + chartH - barH, w: barW, h: barH,
+        label: labels[i], value: '\u20B9 ' + formatNumber(Math.round(v)), color: colors[i] });
     });
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function abbreviate(num) {

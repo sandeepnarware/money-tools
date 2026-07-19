@@ -158,11 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
+    const regions = [];
     items.forEach((item, i) => {
       const x = padding.left + gap + i * (gap + barWidth);
       const h = (item.value / maxVal) * chartH;
       ctx.fillStyle = item.color;
       ctx.fillRect(x, getY(item.value), barWidth, h);
+      regions.push({ type: 'rect', x: x, y: getY(item.value), w: barWidth, h: h,
+        label: item.label, value: '\u20B9 ' + formatNumber(Math.round(item.value)), color: item.color });
 
       ctx.textAlign = 'center';
       ctx.fillStyle = '#191c1e';
@@ -173,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(item.label, x + barWidth / 2, padding.top + chartH + 16);
     });
+
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function abbreviateNumber(num) {

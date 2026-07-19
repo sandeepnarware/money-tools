@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.stroke();
 
     // Bars + labels
+    const regions = [];
     groups.forEach((g, gi) => {
       const gx = padding.left + gi * groupWidth;
 
@@ -151,11 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const x1 = gx + barOffset;
       const h1 = (g.bars[0] / maxVal) * chartH;
       drawBar(x1, getY(g.bars[0]), barWidth, h1, '#005c8e');
+      regions.push({ type: 'rect', x: x1, y: getY(g.bars[0]), w: barWidth, h: h1,
+        label: g.label + ' · Nominal Value', value: '₹ ' + formatNumber(Math.round(g.bars[0])), color: '#005c8e' });
 
       // Bar 2: Inflation-Adj
       const x2 = gx + barOffset * 2 + barWidth;
       const h2 = (g.bars[1] / maxVal) * chartH;
       drawBar(x2, getY(g.bars[1]), barWidth, h2, '#00652c');
+      regions.push({ type: 'rect', x: x2, y: getY(g.bars[1]), w: barWidth, h: h2,
+        label: g.label + ' · Inflation-Adjusted', value: '₹ ' + formatNumber(Math.round(g.bars[1])), color: '#00652c' });
 
       // Group label
       ctx.textAlign = 'center';
@@ -180,6 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillRect(150, 8, 12, 12);
     ctx.fillStyle = '#191c1e';
     ctx.fillText('Inflation-Adjusted', 166, 18);
+
+    ChartTooltip.bind(chartCanvas, regions);
   }
 
   function abbreviateNumber(num) {

@@ -139,6 +139,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 40;
     const total = data.reduce((s, d) => s + d.amount, 0);
 
+    let angleCursor = -Math.PI / 2;
+    const regions = data.filter(d => d.amount > 0).map(d => {
+      const sliceAngle = (d.amount / total) * Math.PI * 2;
+      const region = {
+        type: 'arc', cx, cy, rInner: radius * 0.82, rOuter: radius,
+        start: angleCursor, end: angleCursor + sliceAngle,
+        label: d.name, value: '₹ ' + formatNumber(Math.round(d.amount)) + ' (' + d.pct.toFixed(1) + '%)', color: d.color,
+      };
+      angleCursor += sliceAngle;
+      return region;
+    });
+    ChartTooltip.bind(chartCanvas, regions);
+
     let startTime, animId;
     function draw(p) {
       ctx.clearRect(0, 0, displaySize, displaySize);

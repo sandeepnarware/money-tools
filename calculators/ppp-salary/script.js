@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const barW = chartW / bars.length * 0.6;
     const gap = chartW / bars.length * 0.4;
 
+    const regions = [];
     bars.forEach((bar, i) => {
       const x = padding.left + i * (barW + gap) + gap / 2;
       const barH = (bar.value / maxVal) * chartH;
@@ -66,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ctx.fillStyle = bar.color;
       ctx.fillRect(x, y, barW, barH);
+      regions.push({ type: 'rect', x: x, y: y, w: barW, h: barH,
+        label: bar.label, value: '₹ ' + formatNumber(Math.round(bar.value)), color: bar.color });
 
       ctx.fillStyle = '#191c1e';
       ctx.font = '10px -apple-system, sans-serif';
@@ -76,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.font = 'bold 10px -apple-system, sans-serif';
       ctx.fillText('₹' + formatNumber(Math.round(bar.value)), x + barW / 2, y - 4);
     });
+
+    ChartTooltip.bind(ctx.canvas, regions);
   }
 
   function formatNumber(num) {
