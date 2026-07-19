@@ -5,9 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultInvested = document.getElementById('resultInvested');
   const resultReturns = document.getElementById('resultReturns');
   const resultTotal = document.getElementById('resultTotal');
+  const resultInflAdj = document.getElementById('resultInflAdj');
   const resultFinalSip = document.getElementById('resultFinalSip');
+  const resultSimpleCorpus = document.getElementById('resultSimpleCorpus');
+  const resultAdvantage = document.getElementById('resultAdvantage');
   const scheduleBody = document.getElementById('scheduleBody');
   const chartCanvas = document.getElementById('stepUpSipChart');
+  const comparisonCanvas = document.getElementById('comparisonChart');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -23,13 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepUp = parseFloat(document.getElementById('stepUpRate').value);
     const annualRate = parseFloat(document.getElementById('expectedReturn').value);
     const years = parseFloat(document.getElementById('investmentPeriod').value);
+    const annualInflation = parseFloat(document.getElementById('inflationRate').value);
 
-    if (isNaN(P) || P <= 0 || isNaN(stepUp) || stepUp < 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0) {
+    if (isNaN(P) || P <= 0 || isNaN(stepUp) || stepUp < 0 || isNaN(annualRate) || annualRate <= 0 || isNaN(years) || years <= 0 || isNaN(annualInflation) || annualInflation < 0) {
       alert('Please enter valid positive values.');
       return;
     }
 
     const r = annualRate / 100;
+    const inflationFactor = Math.pow(1 + annualInflation / 100, years);
     let totalInvestment = 0;
     let totalCorpus = 0;
     const schedule = [];
@@ -48,19 +54,37 @@ document.addEventListener('DOMContentLoaded', () => {
         investment: Math.round(totalInvestment),
         returns: Math.round(totalCorpus - totalInvestment),
         corpus: Math.round(totalCorpus),
+        inflAdj: Math.round(totalCorpus / inflationFactor),
       });
     }
 
     const estimatedReturns = totalCorpus - totalInvestment;
     const finalMonthlySip = P * Math.pow(1 + stepUp / 100, years - 1);
+    const inflAdjCorpus = totalCorpus / inflationFactor;
+
+    // Simple SIP: same starting monthly amount, no step-up, same period & return.
+    // Uses the same annual-compounding method as above for a fair comparison.
+    let simpleInvestment = 0;
+    let simpleCorpus = 0;
+    for (let i = 0; i < years; i++) {
+      const yearlyContrib = P * 12;
+      simpleInvestment += yearlyContrib;
+      simpleCorpus += yearlyContrib * Math.pow(1 + r, years - i);
+    }
+    const simpleReturns = simpleCorpus - simpleInvestment;
+    const advantage = totalCorpus - simpleCorpus;
 
     resultInvested.textContent = '\u20B9 ' + formatNumber(Math.round(totalInvestment));
     resultReturns.textContent = '\u20B9 ' + formatNumber(Math.round(estimatedReturns));
     resultTotal.textContent = '\u20B9 ' + formatNumber(Math.round(totalCorpus));
+    resultInflAdj.textContent = '\u20B9 ' + formatNumber(Math.round(inflAdjCorpus));
     resultFinalSip.textContent = '\u20B9 ' + formatNumber(Math.round(finalMonthlySip));
+    resultSimpleCorpus.textContent = '\u20B9 ' + formatNumber(Math.round(simpleCorpus));
+    resultAdvantage.textContent = '\u20B9 ' + formatNumber(Math.round(advantage));
 
     renderSchedule(schedule);
     drawChart(totalInvestment, estimatedReturns);
+    drawComparisonChart(simpleInvestment, simpleReturns, totalInvestment, estimatedReturns);
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -73,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="text-right">${formatNumber(r.investment)}</td>
         <td class="text-right">${formatNumber(r.returns)}</td>
         <td class="text-right">${formatNumber(r.corpus)}</td>
+        <td class="text-right">${formatNumber(r.inflAdj)}</td>
       </tr>
     `).join('');
   }
@@ -130,6 +155,72 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillRect(100, legendY - 10, 12, 12);
       ctx.fillStyle = '#191c1e';
       ctx.fillText('Returns', 116, legendY + 2);
+    }
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const p = Math.min(1, (time - startTime) / 600);
+      draw(p);
+      if (p < 1) animId = requestAnimationFrame(animate);
+    }
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animate);
+  }
+
+  function drawComparisonChart(simpleInv, simpleRet, stepInv, stepRet) {
+    const ctx = comparisonCanvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const containerWidth = comparisonCanvas.parentElement.clientWidth || 500;
+    const displayWidth = Math.min(500, containerWidth);
+    const displayHeight = 300;
+    comparisonCanvas.width = displayWidth * dpr;
+    comparisonCanvas.height = displayHeight * dpr;
+    comparisonCanvas.style.width = displayWidth + 'px';
+    comparisonCanvas.style.height = displayHeight + 'px';
+    ctx.scale(dpr, dpr);
+
+    const bars = [
+      { label: 'Simple SIP', inv: simpleInv, ret: simpleRet },
+      { label: 'Step-Up SIP', inv: stepInv, ret: stepRet },
+    ];
+    const maxTotal = Math.max(simpleInv + simpleRet, stepInv + stepRet);
+    const barWidth = displayWidth * 0.22;
+    const gap = displayWidth * 0.16;
+    const startX = (displayWidth - barWidth * 2 - gap) / 2;
+    const bottomY = displayHeight - 54;
+    const chartH = bottomY - 44;
+
+    let startTime, animId;
+    function draw(p) {
+      ctx.clearRect(0, 0, displayWidth, displayHeight);
+      bars.forEach((b, i) => {
+        const total = b.inv + b.ret;
+        const x = startX + i * (barWidth + gap);
+        const invH = maxTotal > 0 ? (b.inv / maxTotal) * chartH * p : 0;
+        const retH = maxTotal > 0 ? (b.ret / maxTotal) * chartH * p : 0;
+        ctx.fillStyle = '#005c8e';
+        ctx.fillRect(x, bottomY - invH, barWidth, invH);
+        ctx.fillStyle = '#00652c';
+        ctx.fillRect(x, bottomY - invH - retH, barWidth, retH);
+
+        ctx.fillStyle = '#191c1e';
+        ctx.font = 'bold 13px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('₹ ' + formatNumber(Math.round(total)), x + barWidth / 2, bottomY - invH - retH - 8);
+        ctx.font = '12px -apple-system, sans-serif';
+        ctx.fillText(b.label, x + barWidth / 2, bottomY + 18);
+      });
+
+      const legendY = displayHeight - 12;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#005c8e';
+      ctx.fillRect(startX, legendY - 10, 12, 12);
+      ctx.fillStyle = '#191c1e';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText('Invested', startX + 16, legendY);
+      ctx.fillStyle = '#00652c';
+      ctx.fillRect(startX + 90, legendY - 10, 12, 12);
+      ctx.fillStyle = '#191c1e';
+      ctx.fillText('Returns', startX + 106, legendY);
     }
     function animate(time) {
       if (!startTime) startTime = time;
