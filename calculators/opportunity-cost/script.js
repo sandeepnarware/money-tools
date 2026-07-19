@@ -64,13 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
     insightText.innerHTML =
       'If you lend <strong>\u20B9 ' + formatNumber(Math.round(P)) + '</strong> and get it back after <strong>' + years + ' years</strong>, ' +
       'inflation will erode its value to just <strong>\u20B9 ' + formatNumber(Math.round(lendInflAdj)) + '</strong> ' +
-      '&mdash; a loss of <strong style="color:#dc2626;">\u20B9 ' + formatNumber(Math.round(lossAmount)) + '</strong> in purchasing power.' +
+      '&mdash; a loss of <strong style="color:#ba1a1a;">\u20B9 ' + formatNumber(Math.round(lossAmount)) + '</strong> in purchasing power.' +
       '<br><br>' +
       'Had you invested in <strong>FD</strong> at ' + fdRate + '%, the corpus would be <strong>\u20B9 ' + formatNumber(Math.round(fdMaturity)) + '</strong> ' +
-      '(\u20B9 ' + formatNumber(Math.round(fdInflAdj)) + ' in today\'s value, a real gain of <strong style="color:' + (fdGain >= 0 ? '#16a34a' : '#dc2626') + ';">' + formatCurrency(fdGain) + '</strong>).' +
+      '(\u20B9 ' + formatNumber(Math.round(fdInflAdj)) + ' in today\'s value, a real gain of <strong style="color:' + (fdGain >= 0 ? '#00652c' : '#ba1a1a') + ';">' + formatCurrency(fdGain) + '</strong>).' +
       '<br><br>' +
       'With <strong>MF</strong> at ' + mfRate + '%, the corpus would be <strong>\u20B9 ' + formatNumber(Math.round(mfMaturity)) + '</strong> ' +
-      '(\u20B9 ' + formatNumber(Math.round(mfInflAdj)) + ' in today\'s value, a real gain of <strong style="color:' + (mfGain >= 0 ? '#16a34a' : '#dc2626') + ';">' + formatCurrency(mfGain) + '</strong>).';
+      '(\u20B9 ' + formatNumber(Math.round(mfInflAdj)) + ' in today\'s value, a real gain of <strong style="color:' + (mfGain >= 0 ? '#00652c' : '#ba1a1a') + ';">' + formatCurrency(mfGain) + '</strong>).';
 
     drawChart(P, lendMaturity, lendInflAdj, fdMaturity, fdInflAdj, mfMaturity, mfInflAdj);
     resultsSection.style.display = 'block';
@@ -118,11 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Grid
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = (maxVal / ySteps) * i;
@@ -150,16 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // Bar 1: Nominal
       const x1 = gx + barOffset;
       const h1 = (g.bars[0] / maxVal) * chartH;
-      drawBar(x1, getY(g.bars[0]), barWidth, h1, '#2563eb');
+      drawBar(x1, getY(g.bars[0]), barWidth, h1, '#005c8e');
 
       // Bar 2: Inflation-Adj
       const x2 = gx + barOffset * 2 + barWidth;
       const h2 = (g.bars[1] / maxVal) * chartH;
-      drawBar(x2, getY(g.bars[1]), barWidth, h2, '#16a34a');
+      drawBar(x2, getY(g.bars[1]), barWidth, h2, '#00652c');
 
       // Group label
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       const labelX = gx + groupWidth / 2;
       const labelParts = g.label.split(' ');
@@ -170,15 +170,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Legend
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(10, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Nominal Value', 26, 18);
 
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.fillRect(150, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.fillText('Inflation-Adjusted', 166, 18);
   }
 

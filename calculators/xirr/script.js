@@ -185,8 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 40;
 
     const segs = [
-      { label: 'Invested', value: investments, color: '#2563eb' },
-      { label: 'Returns', value: returns, color: '#16a34a' },
+      { label: 'Invested', value: investments, color: '#005c8e' },
+      { label: 'Returns', value: returns, color: '#00652c' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -209,26 +209,26 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStart = segEnd;
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       if (net >= 0) {
-        ctx.fillStyle = '#16a34a';
+        ctx.fillStyle = '#00652c';
         ctx.fillText('+' + formatNumber(Math.round(net)), cx, cy + 5);
       } else {
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = '#ba1a1a';
         ctx.fillText(formatNumber(Math.round(net)), cx, cy + 5);
       }
       const legendY = displaySize - 8;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(cx - 60, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText('Invested', cx - 44, legendY + 2);
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(cx + 10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Returns', cx + 26, legendY + 2);
     }
     function animate(time) {

@@ -68,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = interestCurr + interestNew + fee;
     const segs = [
-      { label: 'Current Interest', value: interestCurr, color: '#ef4444' },
-      { label: 'New Interest', value: interestNew, color: '#16a34a' },
-      { label: 'Fees', value: fee, color: '#f59e0b' },
+      { label: 'Current Interest', value: interestCurr, color: '#ba1a1a' },
+      { label: 'New Interest', value: interestNew, color: '#00652c' },
+      { label: 'Fees', value: fee, color: '#d97706' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -95,18 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const ly = displaySize - 6;
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Current Interest', 26, ly + 2);
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(150, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('New Interest', 166, ly + 2);
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.fillRect(260, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Fees', 276, ly + 2);
     }
     function animate(time) {

@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.clearRect(0, 0, displayWidth, displayHeight);
 
-    ctx.strokeStyle = '#dc2626';
+    ctx.strokeStyle = '#ba1a1a';
     ctx.setLineDash([6, 4]);
     ctx.beginPath();
     const fireY = pad.top + chartH - (fireNum / maxVal) * chartH;
@@ -129,11 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(pad.left + chartW, fireY);
     ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#dc2626';
+    ctx.fillStyle = '#ba1a1a';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('FIRE Target', pad.left + chartW - 80, fireY - 4);
 
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2;
     ctx.beginPath();
     values.forEach((v, i) => {
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     for (let i = 0; i < values.length; i += Math.max(1, Math.floor(values.length / 6))) {
       const x = pad.left + (i / (values.length - 1 || 1)) * chartW;
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let v = 0; v <= maxVal; v += maxVal / 5) {
       const y = pad.top + chartH - (v / maxVal) * chartH;
       ctx.fillText('\u20B9' + formatNumber(Math.round(v)), 2, y + 4);
-      ctx.strokeStyle = '#e2e8f0';
+      ctx.strokeStyle = '#dce1e4';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(pad.left, y);
@@ -162,9 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
     }
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(10, 6, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Portfolio Growth', 26, 16);
   }

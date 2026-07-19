@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = base + gst;
 
     const segs = [
-      { label: 'Base', value: base, color: '#2563eb' },
-      { label: 'GST', value: gst, color: '#f59e0b' },
+      { label: 'Base', value: base, color: '#005c8e' },
+      { label: 'GST', value: gst, color: '#d97706' },
     ];
 
     let startTime, animId;
@@ -104,15 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Base', 26, legendY + 2);
 
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.fillRect(70, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('GST', 86, legendY + 2);
     }
 

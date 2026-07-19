@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (total === 0) return;
 
     const segs = [
-      { label: 'Saved', value: current, color: '#16a34a' },
-      { label: 'Needed', value: gap, color: '#2563eb' },
+      { label: 'Saved', value: current, color: '#00652c' },
+      { label: 'Needed', value: gap, color: '#005c8e' },
     ];
 
     let startTime, animId;

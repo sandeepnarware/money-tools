@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.moveTo(cx, cy);
         ctx.arc(cx, cy, radius, -Math.PI / 2, end);
         ctx.closePath();
-        ctx.fillStyle = '#1e40af';
+        ctx.fillStyle = '#004b74';
         ctx.fill();
         ctx.stroke();
       }
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.moveTo(cx, cy);
         ctx.arc(cx, cy, radius, seg2Start, end);
         ctx.closePath();
-        ctx.fillStyle = '#16a34a';
+        ctx.fillStyle = '#00652c';
         ctx.fill();
         ctx.stroke();
       }
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.moveTo(cx, cy);
         ctx.arc(cx, cy, radius, seg3Start, end);
         ctx.closePath();
-        ctx.fillStyle = '#e2e8f0';
+        ctx.fillStyle = '#dce1e4';
         ctx.fill();
         ctx.stroke();
       }
@@ -189,34 +189,38 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold ' + (displaySize * 0.065) + 'px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const pct = Math.round((Math.min(savedPortion + sipPortion, totalFunding) / totalFunding) * 100);
       ctx.fillText(pct + '%', cx, cy - 8);
       ctx.font = (displaySize * 0.045) + 'px -apple-system, sans-serif';
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.fillText('covered', cx, cy + 14);
 
       const legendY = displaySize - 6;
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      const savedW = savedPortion > 0 ? 16 + ctx.measureText('Already Saved').width : 0;
+      const sipW = sipPortion > 0 ? 16 + ctx.measureText('Future SIP').width : 0;
+      const gap2 = (savedPortion > 0 && sipPortion > 0) ? 20 : 0;
+      const totalW = savedW + sipW + gap2;
+      let legendX = (displaySize - totalW) / 2;
 
       if (savedPortion > 0) {
-        ctx.fillStyle = '#1e40af';
-        ctx.fillRect(10, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('Already Saved', 26, legendY + 2);
+        ctx.fillStyle = '#004b74';
+        ctx.fillRect(legendX, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText('Already Saved', legendX + 16, legendY + 2);
+        legendX += savedW + gap2;
       }
 
       if (sipPortion > 0) {
-        const xOff = savedPortion > 0 ? 130 : 10;
-        ctx.fillStyle = '#16a34a';
-        ctx.fillRect(xOff, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.textAlign = 'left';
-        ctx.fillText('Future SIP', xOff + 16, legendY + 2);
+        ctx.fillStyle = '#00652c';
+        ctx.fillRect(legendX, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText('Future SIP', legendX + 16, legendY + 2);
       }
     }
     function animate(time) {

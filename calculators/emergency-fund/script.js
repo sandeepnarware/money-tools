@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartHeight = chartBottom - 10;
 
     const bars = [
-      { label: '3-Mo', value: fund3, color: '#93c5fd' },
-      { label: '6-Mo', value: fund6, color: '#2563eb' },
-      { label: '12-Mo', value: fund12, color: '#1e40af' },
-      { label: 'Current', value: savings, color: '#16a34a' },
+      { label: '3-Mo', value: fund3, color: '#94ccff' },
+      { label: '6-Mo', value: fund6, color: '#005c8e' },
+      { label: '12-Mo', value: fund12, color: '#004b74' },
+      { label: 'Current', value: savings, color: '#00652c' },
     ];
 
     const totalWidth = bars.length * barWidth + (bars.length - 1) * gapSize;
@@ -101,12 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = bar.color;
       ctx.fillRect(x, y, barWidth, barHeight);
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(bar.label, x + barWidth / 2, chartBottom + 18);
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.fillText('\u20B9' + formatNumber(Math.round(bar.value / 1000)) + 'K', x + barWidth / 2, y - 6);
     });

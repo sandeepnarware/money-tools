@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const barW = Math.min(80, chartW * 0.3);
     const gap = (chartW - barW * 2) / 3;
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
       const yVal = (maxVal / 4) * i;
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.moveTo(pad.left, y);
       ctx.lineTo(pad.left + chartW, y);
       ctx.stroke();
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '10px -apple-system, sans-serif';
       ctx.textAlign = 'right';
       ctx.fillText(abbreviate(yVal), pad.left - 8, y + 4);
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const vals = [val1, val2];
     const labels = ['Net Worth Buy', 'Net Worth Rent'];
-    const colors = ['#2563eb', '#16a34a'];
+    const colors = ['#005c8e', '#00652c'];
 
     vals.forEach((v, i) => {
       const x = pad.left + gap + i * (gap + barW);
@@ -138,12 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = colors[i];
       ctx.fillRect(x, pad.top + chartH - barH, barW, barH);
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('\u20B9 ' + formatNumber(Math.round(v)), x + barW / 2, pad.top + chartH - barH - 6);
 
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(labels[i], x + barW / 2, pad.top + chartH + 18);
     });

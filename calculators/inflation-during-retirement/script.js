@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.clearRect(0, 0, displayWidth, displayHeight);
 
-    ctx.strokeStyle = '#dc2626';
+    ctx.strokeStyle = '#ba1a1a';
     ctx.lineWidth = 2;
     ctx.beginPath();
     expenses.forEach((v, i) => {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2;
     ctx.beginPath();
     balances.forEach((v, i) => {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     for (let i = 0; i < Math.max(expenses.length, balances.length); i += Math.max(1, Math.floor(Math.max(expenses.length, balances.length) / 6))) {
       const x = pad.left + (i / (Math.max(expenses.length, balances.length) - 1 || 1)) * chartW;
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let v = 0; v <= maxVal; v += maxVal / 5) {
       const y = pad.top + chartH - (v / maxVal) * chartH;
       ctx.fillText('\u20B9' + formatNumber(Math.round(v)), 2, y + 4);
-      ctx.strokeStyle = '#e2e8f0';
+      ctx.strokeStyle = '#dce1e4';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(pad.left, y);
@@ -153,11 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
     }
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(10, 6, 12, 12);
-    ctx.fillStyle = '#dc2626';
+    ctx.fillStyle = '#ba1a1a';
     ctx.fillRect(140, 6, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Corpus', 26, 16);
     ctx.fillText('Expenses', 156, 16);

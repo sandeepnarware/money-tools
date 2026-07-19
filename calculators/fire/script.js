@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return padding.top + chartH - (val / maxVal) * chartH;
     }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
       const y = padding.top + chartH * i / 4;
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
     }
 
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     ctx.textAlign = 'right';
     for (let i = 0; i <= 4; i++) {
@@ -169,18 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const step = Math.max(1, Math.floor(projection.length / 8));
     for (let i = 0; i < projection.length; i += step) {
       const x = xPos(projection[i].age);
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(projection[i].age, x, displayHeight - 8);
     }
 
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.textAlign = 'center';
     ctx.font = '11px -apple-system, sans-serif';
     ctx.fillText('Age (Years)', padding.left + chartW / 2, displayHeight - 2);
 
     const fireY = yPos(fireCorpus);
-    ctx.strokeStyle = '#16a34a';
+    ctx.strokeStyle = '#00652c';
     ctx.lineWidth = 2;
     ctx.setLineDash([6, 4]);
     ctx.beginPath();
@@ -189,12 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.textAlign = 'left';
     ctx.font = 'bold 11px -apple-system, sans-serif';
     ctx.fillText('FIRE Target: \u20B9' + formatNumber(Math.round(fireCorpus / 100000)) + 'L', padding.left + 4, fireY - 4);
 
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     projection.forEach((d, i) => {
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     projection.forEach((d) => {
       const x = xPos(d.age);
       const y = yPos(d.endBalance);

@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = loan + downPayment;
 
     const segs = [
-      { label: 'Loan Amount', value: loan, color: '#2563eb' },
-      { label: 'Down Payment', value: downPayment, color: '#16a34a' },
+      { label: 'Loan Amount', value: loan, color: '#005c8e' },
+      { label: 'Down Payment', value: downPayment, color: '#00652c' },
     ];
 
     let startTime, animId;
@@ -106,13 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const ly = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Loan Amount', 26, ly + 2);
 
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(120, ly - 10, 12, 12);
       ctx.fillText('Down Payment', 136, ly + 2);
     }

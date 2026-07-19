@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WealthFlow | Growth Projections Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#005c8e",
+                    "on-primary-fixed-variant": "#005323",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-surface": "#191c1e",
+                    "on-secondary-container": "#586377",
+                    "on-tertiary-container": "#eef5ff",
+                    "surface-tint": "#006d30",
+                    "on-tertiary-fixed-variant": "#004b74",
+                    "tertiary-container": "#2075ae",
+                    "primary-fixed-dim": "#79db8d",
+                    "inverse-on-surface": "#eff1f3",
+                    "inverse-surface": "#2d3133",
+                    "primary": "#00652c",
+                    "on-secondary-fixed": "#111c2d",
+                    "on-surface-variant": "#3f493f",
+                    "surface-bright": "#f7f9fb",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8ea",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#00210a",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "surface-dim": "#d8dadc",
+                    "tertiary-fixed-dim": "#94ccff",
+                    "on-background": "#191c1e",
+                    "secondary-container": "#d5e0f8",
+                    "background": "#f7f9fb",
+                    "primary-fixed": "#95f8a7",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "secondary": "#545f73",
+                    "primary-container": "#15803d",
+                    "inverse-primary": "#79db8d",
+                    "outline": "#6f7a6e",
+                    "on-primary-container": "#d3ffd5",
+                    "outline-variant": "#becabc",
+                    "tertiary-fixed": "#cde5ff",
+                    "on-tertiary-fixed": "#001d32"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "40px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "base": "4px",
+                    "margin-desktop": "32px",
+                    "gutter": "20px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "label-mono": ["JetBrains Mono"],
+                    "headline-md": ["Work Sans"],
+                    "body-lg": ["IBM Plex Sans"],
+                    "headline-lg": ["Work Sans"],
+                    "headline-lg-mobile": ["Work Sans"],
+                    "body-md": ["IBM Plex Sans"]
+            },
+            "fontSize": {
+                    "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F9FAFB;
+            color: #191c1e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-gradient-mask {
+            mask-image: linear-gradient(to top, transparent, black);
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #E2E8F0;
+            border-radius: 2px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #00652c;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -6px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant shadow-sm z-50 py-lg">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">WealthFlow</h1>
+<p class="text-secondary font-body-md">Growth Projections</p>
+</div>
+<nav class="flex-1 flex flex-col gap-sm px-md">
+<a class="flex items-center gap-md p-md rounded-lg transition-all duration-200 cursor-pointer group text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg transition-all duration-200 cursor-pointer group text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-medium">Portfolio</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg transition-all duration-200 cursor-pointer group bg-secondary-container text-on-secondary-container border-l-4 border-primary font-bold" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-medium">Projections</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg transition-all duration-200 cursor-pointer group text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-medium">Simulator</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg transition-all duration-200 cursor-pointer group text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-medium">Reports</span>
+</a>
+</nav>
+<div class="mt-auto px-md flex flex-col gap-sm">
+<a class="flex items-center gap-md p-md rounded-lg transition-colors cursor-pointer text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg transition-colors cursor-pointer text-secondary hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-medium">Support</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="md:ml-64 flex justify-between items-center h-16 px-margin-desktop w-auto sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-sm hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary md:hidden">WealthFlow</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden sm:flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-secondary mr-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-48" placeholder="Search insights..." type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-low p-sm rounded-full transition-all active:scale-95 text-secondary" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-low p-sm rounded-full transition-all active:scale-95 text-secondary" data-icon="help_outline">help_outline</span>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container cursor-pointer transition-transform active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 p-margin-desktop min-h-[calc(100vh-64px)]">
+<!-- Header & Summary Bento Section -->
+<div class="mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-md">Growth Projections</h1>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Summary Card 1: Main Value -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-secondary font-label-mono uppercase">Estimated Future Value</span>
+<span class="bg-primary-container text-on-primary-container text-xs px-sm py-1 rounded-full font-bold">+342% Total Gain</span>
+</div>
+<div class="text-headline-lg font-bold text-on-surface">$1,452,890</div>
+<p class="text-secondary font-body-md mt-sm">Projected corpus in 20 years</p>
+</div>
+<!-- Summary Card 2: Investment -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<span class="text-secondary font-label-mono uppercase block mb-sm">Total Invested</span>
+<div class="text-headline-md font-bold text-on-surface">$320,000</div>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-lg overflow-hidden">
+<div class="bg-secondary-container h-full w-[22%]"></div>
+</div>
+<p class="text-secondary text-xs mt-sm">22.02% of total value</p>
+</div>
+<!-- Summary Card 3: Gains -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<span class="text-secondary font-label-mono uppercase block mb-sm">Estimated Gains</span>
+<div class="text-headline-md font-bold text-on-surface">$1,132,890</div>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-lg overflow-hidden">
+<div class="bg-primary h-full w-[78%]"></div>
+</div>
+<p class="text-secondary text-xs mt-sm">77.98% of total value</p>
+</div>
+</div>
+</div>
+<!-- Insights Banner -->
+<div class="bg-tertiary-container text-on-tertiary-container p-md rounded-lg flex items-center gap-md mb-xl shadow-sm border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="auto_awesome">auto_awesome</span>
+<p class="font-body-lg font-semibold">Smart Insight: You're on track to retire 4 years earlier than projected.</p>
+<button class="ml-auto text-xs font-bold uppercase tracking-wider hover:underline">View Strategy</button>
+</div>
+<!-- Main Chart & Analysis Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg mb-xl">
+<!-- Wealth Growth Trend Chart (Main Display) -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-headline-md text-headline-md">Wealth Growth Trend</h3>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 bg-primary rounded-full"></div>
+<span class="text-xs text-secondary">Total Value</span>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 bg-secondary rounded-full"></div>
+<span class="text-xs text-secondary">Invested Amount</span>
+</div>
+</div>
+</div>
+<div class="h-64 relative w-full flex items-end gap-1">
+<!-- Simple Mockup Bars for Trend Visualization -->
+<div class="flex-1 bg-surface-container-low h-[10%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[8%]"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[15%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[12%]"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[22%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[16%]"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[32%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[20%]"></div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[45%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[24%]"></div>
+</div>
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[28%]"></div>
+</div>
+<div class="flex-1 bg-primary/30 h-[75%] rounded-t-sm transition-all hover:bg-primary/50 group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[32%]"></div>
+</div>
+<div class="flex-1 bg-primary h-full rounded-t-sm transition-all hover:shadow-lg group relative">
+<div class="absolute bottom-0 left-0 right-0 bg-secondary h-[40%]"></div>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Year 20: $1.45M</div>
+</div>
+</div>
+<div class="flex justify-between mt-md text-xs text-secondary font-label-mono">
+<span>YEAR 0</span>
+<span>YEAR 5</span>
+<span>YEAR 10</span>
+<span>YEAR 15</span>
+<span>YEAR 20</span>
+</div>
+</div>
+<!-- Corpus Breakdown (Donut) -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm flex flex-col">
+<h3 class="font-headline-md text-headline-md mb-xl">Corpus Breakdown</h3>
+<div class="flex-1 flex flex-col items-center justify-center">
+<div class="relative w-48 h-48 mb-lg">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background Circle -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#E2E8F0" stroke-width="12"></circle>
+<!-- Gains Circle (78%) -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#00652c" stroke-dasharray="251.2" stroke-dashoffset="55" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-headline-md font-bold">78%</span>
+<span class="text-xs text-secondary font-medium">Gains</span>
+</div>
+</div>
+<div class="w-full space-y-md">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-sm font-medium">Estimated Gains</span>
+</div>
+<span class="text-sm font-bold">$1.13M</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-sm font-medium">Total Invested</span>
+</div>
+<span class="text-sm font-bold">$320K</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Strategy Simulator Section -->
+<div class="bg-surface-container-lowest border border-outline-variant p-xl rounded-xl shadow-sm mb-xl">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+<h3 class="font-headline-md text-headline-md">Strategy Simulator</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<!-- Slider 1 -->
+<div class="space-y-md">
+<div class="flex justify-between items-center">
+<label class="text-sm font-bold text-secondary uppercase tracking-wider">Monthly Investment</label>
+<span class="text-primary font-bold text-lg">$2,500</span>
+</div>
+<input max="10000" min="500" step="100" type="range" value="2500"/>
+<div class="flex justify-between text-xs text-secondary">
+<span>$500</span>
+<span>$10k</span>
+</div>
+</div>
+<!-- Slider 2 -->
+<div class="space-y-md">
+<div class="flex justify-between items-center">
+<label class="text-sm font-bold text-secondary uppercase tracking-wider">Expected Return</label>
+<span class="text-primary font-bold text-lg">12%</span>
+</div>
+<input max="25" min="4" step="1" type="range" value="12"/>
+<div class="flex justify-between text-xs text-secondary">
+<span>4%</span>
+<span>25%</span>
+</div>
+</div>
+<!-- Slider 3 -->
+<div class="space-y-md">
+<div class="flex justify-between items-center">
+<label class="text-sm font-bold text-secondary uppercase tracking-wider">Time Horizon</label>
+<span class="text-primary font-bold text-lg">20 Years</span>
+</div>
+<input max="40" min="1" step="1" type="range" value="20"/>
+<div class="flex justify-between text-xs text-secondary">
+<span>1 Yr</span>
+<span>40 Yrs</span>
+</div>
+</div>
+</div>
+<div class="mt-xl pt-lg border-t border-outline-variant flex justify-center">
+<button class="bg-primary text-white px-xl py-md rounded-lg font-bold hover:bg-primary/90 transition-all active:scale-95 shadow-lg shadow-primary/20 flex items-center gap-md">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+                    Apply Scenarios
+                </button>
+</div>
+</div>
+<!-- Bottom Action Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl">
+<div class="group bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-lg font-bold mb-xs">Tax Efficiency Report</h4>
+<p class="text-secondary text-sm">Analyze capital gains and tax-loss harvesting opportunities.</p>
+</div>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<div class="group bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-lg font-bold mb-xs">Portfolio Optimization</h4>
+<p class="text-secondary text-sm">Rebalance assets to match your risk profile and target returns.</p>
+</div>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for sliders
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+            slider.addEventListener('input', function() {
+                const valueSpan = this.parentElement.querySelector('span:last-child');
+                // Visual feedback logic could go here
+            });
+        });
+
+        // Simplified interaction simulation for card highlights
+        document.querySelectorAll('.grid > div').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for slight elevation increase or glow
+            });
+        });
+    </script>
+</body></html>

@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = savings + returns;
     const segs = [
-      { label: 'Savings', value: savings, color: '#2563eb' },
-      { label: 'Returns', value: returns, color: '#16a34a' },
+      { label: 'Savings', value: savings, color: '#005c8e' },
+      { label: 'Returns', value: returns, color: '#00652c' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Savings', 26, legendY + 2);
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(100, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Returns', 116, legendY + 2);
     }
     function animate(time) {

@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (total === 0) return;
 
     const segs = [
-      { label: 'Exempted HRA', value: exempted, color: '#16a34a' },
-      { label: 'Taxable HRA', value: taxable, color: '#2563eb' },
+      { label: 'Exempted HRA', value: exempted, color: '#00652c' },
+      { label: 'Taxable HRA', value: taxable, color: '#005c8e' },
     ];
 
     let startTime, animId;
@@ -115,15 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Exempted HRA', 26, legendY + 2);
 
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(130, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Taxable HRA', 146, legendY + 2);
     }
 

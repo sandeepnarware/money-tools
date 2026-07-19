@@ -169,12 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryGrid.innerHTML = `
       <div class="result-item"><div class="label">Period</div><div class="value">${formatDate(startDate)} - ${formatDate(endDate)} (${monthsSpan} mo)</div></div>
       <div class="result-item"><div class="label">Total Income</div><div class="value success">${formatINR(Math.round(totalIncome))}</div></div>
-      <div class="result-item"><div class="label">Total Expenses</div><div class="value" style="color:#dc2626">${formatINR(Math.round(totalExpenses))}</div></div>
+      <div class="result-item"><div class="label">Total Expenses</div><div class="value" style="color:#ba1a1a">${formatINR(Math.round(totalExpenses))}</div></div>
       <div class="result-item"><div class="label">Net Cash Flow</div><div class="value ${netFlow >= 0 ? 'success' : 'danger'}">${formatINR(Math.round(netFlow))}</div></div>
       <div class="result-item"><div class="label">Avg Monthly Income</div><div class="value">${formatINR(Math.round(totalIncome / monthsSpan))}</div></div>
       <div class="result-item"><div class="label">Avg Monthly Expenses</div><div class="value">${formatINR(Math.round(totalExpenses / monthsSpan))}</div></div>
       <div class="result-item"><div class="label">Savings Rate</div><div class="value ${savingsRate >= 20 ? 'success' : savingsRate >= 10 ? '' : 'danger'}">${savingsRate.toFixed(1)}%</div></div>
-      <div class="result-item"><div class="label">Bank Charges</div><div class="value" style="color:#dc2626">${formatINR(Math.round(totalBankCharges))}</div></div>
+      <div class="result-item"><div class="label">Bank Charges</div><div class="value" style="color:#ba1a1a">${formatINR(Math.round(totalBankCharges))}</div></div>
       <div class="result-item"><div class="label">Transactions</div><div class="value">${txns.length}</div></div>
       <div class="result-item"><div class="label">Avg Expense/Tx</div><div class="value">${formatINR(Math.round(totalExpenses / (expenses.length || 1)))}</div></div>
     `;
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getInsightColor(i) {
-    const colors = ['#f59e0b', '#3b82f6', '#ef4444', '#16a34a', '#8b5cf6', '#06b6d4', '#ec4899'];
+    const colors = ['#d97706', '#2075ae', '#ba1a1a', '#00652c', '#8b5cf6', '#06b6d4', '#ec4899'];
     return colors[i % colors.length];
   }
 
@@ -299,8 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <tr>
           <td>${formatDate(t.date)}</td>
           <td>${t.desc}</td>
-          <td class="text-right" style="color:${t.debit > 0 ? '#dc2626' : ''}">${t.debit > 0 ? formatINR(Math.round(t.debit)) : '-'}</td>
-          <td class="text-right" style="color:${t.credit > 0 ? '#16a34a' : ''}">${t.credit > 0 ? formatINR(Math.round(t.credit)) : '-'}</td>
+          <td class="text-right" style="color:${t.debit > 0 ? '#ba1a1a' : ''}">${t.debit > 0 ? formatINR(Math.round(t.debit)) : '-'}</td>
+          <td class="text-right" style="color:${t.credit > 0 ? '#00652c' : ''}">${t.credit > 0 ? formatINR(Math.round(t.credit)) : '-'}</td>
           <td class="text-right">${formatINR(Math.round(t.balance))}</td>
           <td>${t.category}</td>
         </tr>
@@ -333,8 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (total === 0) return;
 
     const segs = [
-      { label: 'Income', value: income, color: '#16a34a' },
-      { label: 'Expenses', value: expenses, color: '#dc2626' },
+      { label: 'Income', value: income, color: '#00652c' },
+      { label: 'Expenses', value: expenses, color: '#ba1a1a' },
     ];
 
     let startTime, animId;
@@ -359,15 +359,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-      let ly = displaySize - 6;
-      let lx = displaySize / 2 - 60;
-      segs.forEach(seg => {
-        ctx.fillStyle = seg.color;
-        ctx.fillRect(lx, ly - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '11px -apple-system, sans-serif';
-        ctx.fillText(seg.label, lx + 16, ly + 2);
-        lx += 100;
+      const legendY = displaySize - 6;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '12px -apple-system, sans-serif';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {
@@ -404,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxVal = Math.max(...allValues, 1);
 
     // Y axis
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
       const y = pad.top + chartH - (chartH * i / 4);
@@ -412,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.moveTo(pad.left, y);
       ctx.lineTo(pad.left + chartW, y);
       ctx.stroke();
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '10px -apple-system, sans-serif';
       ctx.textAlign = 'right';
       ctx.fillText(formatINR(Math.round(maxVal * i / 4)), pad.left - 5, y + 3);
@@ -425,15 +427,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const expenseH = (data.expenses / maxVal) * chartH;
 
       // Income bar
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(x - barW, pad.top + chartH - incomeH, barW - 2, incomeH);
 
       // Expense bar
-      ctx.fillStyle = '#dc2626';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(x + 2, pad.top + chartH - expenseH, barW - 2, expenseH);
 
       // X label
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '9px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       const label = m.slice(5) + '/' + m.slice(2, 4);
@@ -441,16 +443,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Legend
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.fillRect(displayW - 120, 5, 10, 10);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '10px -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('Income', displayW - 106, 14);
 
-    ctx.fillStyle = '#dc2626';
+    ctx.fillStyle = '#ba1a1a';
     ctx.fillRect(displayW - 60, 5, 10, 10);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.fillText('Expenses', displayW - 46, 14);
   }
 
@@ -470,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2 - 15;
     const radius = displaySize / 2 - 45;
 
-    const catColors = ['#f59e0b', '#2563eb', '#16a34a', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6', '#84cc16', '#d946ef', '#e11d48', '#0ea5e9', '#a855f7'];
+    const catColors = ['#d97706', '#005c8e', '#00652c', '#ba1a1a', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6', '#84cc16', '#d946ef', '#ba1a1a', '#2075ae', '#a855f7'];
 
     const segs = catSorted.map(([cat, amt], i) => ({
       label: cat, value: amt, color: catColors[i % catColors.length],
@@ -498,18 +500,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-      let ly = displaySize - 6;
-      let lx = 10;
-      segs.forEach((seg, i) => {
-        ctx.fillStyle = seg.color;
-        ctx.fillRect(lx, ly - 10, 10, 10);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '10px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        const label = seg.label + ' ' + (totalExpenses > 0 ? (seg.value / totalExpenses * 100).toFixed(1) + '%' : '');
-        ctx.fillText(label, lx + 13, ly + 2);
-        lx += ctx.measureText(label).width + 22;
-        if (lx > displaySize - 30) { lx = 10; ly -= 14; }
+      const legendY = displaySize - 6;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      const totalW = legendItems.reduce((s, item) => {
+        const label = item.label + ' ' + (totalExpenses > 0 ? (item.value / totalExpenses * 100).toFixed(1) + '%' : '');
+        return s + 10 + ctx.measureText(label).width + 16;
+      }, 0) + (legendItems.length - 1) * 16;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        const label = item.label + ' ' + (totalExpenses > 0 ? (item.value / totalExpenses * 100).toFixed(1) + '%' : '');
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 10, 10);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(label, lx + 13, legendY + 2);
+        lx += 10 + ctx.measureText(label).width + 16;
       });
     }
     function animate(time) {

@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const segs = [
-      { label: 'Saved FV', value: fvSaved, color: '#16a34a' },
-      { label: 'SIP Needed', value: remaining, color: '#2563eb' },
+      { label: 'Saved FV', value: fvSaved, color: '#00652c' },
+      { label: 'SIP Needed', value: remaining, color: '#005c8e' },
     ];
     const total = fvSaved + remaining;
     if (total === 0) return;

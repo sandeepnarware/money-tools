@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const maxScore = 900;
     const segs = [
-      { label: 'Current (' + Math.round(current) + ')', value: current, color: '#16a34a' },
-      { label: 'Gap (' + Math.round(target - current) + ')', value: Math.max(0, target - current), color: '#f59e0b' },
-      { label: 'Remaining', value: Math.max(0, maxScore - target), color: '#e2e8f0' },
+      { label: 'Current (' + Math.round(current) + ')', value: current, color: '#00652c' },
+      { label: 'Gap (' + Math.round(target - current) + ')', value: Math.max(0, target - current), color: '#d97706' },
+      { label: 'Remaining', value: Math.max(0, maxScore - target), color: '#dce1e4' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStart = segEnd;
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, displaySize - 6, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Current (' + Math.round(current) + ')', 26, displaySize + 2);
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.fillRect(140, displaySize - 6, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Gap (' + Math.round(target - current) + ')', 156, displaySize + 2);
     }
     function animate(time) {

@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = taxLiability + alreadyPaid;
     const segs = [
-      { label: 'Tax Due', value: taxLiability, color: '#ef4444' },
-      { label: 'Paid', value: alreadyPaid, color: '#16a34a' },
+      { label: 'Tax Due', value: taxLiability, color: '#ba1a1a' },
+      { label: 'Paid', value: alreadyPaid, color: '#00652c' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -125,15 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#ef4444';
-      ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      const legendItems = [
+        { color: '#ba1a1a', label: 'Tax Due' },
+        { color: '#00652c', label: 'Paid' },
+      ];
       ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText('Tax Due', 26, legendY + 2);
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(90, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.fillText('Paid', 106, legendY + 2);
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
+      });
     }
     function animate(time) {
       if (!startTime) startTime = time;

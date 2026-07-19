@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 30;
 
-    const segs = [{ label: to, value: 1, color: '#2563eb' }];
+    const segs = [{ label: to, value: 1, color: '#005c8e' }];
 
     let startTime, animId;
     function draw(p) {
@@ -132,20 +132,23 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.font = 'bold 16px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(to, cx, cy);
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
-      ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      const label = to + ' (' + formatNumber(Math.round(converted)) + ')';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'alphabetic';
-      ctx.fillText(to + ' (' + formatNumber(Math.round(converted)) + ')', 26, legendY + 2);
+      const totalW = 16 + ctx.measureText(label).width;
+      const lx = (displaySize - totalW) / 2;
+      ctx.fillStyle = '#005c8e';
+      ctx.fillRect(lx, legendY - 10, 12, 12);
+      ctx.fillStyle = '#191c1e';
+      ctx.fillText(label, lx + 16, legendY + 2);
     }
     function animate(time) {
       if (!startTime) startTime = time;

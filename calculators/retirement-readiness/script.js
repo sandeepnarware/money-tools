@@ -98,11 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let color;
     if (score >= 90) {
-      color = '#16a34a';
+      color = '#00652c';
     } else if (score >= 60) {
-      color = '#f59e0b';
+      color = '#d97706';
     } else {
-      color = '#ef4444';
+      color = '#ba1a1a';
     }
 
     let startTime, animId;
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ctx.beginPath();
       ctx.arc(cx, cy, radius - lineWidth / 2, 0, Math.PI * 2);
-      ctx.strokeStyle = '#e2e8f0';
+      ctx.strokeStyle = '#dce1e4';
       ctx.lineWidth = lineWidth;
       ctx.stroke();
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.lineCap = 'round';
       ctx.stroke();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 24px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const legendY = displaySize - 6;
       ctx.fillStyle = color;
       ctx.fillRect(cx - 50, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText('Readiness Score', cx - 34, legendY + 2);

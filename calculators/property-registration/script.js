@@ -123,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartH = displayH - padding.top - padding.bottom;
 
     const items = [
-      { label: 'Property Price', value: price, color: '#2563eb' },
-      { label: 'Stamp Duty', value: stamp, color: '#f59e0b' },
-      { label: 'Registration', value: reg, color: '#16a34a' },
+      { label: 'Property Price', value: price, color: '#005c8e' },
+      { label: 'Stamp Duty', value: stamp, color: '#d97706' },
+      { label: 'Registration', value: reg, color: '#00652c' },
     ];
 
     const maxVal = Math.max(...items.map(i => i.value)) * 1.25;
@@ -134,11 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getY(val) { return padding.top + chartH - (val / maxVal) * chartH; }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = (maxVal / ySteps) * i;
@@ -165,11 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillRect(x, getY(item.value), barWidth, h);
 
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.fillText('\u20B9 ' + abbreviateNumber(item.value), x + barWidth / 2, getY(item.value) - 8);
 
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillText(item.label, x + barWidth / 2, padding.top + chartH + 16);
     });

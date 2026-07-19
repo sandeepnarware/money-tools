@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       winnerEl.style.color = 'var(--text)';
     }
 
-    resultDifference.style.color = diff >= 0 ? 'var(--success)' : '#ef4444';
+    resultDifference.style.color = diff >= 0 ? 'var(--success)' : '#ba1a1a';
 
     drawChart(sipCorpus, fdMaturity);
     resultsSection.style.display = 'block';
@@ -93,17 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const sipH = maxVal > 0 ? (sipCorpus / maxVal) * chartHeight : 0;
     const fdH = maxVal > 0 ? (fdMaturity / maxVal) * chartHeight : 0;
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.beginPath();
     ctx.roundRect(startX, bottomY - sipH, barWidth, sipH, 4);
     ctx.fill();
 
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.beginPath();
     ctx.roundRect(startX + barWidth + gap, bottomY - fdH, barWidth, fdH, 4);
     ctx.fill();
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = 'bold 13px -apple-system, sans-serif';
     ctx.textAlign = 'center';
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText(fdLabel, startX + barWidth + gap + barWidth / 2, bottomY - fdH - 8);
 
     ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.fillText('SIP Corpus', startX + barWidth / 2, bottomY + 16);
     ctx.fillText('FD Maturity', startX + barWidth + gap + barWidth / 2, bottomY + 16);
   }

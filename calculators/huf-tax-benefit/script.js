@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = without + withHUF;
     const segs = [
-      { label: 'Tax Without HUF', value: without, color: '#ef4444' },
-      { label: 'Tax With HUF', value: withHUF, color: '#16a34a' },
+      { label: 'Tax Without HUF', value: without, color: '#ba1a1a' },
+      { label: 'Tax With HUF', value: withHUF, color: '#00652c' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -107,12 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const ly = displaySize - 6;
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Tax Without HUF', 26, ly + 2);
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(140, ly - 10, 12, 12);
       ctx.fillText('Tax With HUF', 156, ly + 2);
     }

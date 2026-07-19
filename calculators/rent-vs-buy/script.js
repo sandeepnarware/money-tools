@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultPropertyInflAdj.textContent = 'Inflation-Adj: \u20B9 ' + formatNumber(Math.round(propertyValueInflAdj));
     resultMfInflAdj.textContent = 'Inflation-Adj: \u20B9 ' + formatNumber(Math.round(mfPortfolioInflAdj));
     resultWinner.textContent = totalMfPortfolio > propertyValueEnd ? 'Rent & Invest Wins' : 'Buy Wins';
-    resultWinner.style.color = totalMfPortfolio > propertyValueEnd ? '#16a34a' : '#2563eb';
+    resultWinner.style.color = totalMfPortfolio > propertyValueEnd ? '#00652c' : '#005c8e';
 
     // Comparison table
     cmpBuyUpfront.textContent = '\u20B9 ' + formatNumber(Math.round(downpayment)) + ' (Downpayment)';
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Monthly HRA Exemption: <strong>\u20B9 ' + formatNumber(Math.round(hraExemptionMonthly)) + '</strong><br>' +
         'Annual HRA Exemption: <strong>\u20B9 ' + formatNumber(Math.round(hraExemptionAnnual)) + '</strong><br>' +
         'Annual Tax Saved (at ' + taxSlab + '% slab): <strong>\u20B9 ' + formatNumber(Math.round(taxSavedAnnual)) + '</strong><br>' +
-        'Total Tax Saved over 20 years: <strong style="color:#16a34a;">\u20B9 ' + formatNumber(Math.round(taxSavedTotal)) + '</strong>';
+        'Total Tax Saved over 20 years: <strong style="color:#00652c;">\u20B9 ' + formatNumber(Math.round(taxSavedTotal)) + '</strong>';
       hraSection.style.display = 'block';
     } else {
       hraSection.style.display = 'none';
@@ -203,11 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return padding.top + chartH - (val / maxVal) * chartH;
     }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = (maxVal / ySteps) * i;
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
-    const barColors = ['#f59e0b', '#2563eb', '#16a34a'];
+    const barColors = ['#d97706', '#005c8e', '#00652c'];
     const barLabels = ['Total Cost', 'Nominal', 'Infl-Adj'];
 
     groups.forEach((g, gi) => {
@@ -240,12 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillRect(x, getY(val), barW, h);
 
         ctx.textAlign = 'center';
-        ctx.fillStyle = '#1e293b';
+        ctx.fillStyle = '#191c1e';
         ctx.font = 'bold 10px -apple-system, sans-serif';
         ctx.fillText(abbreviateNumber(val), x + barW / 2, getY(val) - 6);
       });
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       g.label.split(' ').forEach((part, pi) => {
@@ -255,14 +255,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.textAlign = 'left';
     const legendItems = [
-      { color: '#f59e0b', label: 'Total Cost', x: 10 },
-      { color: '#2563eb', label: 'Final Asset (Nominal)', x: 120 },
-      { color: '#16a34a', label: 'Final Asset (Infl-Adj)', x: 290 },
+      { color: '#d97706', label: 'Total Cost', x: 10 },
+      { color: '#005c8e', label: 'Final Asset (Nominal)', x: 120 },
+      { color: '#00652c', label: 'Final Asset (Infl-Adj)', x: 290 },
     ];
     legendItems.forEach(item => {
       ctx.fillStyle = item.color;
       ctx.fillRect(item.x, 8, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText(item.label, item.x + 16, 18);
     });

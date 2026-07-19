@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = saved + taxPaid;
 
     const segs = [
-      { label: 'Tax Saved', value: saved, color: '#16a34a' },
-      { label: 'Tax Paid', value: taxPaid, color: '#ef4444' },
+      { label: 'Tax Saved', value: saved, color: '#00652c' },
+      { label: 'Tax Paid', value: taxPaid, color: '#ba1a1a' },
     ];
 
     let startTime, animId;
@@ -89,13 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       const ly = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Tax Saved', 26, ly + 2);
 
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(110, ly - 10, 12, 12);
       ctx.fillText('Tax Paid', 126, ly + 2);
     }

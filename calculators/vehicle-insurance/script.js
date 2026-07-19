@@ -80,29 +80,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const bar3H = (totalA / maxVal) * (chartBottom - 40);
     const bar4H = (totalB / maxVal) * (chartBottom - 40);
 
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#2075ae';
     ctx.fillRect(30, chartBottom - bar1H, barWidth, bar1H);
-    ctx.fillStyle = '#f59e0b';
+    ctx.fillStyle = '#d97706';
     ctx.fillRect(30 + barWidth + 10, chartBottom - bar2H, barWidth, bar2H);
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(30, chartBottom - bar3H - bar1H - 10, barWidth, bar3H);
     ctx.fillStyle = '#d97706';
     ctx.fillRect(30 + barWidth + 10, chartBottom - bar4H - bar2H - 10, barWidth, bar4H);
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Plan A', 30 + barWidth / 2, displayH - 10);
     ctx.fillText('Plan B', 30 + barWidth + 10 + barWidth / 2, displayH - 10);
 
     const ly = 14;
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#2075ae';
     ctx.fillRect(10, ly, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.textAlign = 'left';
     ctx.fillText('Gross Premium', 26, ly + 10);
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(130, ly, 12, 12);
     ctx.fillText('After NCB', 146, ly + 10);
   }

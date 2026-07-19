@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cy = displaySize / 2;
     const radius = displaySize / 2 - 20;
     const segs = [
-      { label: 'Saved', value: saved, color: '#16a34a' },
-      { label: 'Goal', value: gap, color: '#2563eb' },
+      { label: 'Saved', value: saved, color: '#00652c' },
+      { label: 'Goal', value: gap, color: '#005c8e' },
     ];
     const total = saved + gap;
     if (total === 0) return;

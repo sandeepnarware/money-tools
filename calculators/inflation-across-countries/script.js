@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.scale(dpr, dpr);
 
     const bars = [
-      { label: 'India', value: india, color: '#2563eb' },
-      { label: 'USA', value: usa, color: '#16a34a' },
-      { label: 'UK', value: uk, color: '#f59e0b' },
+      { label: 'India', value: india, color: '#005c8e' },
+      { label: 'USA', value: usa, color: '#00652c' },
+      { label: 'UK', value: uk, color: '#d97706' },
     ];
     const padding = { top: 20, bottom: 40, left: 50, right: 20 };
     const chartW = displaySize - padding.left - padding.right;
@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = bar.color;
       ctx.fillRect(x, y, barW, barH);
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '10px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(bar.label, x + barW / 2, displaySize - padding.bottom + 14);
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 10px -apple-system, sans-serif';
       ctx.fillText('₹' + formatNumber(Math.round(bar.value)), x + barW / 2, y - 4);
     });

@@ -103,11 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getY(val) { return padding.top + chartH - ((val - minVal) / (maxVal - minVal)) * chartH; }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = minVal + ((maxVal - minVal) / ySteps) * i;
@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.beginPath();
     const gradient = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
-    gradient.addColorStop(0, '#3b82f6');
-    gradient.addColorStop(1, '#93c5fd');
+    gradient.addColorStop(0, '#2075ae');
+    gradient.addColorStop(1, '#94ccff');
     ctx.fillStyle = gradient;
 
     values.forEach((val, i) => {
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ctx.beginPath();
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2;
     values.forEach((val, i) => {
       const x = padding.left + gap + i * (gap + barW) + barW / 2;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     values.forEach((val, i) => {
       const x = padding.left + gap + i * (gap + barW) + barW / 2;
       const y = getY(val);
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     labels.forEach((label, i) => {
       const x = padding.left + gap + i * (gap + barW) + barW / 2;

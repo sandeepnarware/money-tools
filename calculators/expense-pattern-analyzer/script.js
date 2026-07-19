@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'catOther', label: 'Other Expenses', type: 'Wants' },
   ];
 
-  const COLORS = ['#2563eb', '#16a34a', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#14b8a6', '#a855f7', '#64748b'];
+  const COLORS = ['#005c8e', '#00652c', '#d97706', '#ba1a1a', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#14b8a6', '#a855f7', '#545f73'];
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -131,17 +131,17 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStart = segEnd;
       });
 
-      const colW = displaySize / cols;
-      data.forEach((d, i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const x = col * colW + 6;
-        const y = displaySize - (legendRows - row) * 16 + 4;
+      ctx.font = '10px -apple-system, sans-serif';
+      const activeData = data.filter(d => d.value > 0);
+      const totalW = activeData.reduce((s, d) => s + 12 + ctx.measureText(d.label).width, 0) + (activeData.length - 1) * 16;
+      let lx = (displaySize - totalW) / 2;
+      const ly = displaySize - 6;
+      activeData.forEach(d => {
         ctx.fillStyle = d.color;
-        ctx.fillRect(x, y - 7, 8, 8);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '10px -apple-system, sans-serif';
-        ctx.fillText(d.label, x + 12, y + 1);
+        ctx.fillRect(lx, ly - 7, 8, 8);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(d.label, lx + 12, ly + 1);
+        lx += 12 + ctx.measureText(d.label).width + 16;
       });
     }
     function animate(time) {

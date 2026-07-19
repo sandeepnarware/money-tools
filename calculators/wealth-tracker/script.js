@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateTotals() {
     const cats = ['assets', 'liabilities', 'receivables', 'payables'];
     const labels = ['totalAssets', 'totalLiabilities', 'totalReceivables', 'totalPayables'];
-    const colors = ['#1d4ed8', '#dc2626', '#16a34a', '#a16207'];
+    const colors = ['#004b74', '#ba1a1a', '#00652c', '#a16207'];
 
     cats.forEach((cat, i) => {
       const total = getCategoryTotal(cat, currentMonth);
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nw = getNetWorth(currentMonth);
     const nwEl = document.getElementById('netWorth');
     nwEl.textContent = '\u20B9 ' + formatNumber(nw);
-    nwEl.style.color = nw >= 0 ? '#16a34a' : '#dc2626';
+    nwEl.style.color = nw >= 0 ? '#00652c' : '#ba1a1a';
   }
 
   function renderHistory() {
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td class="text-right">${formatNumber(liabilities)}</td>
           <td class="text-right">${formatNumber(receivables)}</td>
           <td class="text-right">${formatNumber(payables)}</td>
-          <td class="text-right" style="color:${nw >= 0 ? '#16a34a' : '#dc2626'}; font-weight:600;">${formatNumber(nw)}</td>
+          <td class="text-right" style="color:${nw >= 0 ? '#00652c' : '#ba1a1a'}; font-weight:600;">${formatNumber(nw)}</td>
         </tr>
       `;
     }).join('');
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const assets = getCategoryDetail('assets', currentMonth);
     const types = {};
     const typeLabels = { equity: 'Equity', debt: 'Debt', cash: 'Cash', realEstate: 'Real Estate', other: 'Other' };
-    const typeColors = { equity: '#2563eb', debt: '#f59e0b', cash: '#16a34a', realEstate: '#8b5cf6', other: '#94a3b8' };
+    const typeColors = { equity: '#005c8e', debt: '#d97706', cash: '#00652c', realEstate: '#8b5cf6', other: '#94a3b8' };
 
     assets.forEach(a => {
       const t = a.type || 'other';
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('\u20B9 ' + abbreviate(total), cx, cy + 5);
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pct = ((value / total) * 100).toFixed(1);
         ctx.fillStyle = typeColors[type] || '#94a3b8';
         ctx.fillRect(lx, ly, 12, 12);
-        ctx.fillStyle = '#1e293b';
+        ctx.fillStyle = '#191c1e';
         ctx.fillText((typeLabels[type] || type) + ' ' + pct + '%', lx + 18, ly + 10);
         ly += 22;
         if (ly > h - 20) { lx += 100; ly = 20; }
@@ -384,10 +384,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function getX(i) { return padding.left + (i / (months.length - 1 || 1)) * chartW; }
     function getY(v) { return padding.top + chartH - ((v - minVal) / range) * chartH; }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     for (let i = 0; i <= 5; i++) {
       const val = minVal + (range / 5) * i;
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.strokeStyle = '#2563eb';
+    ctx.strokeStyle = '#005c8e';
     ctx.lineWidth = 2;
     values.forEach((v, i) => {
       const x = getX(i);
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     values.forEach((v, i) => {
       const x = getX(i);
       const y = getY(v);
@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '9px -apple-system, sans-serif';
     const step = Math.max(1, Math.floor(months.length / 10));
     months.forEach((m, i) => {
@@ -466,10 +466,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function getX(i) { return padding.left + (i / years) * chartW; }
     function getY(v) { return padding.top + chartH - ((v - minVal) / range) * chartH; }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     for (let i = 0; i <= 5; i++) {
       const val = minVal + (range / 5) * i;
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fill();
 
     ctx.beginPath();
-    ctx.strokeStyle = '#16a34a';
+    ctx.strokeStyle = '#00652c';
     ctx.lineWidth = 2;
     points.forEach((p, i) => {
       const x = getX(p.year);
@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     points.forEach((p, i) => {
       const x = getX(p.year);
       const y = getY(p.value);
@@ -527,20 +527,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (i % 2 === 0 || i === years) {
         ctx.textAlign = 'center';
-        ctx.fillStyle = '#1e293b';
+        ctx.fillStyle = '#191c1e';
         ctx.font = 'bold 9px -apple-system, sans-serif';
         ctx.fillText('\u20B9 ' + abbreviate(p.value), x, y - 10);
       }
     });
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '9px -apple-system, sans-serif';
     for (let i = 0; i <= years; i++) {
       ctx.fillText('Yr ' + i, getX(i), padding.top + chartH + 16);
     }
 
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('At ' + data.projectionRate + '% annual growth', w / 2, h - 4);

@@ -83,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = recommended + existing + gap;
     const segs = [
-      { label: 'Coverage Needed', value: recommended, color: '#2563eb' },
-      { label: 'Existing Cover', value: existing, color: '#16a34a' },
-      { label: 'Gap', value: gap, color: '#ef4444' },
+      { label: 'Coverage Needed', value: recommended, color: '#005c8e' },
+      { label: 'Existing Cover', value: existing, color: '#00652c' },
+      { label: 'Gap', value: gap, color: '#ba1a1a' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -110,14 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
-      let legendX = 10;
-      segs.forEach(seg => {
-        ctx.fillStyle = seg.color;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '12px -apple-system, sans-serif';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText(seg.label, legendX + 16, legendY + 2);
-        legendX += ctx.measureText(seg.label).width + 32;
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, legendX + 16, legendY + 2);
+        legendX += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

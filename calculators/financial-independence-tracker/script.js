@@ -97,15 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.beginPath();
     ctx.arc(cx, cy, radius, startAngle, endAngle);
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.stroke();
 
     const gradient = ctx.createLinearGradient(0, 0, displaySize, displaySize);
-    gradient.addColorStop(0, '#ef4444');
-    gradient.addColorStop(0.5, '#f59e0b');
-    gradient.addColorStop(1, '#16a34a');
+    gradient.addColorStop(0, '#ba1a1a');
+    gradient.addColorStop(0.5, '#d97706');
+    gradient.addColorStop(1, '#00652c');
     ctx.beginPath();
     ctx.arc(cx, cy, radius, startAngle, progAngle);
     ctx.strokeStyle = gradient;
@@ -113,17 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = 'bold 28px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(progress.toFixed(1) + '%', cx, cy + 8);
 
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('FI Progress', cx, cy + 28);
 
     const legendY = displaySize - 6;
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('0%', 10, legendY);

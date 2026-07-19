@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const segs = [
-      { label: 'Tax Amount', value: taxAmount, color: '#ef4444' },
-      { label: 'Net Gain', value: netGain, color: '#16a34a' },
+      { label: 'Tax Amount', value: taxAmount, color: '#ba1a1a' },
+      { label: 'Net Gain', value: netGain, color: '#00652c' },
     ];
 
     let startTime, animId;
@@ -175,16 +175,20 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#ef4444';
-      ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      const legendItems = [
+        { color: '#ba1a1a', label: 'Tax Amount' },
+        { color: '#00652c', label: 'Net Gain' },
+      ];
       ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText('Tax Amount', 26, legendY + 2);
-
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(120, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.fillText('Net Gain', 136, legendY + 2);
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
+      });
     }
 
     function animate(time) {

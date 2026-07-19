@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const assets = [
-      { name: 'Equity', invested: equityAmt, retRate: equityRet, color: '#2563eb' },
-      { name: 'Debt', invested: debtAmt, retRate: debtRet, color: '#16a34a' },
-      { name: 'Gold', invested: goldAmt, retRate: goldRet, color: '#f59e0b' },
-      { name: 'Real Estate', invested: reAmt, retRate: reRet, color: '#ef4444' },
+      { name: 'Equity', invested: equityAmt, retRate: equityRet, color: '#005c8e' },
+      { name: 'Debt', invested: debtAmt, retRate: debtRet, color: '#00652c' },
+      { name: 'Gold', invested: goldAmt, retRate: goldRet, color: '#d97706' },
+      { name: 'Real Estate', invested: reAmt, retRate: reRet, color: '#ba1a1a' },
       { name: 'Cash / FD', invested: cashAmt, retRate: cashRet, color: '#8b5cf6' },
     ];
 
@@ -133,17 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStart = segEnd;
       });
 
-      const colW = displaySize / cols;
-      data.forEach((d, i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const x = col * colW + 6;
-        const y = displaySize - (legendRows - row) * 16 + 4;
+      ctx.font = '10px -apple-system, sans-serif';
+      const activeData = data.filter(d => d.value > 0);
+      const totalW = activeData.reduce((s, d) => s + 12 + ctx.measureText(d.label).width, 0) + (activeData.length - 1) * 16;
+      let lx = (displaySize - totalW) / 2;
+      const ly = displaySize - 6;
+      activeData.forEach(d => {
         ctx.fillStyle = d.color;
-        ctx.fillRect(x, y - 7, 8, 8);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '10px -apple-system, sans-serif';
-        ctx.fillText(d.label, x + 12, y + 1);
+        ctx.fillRect(lx, ly - 7, 8, 8);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(d.label, lx + 12, ly + 1);
+        lx += 12 + ctx.measureText(d.label).width + 16;
       });
     }
     function animate(time) {

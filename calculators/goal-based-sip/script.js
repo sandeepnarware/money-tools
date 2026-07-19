@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const fvSip = monthlySIP * ((Math.pow(1 + r, n) - 1) / r * (1 + r));
     const unfilled = Math.max(0, goal - fvSavings - fvSip);
     const segs = [
-      { label: 'Current Savings', value: fvSavings, color: '#1e40af' },
-      { label: 'Future SIP', value: fvSip, color: '#16a34a' },
-      { label: 'Remaining', value: unfilled, color: '#cbd5e1' },
+      { label: 'Current Savings', value: fvSavings, color: '#004b74' },
+      { label: 'Future SIP', value: fvSip, color: '#00652c' },
+      { label: 'Remaining', value: unfilled, color: '#c4ccce' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -101,30 +101,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
-      let legendX = 10;
-      if (fvSavings > 0) {
-        ctx.fillStyle = '#1e40af';
+      ctx.font = '12px -apple-system, sans-serif';
+      const items = [];
+      if (fvSavings > 0) items.push({ label: 'Current Savings', color: '#004b74' });
+      if (fvSip > 0) items.push({ label: 'Future SIP', color: '#00652c' });
+      if (unfilled > 0) items.push({ label: 'Remaining', color: '#c4ccce' });
+      const totalW = items.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (items.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      items.forEach(item => {
+        ctx.fillStyle = item.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText('Current Savings', legendX + 16, legendY + 2);
-        legendX += ctx.measureText('Current Savings').width + 28;
-      }
-      if (fvSip > 0) {
-        ctx.fillStyle = '#16a34a';
-        ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText('Future SIP', legendX + 16, legendY + 2);
-        legendX += ctx.measureText('Future SIP').width + 28;
-      }
-      if (unfilled > 0) {
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText('Remaining', legendX + 16, legendY + 2);
-      }
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, legendX + 16, legendY + 2);
+        legendX += 16 + ctx.measureText(item.label).width + 20;
+      });
     }
     function animate(time) {
       if (!startTime) startTime = time;

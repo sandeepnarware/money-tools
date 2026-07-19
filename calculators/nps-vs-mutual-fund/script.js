@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultNpsDiff.textContent = (diff >= 0 ? '\u20B9 ' : '-\u20B9 ') + formatNumber(Math.round(Math.abs(diff)));
     resultNpsBetter.textContent = better;
 
-    drawChart('NPS Corpus', npsCorpus, 'MF Corpus', mfCorpus, '#2563eb', '#16a34a', npsPension);
+    drawChart('NPS Corpus', npsCorpus, 'MF Corpus', mfCorpus, '#005c8e', '#00652c', npsPension);
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = color2;
     ctx.fillRect(startX + barWidth + gap, bottomY - h2, barWidth, h2);
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = 'bold 13px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(formatNumber(Math.round(val1)), startX + barWidth / 2, bottomY - h1 - 8);
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText(label2, startX + barWidth + gap + barWidth / 2, bottomY + 18);
 
     if (pension > 0) {
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '11px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Pension: ' + formatNumber(Math.round(pension)) + '/month', displayWidth / 2, displayHeight - 8);

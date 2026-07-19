@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const exempt = Math.max(0, total - taxable);
     const segs = [
-      { label: 'Exempt', value: exempt, color: '#16a34a' },
-      { label: 'Taxable', value: taxable, color: '#dc2626' },
+      { label: 'Exempt', value: exempt, color: '#00652c' },
+      { label: 'Taxable', value: taxable, color: '#ba1a1a' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Exempt', 26, legendY + 2);
-      ctx.fillStyle = '#dc2626';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(90, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Taxable', 106, legendY + 2);
     }
     function animate(time) {

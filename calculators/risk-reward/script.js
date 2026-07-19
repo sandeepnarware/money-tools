@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = risk + reward;
 
     const segs = [
-      { label: 'Risk Amount', value: risk, color: '#ef4444' },
-      { label: 'Reward Amount', value: reward, color: '#16a34a' },
+      { label: 'Risk Amount', value: risk, color: '#ba1a1a' },
+      { label: 'Reward Amount', value: reward, color: '#00652c' },
     ];
 
     let startTime, animId;
@@ -89,16 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#ef4444';
-      ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
       ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText('Risk Amount', 26, legendY + 2);
-
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(120, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.fillText('Reward Amount', 136, legendY + 2);
+      const items = segs.filter(s => s.value > 0);
+      const totalW = items.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (items.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      items.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
+      });
     }
     function animate(time) {
       if (!startTime) startTime = time;

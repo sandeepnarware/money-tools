@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = el('breakdownBody');
     const isOld = activeTab === 'old';
     tbody.innerHTML = rows.map(r => `
-      <tr${r.bold ? ' style="font-weight:700;"' : ''}${r.accent ? (isOld ? ' style="color:#2563eb; font-weight:700;"' : ' style="color:#16a34a; font-weight:700;"') : ''}>
+      <tr${r.bold ? ' style="font-weight:700;"' : ''}${r.accent ? (isOld ? ' style="color:#005c8e; font-weight:700;"' : ' style="color:#00652c; font-weight:700;"') : ''}>
         <td>${r.label}</td>
         <td class="text-right">${r.value >= 0 ? '\u20B9 ' + formatNumber(Math.abs(r.value)) : '(\u20B9 ' + formatNumber(Math.abs(r.value)) + ')'}</td>
       </tr>
@@ -173,16 +173,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let recommended = 'old';
     if (oldResult.tax < newResult.tax) {
       recBox.style.display = 'block';
-      recBox.style.background = '#eff6ff';
-      recBox.style.border = '1px solid #bfdbfe';
-      recBox.style.color = '#1d4ed8';
+      recBox.style.background = '#eef5ff';
+      recBox.style.border = '1px solid #cde5ff';
+      recBox.style.color = '#004b74';
       recBox.textContent = 'Old Regime is better — you save \u20B9 ' + formatNumber(Math.round(newResult.tax - oldResult.tax)) + ' in taxes.';
       recommended = 'old';
     } else if (newResult.tax < oldResult.tax) {
       recBox.style.display = 'block';
       recBox.style.background = '#f0fdf4';
-      recBox.style.border = '1px solid #bbf7d0';
-      recBox.style.color = '#16a34a';
+      recBox.style.border = '1px solid #d3ffd5';
+      recBox.style.color = '#00652c';
       recBox.textContent = 'New Regime is better — you save \u20B9 ' + formatNumber(Math.round(oldResult.tax - newResult.tax)) + ' in taxes.';
       recommended = 'new';
     } else {
@@ -258,10 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartH = displayH - padding.top - padding.bottom;
 
     const items = [
-      { label: 'Old Regime Taxable', value: oldTaxable, color: '#93c5fd' },
-      { label: 'Old Regime Tax', value: oldTax, color: '#2563eb' },
-      { label: 'New Regime Taxable', value: newTaxable, color: '#bbf7d0' },
-      { label: 'New Regime Tax', value: newTax, color: '#16a34a' },
+      { label: 'Old Regime Taxable', value: oldTaxable, color: '#94ccff' },
+      { label: 'Old Regime Tax', value: oldTax, color: '#005c8e' },
+      { label: 'New Regime Taxable', value: newTaxable, color: '#d3ffd5' },
+      { label: 'New Regime Tax', value: newTax, color: '#00652c' },
     ];
 
     const maxVal = Math.max(...items.map(i => i.value)) * 1.25;
@@ -270,11 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getY(val) { return padding.top + chartH - (val / maxVal) * chartH; }
 
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = (maxVal / ySteps) * i;
@@ -301,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillRect(x, getY(item.value), barWidth, h);
 
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold 10px -apple-system, sans-serif';
       ctx.fillText('\u20B9 ' + abbreviateNumber(item.value), x + barWidth / 2, getY(item.value) - 8);
 
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '9px -apple-system, sans-serif';
       ctx.fillText(item.label, x + barWidth / 2, padding.top + chartH + 14);
     });

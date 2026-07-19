@@ -83,8 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = paid + payable;
 
     const segs = [
-      { label: 'Tax Paid', value: paid, color: '#16a34a' },
-      { label: 'Payable', value: payable, color: '#ef4444' },
+      { label: 'Tax Paid', value: paid, color: '#00652c' },
+      { label: 'Payable', value: payable, color: '#ba1a1a' },
     ];
 
     let startTime, animId;
@@ -123,13 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const ly = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Tax Paid', 26, ly + 2);
 
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(100, ly - 10, 12, 12);
       ctx.fillText('Payable', 116, ly + 2);
     }
@@ -145,13 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
     animId = requestAnimationFrame(animate);
 
     const ly = displaySize - 6;
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.fillRect(10, ly - 10, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Tax Paid', 26, ly + 2);
 
-    ctx.fillStyle = '#ef4444';
+    ctx.fillStyle = '#ba1a1a';
     ctx.fillRect(100, ly - 10, 12, 12);
     ctx.fillText('Payable', 116, ly + 2);
   }

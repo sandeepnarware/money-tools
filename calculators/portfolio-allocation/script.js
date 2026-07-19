@@ -65,31 +65,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const financialPct = (financialTotal / grandTotal) * 100;
 
     const assets = [
-      { name: 'Equity', amount: equity, pct: ePct, ideal: ideal.equity, color: '#2563eb' },
-      { name: 'Debt', amount: debt, pct: dPct, ideal: ideal.debt, color: '#16a34a' },
-      { name: 'Gold', amount: gold, pct: gPct, ideal: ideal.gold, color: '#f59e0b' },
-      { name: 'Real Estate', amount: realEstate, pct: rPct, ideal: null, color: '#ef4444' },
+      { name: 'Equity', amount: equity, pct: ePct, ideal: ideal.equity, color: '#005c8e' },
+      { name: 'Debt', amount: debt, pct: dPct, ideal: ideal.debt, color: '#00652c' },
+      { name: 'Gold', amount: gold, pct: gPct, ideal: ideal.gold, color: '#d97706' },
+      { name: 'Real Estate', amount: realEstate, pct: rPct, ideal: null, color: '#ba1a1a' },
       { name: 'Cash', amount: cash, pct: cPct, ideal: ideal.cash, color: '#8b5cf6' },
     ];
 
     allocBody.innerHTML = assets.map(a => {
       let action = '-';
-      let actionColor = '#64748b';
+      let actionColor = '#545f73';
       if (a.ideal !== null && a.ideal > 0) {
         const diff = a.pct - a.ideal;
         if (diff > 3) {
           action = 'Reduce by \u20B9 ' + formatNumber(Math.round((diff / 100) * grandTotal));
-          actionColor = '#ef4444';
+          actionColor = '#ba1a1a';
         } else if (diff < -3) {
           action = 'Add \u20B9 ' + formatNumber(Math.round((-diff / 100) * grandTotal));
-          actionColor = '#16a34a';
+          actionColor = '#00652c';
         } else {
           action = 'On track';
-          actionColor = '#16a34a';
+          actionColor = '#00652c';
         }
       } else if (a.name === 'Real Estate') {
         action = 'No target (personal)';
-        actionColor = '#64748b';
+        actionColor = '#545f73';
       }
       return `<tr>
         <td>${a.name}</td>
@@ -167,26 +167,27 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold ' + (displaySize * 0.055) + 'px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('Age ' + age, cx, cy - 10);
       ctx.font = (displaySize * 0.04) + 'px -apple-system, sans-serif';
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.fillText('110 - ' + age + ' rule', cx, cy + 14);
 
       const legendY = displaySize - 8;
-      let legendX = 10;
-      data.forEach(d => {
+      const legendItems = data.filter(d => d.amount > 0);
+      ctx.font = '11px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      const totalW = legendItems.reduce((s, d) => s + 16 + ctx.measureText(d.name).width, 0) + (legendItems.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      legendItems.forEach(d => {
         ctx.fillStyle = d.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '11px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
+        ctx.fillStyle = '#191c1e';
         ctx.fillText(d.name, legendX + 16, legendY + 2);
-        legendX += ctx.measureText(d.name).width + 30;
-        if (legendX > displaySize - 40) { legendX = 10; }
+        legendX += 16 + ctx.measureText(d.name).width + 20;
       });
     }
     function animate(time) {

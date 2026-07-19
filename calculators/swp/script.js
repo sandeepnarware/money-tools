@@ -133,10 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Grid lines
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     const ySteps = 5;
     for (let i = 0; i <= ySteps; i++) {
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // X axis labels
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     const xStep = Math.max(1, Math.floor(schedule.length / 10));
     for (let i = 0; i < schedule.length; i += xStep) {
@@ -190,20 +190,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    drawLine(schedule, d => d.closing, '#2563eb');
-    drawLine(schedule, d => d.inflAdj, '#16a34a');
+    drawLine(schedule, d => d.closing, '#005c8e');
+    drawLine(schedule, d => d.inflAdj, '#00652c');
 
     // Legend
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(10, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = '12px -apple-system, sans-serif';
     ctx.fillText('Closing Corpus', 26, 18);
 
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.fillRect(150, 8, 12, 12);
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.fillText('Inflation-Adjusted', 166, 18);
   }
 

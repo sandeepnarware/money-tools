@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultSavings.textContent = '\u20B9 ' + formatNumber(Math.round(savingsTotal));
 
     function pctSpan(pct, target) {
-      const color = pct <= target ? '#16a34a' : '#ef4444';
+      const color = pct <= target ? '#00652c' : '#ba1a1a';
       return '<span style="color:' + color + ';font-weight:600;">' + pct.toFixed(1) + '%</span> (Target ' + target + '%)';
     }
 
@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = needs + wants + savings;
     const segs = [
-      { label: 'Needs', value: needs, color: '#2563eb' },
+      { label: 'Needs', value: needs, color: '#005c8e' },
       { label: 'Wants', value: wants, color: '#d97706' },
-      { label: 'Savings', value: savings, color: '#16a34a' },
+      { label: 'Savings', value: savings, color: '#00652c' },
     ];
     let startTime, animId;
     function draw(p) {
@@ -113,15 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
       const ly = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Needs', 26, ly + 2);
       ctx.fillStyle = '#d97706';
       ctx.fillRect(80, ly - 10, 12, 12);
       ctx.fillText('Wants', 96, ly + 2);
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(150, ly - 10, 12, 12);
       ctx.fillText('Savings', 166, ly + 2);
     }

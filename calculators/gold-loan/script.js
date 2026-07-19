@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = principal + interest;
 
     const segs = [
-      { label: 'Principal', value: principal, color: '#2563eb' },
-      { label: 'Interest', value: interest, color: '#f59e0b' },
+      { label: 'Principal', value: principal, color: '#005c8e' },
+      { label: 'Interest', value: interest, color: '#d97706' },
     ];
 
     let startTime, animId;
@@ -105,15 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Principal', 26, legendY + 2);
 
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.fillRect(110, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Interest', 126, legendY + 2);
     }
 

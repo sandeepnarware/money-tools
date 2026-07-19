@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = debts.reduce((s, d) => s + d.balance, 0);
 
-    const colors = ['#ef4444', '#f59e0b', '#2563eb'];
+    const colors = ['#ba1a1a', '#d97706', '#005c8e'];
     const segs = debts.map((d, i) => ({ label: d.name, value: d.balance, color: colors[i % colors.length] }));
 
     let startTime, animId;
@@ -175,15 +175,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-      let lx = 10;
-      const ly = displaySize - 6;
-      segs.forEach((seg, i) => {
-        ctx.fillStyle = seg.color;
-        ctx.fillRect(lx, ly - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText(seg.label, lx + 16, ly + 2);
-        lx += ctx.measureText(seg.label).width + 32;
+      const legendY = displaySize - 6;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '12px -apple-system, sans-serif';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

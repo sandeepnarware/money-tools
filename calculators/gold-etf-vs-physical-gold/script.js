@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultGvPhysicalRet.textContent = '\u20B9 ' + formatNumber(Math.round(physicalRet));
     resultGvBetter.textContent = better;
 
-    drawChart('Gold ETF', etfFinal, 'Physical Gold', physicalFinal, '#f59e0b', '#b45309');
+    drawChart('Gold ETF', etfFinal, 'Physical Gold', physicalFinal, '#d97706', '#b45309');
     resultsSection.style.display = 'block';
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = color2;
     ctx.fillRect(startX + barWidth + gap, bottomY - h2, barWidth, h2);
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = 'bold 13px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(formatNumber(Math.round(val1)), startX + barWidth / 2, bottomY - h1 - 8);

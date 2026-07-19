@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mfBody = document.getElementById('mfBody');
   const chartCanvas = document.getElementById('mfReviewChart');
 
-  const colors = ['#2563eb', '#16a34a', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6'];
+  const colors = ['#005c8e', '#00652c', '#d97706', '#ba1a1a', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6'];
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${f.name}</td>
         <td class="text-right">${formatNumber(Math.round(f.invested))}</td>
         <td class="text-right">${formatNumber(Math.round(f.current))}</td>
-        <td class="text-right" style="color:${f.ret >= 0 ? '#16a34a' : '#dc2626'}">${f.ret.toFixed(2)}%</td>
-        <td class="text-right" style="color:${f.gain >= 0 ? '#16a34a' : '#dc2626'}">${f.gain >= 0 ? '+' : ''}${formatNumber(Math.round(f.gain))}</td>
+        <td class="text-right" style="color:${f.ret >= 0 ? '#00652c' : '#ba1a1a'}">${f.ret.toFixed(2)}%</td>
+        <td class="text-right" style="color:${f.gain >= 0 ? '#00652c' : '#ba1a1a'}">${f.gain >= 0 ? '+' : ''}${formatNumber(Math.round(f.gain))}</td>
       </tr>
     `).join('');
 
@@ -237,16 +237,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       const legendY = displaySize - 8;
-      let legendX = 10;
-      segs.forEach((seg, i) => {
-        ctx.fillStyle = seg.color;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '11px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '11px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(seg.label, legendX + 16, legendY + 2);
-        legendX += ctx.measureText(seg.label).width + 28;
-        if (legendX > displaySize - 30) legendX = 10;
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, legendX + 16, legendY + 2);
+        legendX += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

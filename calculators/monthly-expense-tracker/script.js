@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderBreakdown(categories, amounts, total) {
-    const colors = ['#2563eb','#16a34a','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#a855f7'];
+    const colors = ['#005c8e','#00652c','#d97706','#ba1a1a','#8b5cf6','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#a855f7'];
     expenseBreakdownBody.innerHTML = categories.map((cat, i) => {
       const pct = total > 0 ? (amounts[i] / total) * 100 : 0;
       return '<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + colors[i] + ';margin-right:8px;"></span>' + cat.label + '</td><td class="text-right">\u20B9 ' + formatNumber(Math.round(amounts[i])) + '</td><td class="text-right">' + pct.toFixed(1) + '%</td></tr>';
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const radius = displaySize / 2 - 20;
     const total = amounts.reduce((a, b) => a + b, 0);
 
-    const colors = ['#2563eb','#16a34a','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#a855f7'];
+    const colors = ['#005c8e','#00652c','#d97706','#ba1a1a','#8b5cf6','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#a855f7'];
 
     const segs = amounts.map((val, i) => ({ label: categories[i].label, value: val, color: colors[i] }));
 
@@ -108,14 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       const legendY = displaySize - 6;
-      let legendX = 10;
-      segs.forEach((seg, i) => {
-        ctx.fillStyle = seg.color;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '12px -apple-system, sans-serif';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText(seg.label, legendX + 16, legendY + 2);
-        legendX += ctx.measureText(seg.label).width + 32;
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, legendX + 16, legendY + 2);
+        legendX += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

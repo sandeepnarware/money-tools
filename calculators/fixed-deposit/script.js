@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = principal + interest;
 
     const segs = [
-      { label: 'Principal', value: principal, color: '#2563eb' },
-      { label: 'Interest', value: interest, color: '#16a34a' },
+      { label: 'Principal', value: principal, color: '#005c8e' },
+      { label: 'Interest', value: interest, color: '#00652c' },
     ];
 
     let startTime, animId;
@@ -154,16 +154,20 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
-      ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      const legendItems = [
+        { color: '#005c8e', label: 'Principal' },
+        { color: '#00652c', label: 'Interest' },
+      ];
       ctx.font = '12px -apple-system, sans-serif';
-      ctx.fillText('Principal', 26, legendY + 2);
-
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(100, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
-      ctx.fillText('Interest', 116, legendY + 2);
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
+      });
     }
 
     function animate(time) {

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('goldReturnBody');
   const chartCanvas = document.getElementById('goldReturnChart');
 
-  const colors = ['#f59e0b', '#2563eb', '#16a34a', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6'];
+  const colors = ['#d97706', '#005c8e', '#00652c', '#ba1a1a', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#6366f1', '#14b8a6'];
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -162,10 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const inrPerGram = (usdPerOz / 31.1035) * inrPerUsd;
       currentGoldPriceInput.value = Math.round(inrPerGram);
       priceStatus.textContent = `Live price: \u20B9${Math.round(inrPerGram)}/g (1 oz = $${usdPerOz}, 1 USD = \u20B9${inrPerUsd})`;
-      priceStatus.style.color = '#16a34a';
+      priceStatus.style.color = '#00652c';
     } catch {
       priceStatus.textContent = 'Could not fetch live price. Enter manually.';
-      priceStatus.style.color = '#dc2626';
+      priceStatus.style.color = '#ba1a1a';
     }
   });
 
@@ -209,8 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="text-right">${r.weight.toFixed(2)} g</td>
         <td class="text-right">${formatNumber(Math.round(r.invested))}</td>
         <td class="text-right">${formatNumber(Math.round(r.currentValue))}</td>
-        <td class="text-right" style="color:${r.ret >= 0 ? '#16a34a' : '#dc2626'}">${r.ret.toFixed(2)}%</td>
-        <td class="text-right" style="color:${r.gain >= 0 ? '#16a34a' : '#dc2626'}">${r.gain >= 0 ? '+' : ''}${formatNumber(Math.round(r.gain))}</td>
+        <td class="text-right" style="color:${r.ret >= 0 ? '#00652c' : '#ba1a1a'}">${r.ret.toFixed(2)}%</td>
+        <td class="text-right" style="color:${r.gain >= 0 ? '#00652c' : '#ba1a1a'}">${r.gain >= 0 ? '+' : ''}${formatNumber(Math.round(r.gain))}</td>
       </tr>
     `).join('');
 
@@ -264,17 +264,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
       const legendY = displaySize - 8;
-      let legendX = 10;
-      purchases.forEach((p, i) => {
-        ctx.fillStyle = colors[i % colors.length];
+      ctx.font = '11px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      const legendItems = segs.filter(s => s.value > 0);
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let legendX = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
         ctx.fillRect(legendX, legendY - 10, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '11px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        const label = p.date || 'Purchase ' + (i + 1);
-        ctx.fillText(label, legendX + 16, legendY + 2);
-        legendX += ctx.measureText(label).width + 28;
-        if (legendX > displaySize - 30) legendX = 10;
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, legendX + 16, legendY + 2);
+        legendX += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

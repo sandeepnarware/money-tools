@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let ratingColor = '';
     if (totalScore >= 80) { ratingText = 'Excellent'; ratingColor = 'var(--success)'; }
     else if (totalScore >= 60) { ratingText = 'Good'; ratingColor = 'var(--primary)'; }
-    else if (totalScore >= 40) { ratingText = 'Fair'; ratingColor = '#f59e0b'; }
-    else { ratingText = 'Poor'; ratingColor = '#ef4444'; }
+    else if (totalScore >= 40) { ratingText = 'Fair'; ratingColor = '#d97706'; }
+    else { ratingText = 'Poor'; ratingColor = '#ba1a1a'; }
 
     resultRating.textContent = ratingText;
     resultRating.style.color = ratingColor;
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.fillStyle = '#e2e8f0';
+      ctx.fillStyle = '#dce1e4';
       ctx.fill();
       ctx.stroke();
 
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, radius, -Math.PI / 2, fillAngle);
       ctx.closePath();
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fill();
       ctx.stroke();
 
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = 'bold ' + (displaySize * 0.12) + 'px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';

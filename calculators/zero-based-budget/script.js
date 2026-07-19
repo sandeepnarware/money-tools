@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('zbbForm');
   const resultsSection = document.getElementById('resultsSection');
-  const colors = ['#2563eb', '#16a34a', '#dc2626', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+  const colors = ['#005c8e', '#00652c', '#ba1a1a', '#d97706', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -98,16 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ctx.beginPath(); ctx.arc(cx, cy, radius * 0.82, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
 
-      let lx = 10;
-      segs.forEach((seg, i) => {
-        if (seg.value <= 0) return;
-        ctx.fillStyle = seg.color;
-        ctx.fillRect(lx, displaySize - 6, 12, 12);
-        ctx.fillStyle = '#1e293b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.fillText(seg.label, lx + 16, displaySize + 2);
-        lx += ctx.measureText(seg.label).width + 34;
-        if (lx > displaySize - 20) lx = 10;
+      const legendY = displaySize - 6;
+      const legendItems = segs.filter(s => s.value > 0);
+      ctx.font = '12px -apple-system, sans-serif';
+      const totalW = legendItems.reduce((s, item) => s + 16 + ctx.measureText(item.label).width, 0) + (legendItems.length - 1) * 20;
+      let lx = (displaySize - totalW) / 2;
+      legendItems.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillRect(lx, legendY - 10, 12, 12);
+        ctx.fillStyle = '#191c1e';
+        ctx.fillText(item.label, lx + 16, legendY + 2);
+        lx += 16 + ctx.measureText(item.label).width + 20;
       });
     }
     function animate(time) {

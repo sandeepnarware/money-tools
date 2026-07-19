@@ -73,11 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Grid
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#dce1e4';
     ctx.lineWidth = 1;
     const ySteps = 5;
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     for (let i = 0; i <= ySteps; i++) {
       const val = (maxVal / ySteps) * i;
@@ -101,36 +101,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Past Price bar
     const x1 = padding.left + gap + barWidth * 0;
     const h1 = (pastPrice / maxVal) * chartH;
-    ctx.fillStyle = '#2563eb';
+    ctx.fillStyle = '#005c8e';
     ctx.fillRect(x1, getY(pastPrice), barWidth, h1);
 
     // Current Price bar
     const x2 = padding.left + gap * 2 + barWidth;
     const h2 = (currentPrice / maxVal) * chartH;
-    ctx.fillStyle = '#f59e0b';
+    ctx.fillStyle = '#d97706';
     ctx.fillRect(x2, getY(currentPrice), barWidth, h2);
 
     // Value labels on top of bars
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = '#191c1e';
     ctx.font = 'bold 12px -apple-system, sans-serif';
     ctx.fillText('\u20B9 ' + formatNumber(Math.round(pastPrice)), x1 + barWidth / 2, getY(pastPrice) - 8);
     ctx.fillText('\u20B9 ' + formatNumber(Math.round(currentPrice)), x2 + barWidth / 2, getY(currentPrice) - 8);
 
     // X-axis labels
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '11px -apple-system, sans-serif';
     ctx.fillText('Past Price', x1 + barWidth / 2, padding.top + chartH + 16);
     ctx.fillText('Current Price', x2 + barWidth / 2, padding.top + chartH + 16);
 
     // Info text below labels
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#545f73';
     ctx.font = '10px -apple-system, sans-serif';
     ctx.fillText(years + ' years ago', x1 + barWidth / 2, padding.top + chartH + 30);
     ctx.fillText('Today', x2 + barWidth / 2, padding.top + chartH + 30);
 
     // CAGR label
-    ctx.fillStyle = '#16a34a';
+    ctx.fillStyle = '#00652c';
     ctx.font = 'bold 14px -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('CAGR Inflation: ' + inflationRate.toFixed(2) + '%', padding.left, 16);

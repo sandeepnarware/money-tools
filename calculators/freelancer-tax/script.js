@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.clearRect(0, 0, displaySize, displaySize);
 
     if (total === 0) {
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#545f73';
       ctx.font = '14px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('No tax liability', cx, cy + 5);
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const segs = [
-      { label: 'Income Tax', value: incomeTax, color: '#2563eb' },
+      { label: 'Income Tax', value: incomeTax, color: '#005c8e' },
       { label: 'Cess', value: cess, color: '#ea580c' },
     ];
 
@@ -149,15 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Income Tax', 26, legendY + 2);
 
       ctx.fillStyle = '#ea580c';
       ctx.fillRect(110, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Cess', 126, legendY + 2);
     }
 

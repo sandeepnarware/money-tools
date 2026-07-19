@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = gain + tax;
 
     const segs = [
-      { label: 'Gain', value: gain, color: '#16a34a' },
-      { label: 'Tax', value: tax, color: '#ef4444' },
+      { label: 'Gain', value: gain, color: '#00652c' },
+      { label: 'Tax', value: tax, color: '#ba1a1a' },
     ];
 
     let startTime, animId;
@@ -152,13 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const ly = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, ly - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Gain', 26, ly + 2);
 
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#ba1a1a';
       ctx.fillRect(80, ly - 10, 12, 12);
       ctx.fillText('Tax', 96, ly + 2);
     }

@@ -105,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (total === 0) return;
 
     const segs = [
-      { label: 'Interest Saved', value: interestSaved, color: '#16a34a' },
-      { label: 'Interest Paid', value: interestPaid, color: '#2563eb' },
+      { label: 'Interest Saved', value: interestSaved, color: '#00652c' },
+      { label: 'Interest Paid', value: interestPaid, color: '#005c8e' },
     ];
 
     let startTime, animId;
@@ -145,15 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
 
       const legendY = displaySize - 6;
-      ctx.fillStyle = '#16a34a';
+      ctx.fillStyle = '#00652c';
       ctx.fillRect(10, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.font = '12px -apple-system, sans-serif';
       ctx.fillText('Interest Saved', 26, legendY + 2);
 
-      ctx.fillStyle = '#2563eb';
+      ctx.fillStyle = '#005c8e';
       ctx.fillRect(140, legendY - 10, 12, 12);
-      ctx.fillStyle = '#1e293b';
+      ctx.fillStyle = '#191c1e';
       ctx.fillText('Interest Paid', 156, legendY + 2);
     }
 
